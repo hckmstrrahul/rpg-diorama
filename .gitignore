@@ -1,0 +1,15 @@
+# Local operating-system and dependency files
+.DS_Store
+node_modules/
+*.log
+
+# Video recordings, music, production scripts, and review artifacts stay local.
+/trailer-production/
+
+# Optional standalone artwork exports stay local, outside the deployed app.
+/artwork-exports/
+
+# Local deployment links and credentials
+.vercel/
+.env
+.env.*

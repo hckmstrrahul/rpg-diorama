@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta id="theme-color" name="theme-color" content="#e2e7db">
+  <title>mini-rpg — Playable SVG worlds</title>
+  <meta name="description" content="Thirteen miniature game worlds built from SVG. Play with keyboard or touch, or watch animated character performances.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M7 28V12l13-8 13 8v16l-13 8z' fill='%23823229'/%3E%3Cpath d='M20 11v18m-6-14 6 5 6-5' stroke='%23fff' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+  <style>
+    :root {color-scheme:light;--ink:#303b38;--muted:#7b8774;--line:#ced6c7;--red:#943e32;--panel:#f3f5eb;--well:#d9e1ce;--selected:#f3f5eb;--hover:#d9e1ce;--primary:#40543a;--primary-hover:#303d35;--on-primary:#fff8ef;--health:#a66c59;--energy:#7a9364;--track:#b5c3aa;--key:#f3f5eb;--key-edge:#b5c3aa;--focus:#40543a;--shadow:#303d3518;--on-scene:#303d35;--meter-edge:#54674d;--ease-out:cubic-bezier(.23,1,.32,1);--bg-center:#edf0e7;--bg-middle:#e2e7db;--bg-edge:#d5ddce;--scene-accent:#40543a}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg-middle);background-image:radial-gradient(ellipse at 50% 40%,var(--bg-center) 0%,var(--bg-middle) 52%,var(--bg-edge) 100%);background-attachment:fixed;color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px}
+    button,a,input{touch-action:manipulation}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;color:inherit;cursor:pointer}
+    button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--focus);outline-offset:5px}
+    .shell{--page-gutter:32px;position:relative;isolation:isolate;height:100svh;min-height:460px;margin:auto;padding:18px var(--page-gutter) 24px;display:flex;flex-direction:column}
+    main{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:0;margin-inline:calc(-1 * var(--page-gutter));padding-top:42px;overflow:visible}
+    #scene{display:block;width:100%;height:100%;max-height:950px;overflow:visible}
+    .scene-stage{position:fixed;inset:0;overflow:hidden;isolation:isolate;z-index:0;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+    .scene-stage.is-panning{cursor:grabbing}
+    .scene-motion,.scene-exit,.scene-swipe{position:absolute;inset:var(--scene-frame-top,60px) var(--scene-frame-right,0px) var(--scene-frame-bottom,150px) var(--scene-frame-left,0px);display:flex;align-items:center;justify-content:center;transform-origin:center}
+    .scene-exit,.scene-swipe{pointer-events:none;z-index:1}.scene-swipe img{width:100%;height:100%;max-height:950px;object-fit:contain}.scene-exit>svg{display:block;width:100%;height:100%;max-height:950px;overflow:visible}
+    .shell::after{content:"";position:fixed;inset:auto 0 0;height:var(--controls-clearance,180px);z-index:10;background:linear-gradient(to bottom,transparent,var(--bg-middle) 55%);pointer-events:none;opacity:0}
+    body[data-camera-overlay=true] .shell::after{opacity:1}
+    footer,.current-game-name,.key-hint,.game-status{position:relative;z-index:20}
+    .current-game-name{align-self:center;max-width:100%;margin:0;text-align:center;font-size:14px;font-weight:600;line-height:20px;color:var(--on-scene)}
+    .scene-nav{position:absolute;top:50%;width:clamp(140px,20vw,280px);aspect-ratio:1200/880;border:0;padding:0;background:none;color:var(--scene-accent);z-index:2;opacity:1;transition:opacity 160ms ease}
+    .scene-nav img{opacity:.68;transition:opacity 160ms ease;display:block;width:100%;height:100%;pointer-events:none}.scene-prev{left:0;transform:translate(-32%,-50%)}.scene-next{right:0;transform:translate(32%,-50%)}
+    .scene-nav span{color:var(--on-scene);opacity:.8;display:block;position:absolute;bottom:0;width:68%;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.scene-prev span{right:0}.scene-next span{left:0}
+    .scene-nav:focus-visible{outline-offset:-8px;border-radius:18px}.scene-stage.is-switching .scene-nav,.scene-stage.is-swiping .scene-nav{opacity:0;pointer-events:none}
+    .scene-selector{position:absolute;top:5px;left:50%;transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:2px;width:max-content;max-width:calc(100% - 32px);height:32px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--well)}
+    .scene-tabs{display:flex;align-items:center;gap:2px;flex-shrink:0}.scene-tabs button{flex-shrink:0;height:24px;padding:0 11px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:12px;font-weight:500;line-height:1;white-space:nowrap;transition:background 150ms ease,color 150ms ease}
+    .scene-tabs button[aria-selected=true],.scene-overflow.is-selected{background:var(--selected);color:var(--scene-accent);box-shadow:0 1px 3px var(--shadow);font-weight:600}.scene-tabs button:focus-visible{outline-offset:-2px}.scene-tabs .tab-short{display:none}
+    .scene-overflow-wrap{position:relative;flex-shrink:0}.scene-overflow{border:0;background:transparent;font-family:inherit;cursor:pointer;flex-shrink:0;position:relative;display:flex;align-items:center;gap:9px;height:24px;max-width:calc(100vw - 40px);padding:0 10px;border-radius:999px;color:var(--muted);font-size:12px;white-space:nowrap}.scene-overflow span{overflow:hidden;text-overflow:ellipsis}.scene-overflow svg{width:10px;height:10px;flex-shrink:0}.scene-overflow:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+    .scene-menu{display:flex;flex-direction:column;gap:3px;position:absolute;top:calc(100% + 9px);right:0;width:248px;max-width:calc(100vw - 28px);max-height:min(440px,calc(100svh - 150px));overflow-y:auto;overscroll-behavior:contain;padding:6px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 36px var(--shadow),0 3px 8px var(--shadow);transform-origin:top right;scrollbar-width:thin;scrollbar-color:var(--line) transparent;z-index:5;outline:none}
+    .scene-option{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:34px;padding:8px 12px;border:0;border-radius:999px;background:transparent;color:var(--muted);text-align:left;font-size:12px;line-height:1.25;cursor:pointer}.scene-option[aria-selected=true]{color:var(--scene-accent);font-weight:600}.scene-option.is-active{background:var(--hover);color:var(--ink)}.scene-option-check{font-size:12px;opacity:0}.scene-option[aria-selected=true] .scene-option-check{opacity:1}
+    @media(max-width:540px){.scene-menu{right:50%;translate:50% 0;transform-origin:top center;width:260px}}
+    @media(hover:hover) and (pointer:fine){.scene-tabs button[aria-selected=false]:hover,.scene-overflow:hover{background:var(--hover);color:var(--scene-accent)}.scene-nav:hover img{opacity:1}}
+    @media(max-width:700px){.scene-selector{max-width:calc(100% - 20px)}.scene-tabs button{padding-inline:8px;font-size:11px}.scene-overflow{font-size:11px}.scene-nav{width:140px}.scene-nav span{font-size:9px}}
+    @media(max-width:540px){.scene-tabs{display:none}.scene-selector{height:36px}.scene-overflow{height:28px;min-width:180px;justify-content:space-between;font-size:12px}}
+    footer{--control-gap:12px;--segment-height:34px;position:relative;width:min(100%,960px);align-self:center;display:flex;align-items:center;gap:var(--control-gap);padding-top:4px}
+    .controls,.utility-controls{flex-shrink:0;display:flex;align-items:center;gap:var(--control-gap)}.icon-button{flex-shrink:0;border:1px solid var(--line);border-radius:50%;height:34px;width:34px;background:var(--panel);display:grid;place-items:center;transition:background 150ms ease,border-color 150ms ease}.icon-button svg{width:13px;height:13px}.icon-button.primary{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+    .hud-row{display:flex;align-items:center;gap:24px;flex:1;min-width:0}
+    .timeline{display:flex;align-items:center;gap:15px;flex:1;max-width:570px}.time{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--on-scene);min-width:65px;white-space:nowrap}
+    input[type=range]{min-width:0;flex:1;appearance:none;width:100%;height:20px;margin:0;background:transparent;cursor:pointer;--progress:0%}input[type=range]::-webkit-slider-runnable-track{box-shadow:0 0 0 1px var(--meter-edge);border-radius:2px;height:2px;background:linear-gradient(to right,var(--energy) var(--progress),var(--track) var(--progress))}input[type=range]::-webkit-slider-thumb{appearance:none;height:7px;width:7px;margin-top:-2.5px;border-radius:50%;background:var(--focus)}input[type=range]::-moz-range-track{box-shadow:0 0 0 1px var(--meter-edge);border-radius:2px;height:2px;background:var(--track)}input[type=range]::-moz-range-progress{background:var(--energy);height:2px}input[type=range]::-moz-range-thumb{border:0;height:7px;width:7px;background:var(--focus);border-radius:50%}
+    .speed{border:0;background:none;font:11px ui-monospace,SFMono-Regular,Menlo,monospace;padding:9px 5px;color:var(--on-scene);min-width:36px}
+    @media(hover:hover) and (pointer:fine){.icon-button:hover{border-color:var(--scene-accent);background:var(--hover)}.icon-button.primary:hover{background:var(--primary-hover)}.speed:hover{color:var(--on-scene)}}
+    @media(max-width:700px){.shell{--page-gutter:14px;padding:12px var(--page-gutter) 20px}.timeline{gap:8px;min-width:0}.time{min-width:55px;font-size:9px}.icon-button{width:36px;height:36px}.speed{min-width:34px;padding-inline:3px}}
+    [hidden]{display:none!important}
+    #scene:focus,#scene:focus-visible{outline:none}
+    .zoom-controls{flex-shrink:0;display:flex;align-items:center;height:var(--segment-height);padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted)}
+    .zoom-controls button{display:grid;place-items:center;width:30px;height:calc(var(--segment-height) - 8px);padding:0;border:0;border-radius:999px;background:transparent}.zoom-controls svg{width:12px;height:12px}.zoom-controls .zoom-reset{width:48px;font:10px ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}.zoom-controls button:disabled{opacity:.3;cursor:default}
+    @media(hover:hover) and (pointer:fine){.zoom-controls button:hover:not(:disabled){background:var(--hover)}}
+    .mode-tabs{display:flex;align-items:center;gap:2px;height:var(--segment-height);padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--well)}
+    .mode-tabs button{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:calc(var(--segment-height) - 8px);padding:0 10px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:11px;font-weight:500;white-space:nowrap}
+    .mode-tabs svg{width:12px;height:12px;flex-shrink:0}.mode-tabs button[aria-selected=true]{background:var(--selected);color:var(--scene-accent);box-shadow:0 1px 3px var(--shadow);font-weight:600}
+    .mode-tabs button:focus-visible{outline-offset:2px}
+    @media(hover:hover) and (pointer:fine){.mode-tabs button[aria-selected=false]:hover{color:var(--scene-accent);background:var(--hover)}}
+    .game-hud{display:flex;align-items:center;gap:32px;flex:1;min-width:0}.vital{display:flex;align-items:center;gap:9px;flex:1;min-width:0}.vital>svg{width:13px;height:13px;flex-shrink:0;color:var(--energy)}.health-vital>svg{color:var(--health)}
+    .meter{box-shadow:0 0 0 1px var(--meter-edge);height:4px;flex:1;min-width:15px;border-radius:4px;background:var(--track);overflow:hidden}.meter span{display:block;height:100%;transform-origin:left;border-radius:4px}.health{--meter-edge:var(--health)}.stamina{--meter-edge:var(--energy)}.health span{background:var(--health)}.stamina span{background:var(--energy)}
+    .demo-controls{display:flex;align-items:center;gap:10px;flex:1;min-width:0}.demo-controls .timeline{min-width:0}
+    .key-help{position:relative;flex-shrink:0}.key-help summary{list-style:none;cursor:pointer;color:var(--muted);font-size:12px}.key-help summary::-webkit-details-marker{display:none}
+    .key-map{position:absolute;bottom:46px;right:0;display:grid;grid-template-columns:1fr auto;gap:12px 24px;white-space:nowrap;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px var(--shadow);font-size:11px;z-index:2;max-width:calc(100vw - 28px)}.help-action{max-width:240px;white-space:normal}.help-action small{display:block;margin-top:5px;color:var(--muted);font-size:10px;line-height:1.5}.key-map kbd{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);text-align:right}
+    .key-hint{margin-top:14px;min-height:22px;max-width:100%;align-self:center;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 16px;color:var(--on-scene);font-size:10px;letter-spacing:.015em}
+    .key-control>span:last-child:not(.key-cluster){opacity:.8}
+    .key-control{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.key-cluster{display:inline-flex;align-items:center;gap:3px}
+    .key-hint kbd{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 4px;border:1px solid var(--line);border-bottom-color:var(--key-edge);border-radius:6px;background:var(--key);box-shadow:0 1px 0 var(--key-edge),inset 0 -1px 0 var(--panel);color:color-mix(in srgb,var(--muted) 80%,transparent);font:9px ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1}
+    .game-status{min-height:17px;margin-top:18px;text-align:center;font-size:11px;font-weight:600;line-height:1.5;color:var(--on-scene)}
+    @media(max-width:800px){footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px var(--control-gap)}.hud-row{grid-column:1 / -1;grid-row:2;gap:20px}.utility-controls{grid-column:2;grid-row:1;justify-self:end}}
+    @media(max-width:700px){.game-hud{gap:24px}.vital{gap:6px}.vital>svg{width:11px;height:11px}.time{display:none}.key-hint{font-size:9px;gap:10px 12px}.key-map{padding:17px;gap:12px 18px}.demo-controls{gap:4px}}
+    @media(max-width:480px){footer{--segment-height:36px}.hud-row{gap:16px}.mode-tabs button{padding-inline:8px;gap:4px;font-size:10px}.mode-tabs svg{display:none}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+  <link rel="stylesheet" href="ui-motion.css?v=29">
+  <link rel="stylesheet" href="compact-ui.css?v=34">
+</head>
+<body>
+ <div class="shell">
+  <main id="viewport" role="tabpanel" aria-labelledby="mode-game">
+   <div id="scene-stage" class="scene-stage">
+   <div id="scene-motion" class="scene-motion" role="tabpanel" aria-labelledby="scene-tab-midgard">
+   <svg id="scene" tabindex="0" aria-label="Kratos in the Wildwoods" aria-describedby="scene-description key-hint" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 880" role="img"><desc id="scene-description">Control Kratos in an isometric courtyard. Move with arrow keys or WASD, strike with J, throw with K, slam with L, dodge with Space, and block with Shift. Open keyboard controls for details.</desc></svg>
+   </div>
+   <button id="scene-prev" class="scene-nav scene-prev" type="button" aria-label="Previous scene"><img id="scene-prev-image" alt="" draggable="false" src="assets/kombat-preview.svg?v=31"><span id="scene-prev-name"></span></button>
+   <button id="scene-next" class="scene-nav scene-next" type="button" aria-label="Next scene"><img id="scene-next-image" alt="" draggable="false" src="assets/tsushima-preview.svg?v=31"><span id="scene-next-name"></span></button>
+   </div>
+   <nav id="scene-selector" class="scene-selector t-tabs" aria-label="Choose a game scene">
+   <span id="scene-selection-pill" class="t-tabs-pill" aria-hidden="true"></span>
+   <div id="scene-tabs" class="scene-tabs" role="tablist" aria-label="Game scene">
+    <button id="scene-tab-midgard" class="t-tab" type="button" role="tab" aria-selected="true" aria-controls="scene-motion" tabindex="0">God of War</button>
+    <button id="scene-tab-tsushima" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Ghost of Tsushima" tabindex="-1"><span class="tab-full">Ghost of Tsushima</span><span class="tab-short" aria-hidden="true">Tsushima</span></button>
+    <button id="scene-tab-arkham" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Batman: Arkham" tabindex="-1">Batman</button>
+    <button id="scene-tab-assassin" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Assassin’s Creed" tabindex="-1"><span class="tab-full">Assassin’s Creed</span><span class="tab-short" aria-hidden="true">Assassin’s</span></button>
+    <button id="scene-tab-persia" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Prince of Persia" tabindex="-1"><span class="tab-full">Prince of Persia</span><span class="tab-short" aria-hidden="true">Persia</span></button>
+    <button id="scene-tab-duty" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Call of Duty" tabindex="-1"><span class="tab-full">Call of Duty</span><span class="tab-short" aria-hidden="true">CoD</span></button>
+    <button id="scene-tab-payne" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Max Payne" tabindex="-1"><span class="tab-full">Max Payne</span><span class="tab-short" aria-hidden="true">Max Payne</span></button>
+    <button id="scene-tab-gta" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="GTA V" tabindex="-1"><span class="tab-full">GTA V</span><span class="tab-short" aria-hidden="true">GTA V</span></button>
+    <button id="scene-tab-spider" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Spider-Man" tabindex="-1"><span class="tab-full">Spider-Man</span><span class="tab-short" aria-hidden="true">Spider-Man</span></button>
+    <button id="scene-tab-wukong" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Black Myth: Wukong" tabindex="-1"><span class="tab-full">Black Myth: Wukong</span><span class="tab-short" aria-hidden="true">Wukong</span></button>
+    <button id="scene-tab-siege" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Rainbow Six Siege" tabindex="-1"><span class="tab-full">Rainbow Six Siege</span><span class="tab-short" aria-hidden="true">Rainbow 6</span></button>
+    <button id="scene-tab-fable" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Fable III" tabindex="-1"><span class="tab-full">Fable III</span><span class="tab-short" aria-hidden="true">Fable III</span></button>
+    <button id="scene-tab-kombat" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="scene-motion" aria-label="Mortal Kombat" tabindex="-1"><span class="tab-full">Mortal Kombat</span><span class="tab-short" aria-hidden="true">Mortal Kombat</span></button>
+   </div>
+   <div id="scene-overflow-wrap" class="scene-overflow-wrap">
+    <button id="scene-overflow" class="scene-overflow t-tab" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="scene-menu"><span id="scene-overflow-label">More</span><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg></button>
+    <div id="scene-menu" class="scene-menu t-dropdown" data-origin="top-right" role="listbox" aria-label="More game scenes" tabindex="-1" hidden></div>
+   </div>
+   </nav>
+  </main>
+  <section id="control-panel" class="control-panel" aria-label="Scene controls">
+  <h1 id="current-game-name" class="current-game-name">God of War</h1>
+  <footer id="scene-controls" aria-label="Game and animation controls">
+   <div class="controls">
+    <button id="play" class="icon-button primary" hidden disabled aria-label="Pause animation" title="Pause / resume (Esc)"><svg viewBox="0 0 16 16" fill="currentColor"><path id="play-icon" d="M4 3h3v10H4zm5 0h3v10H9z"/></svg></button>
+    <button id="restart" class="icon-button" aria-label="Restart" title="Restart (R)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 6a5 5 0 1 1 .2 5M3 2v4h4"/></svg></button>
+    <div id="mode-tabs" class="mode-tabs t-tabs" role="tablist" aria-label="Scene mode">
+     <span id="mode-selection-pill" class="t-tabs-pill" aria-hidden="true"></span>
+     <button id="mode-game" class="t-tab" type="button" role="tab" aria-selected="true" aria-controls="viewport" tabindex="0"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M6 5h6c2 0 3 2 3.6 5l.4 2.5c.3 2-1.6 2.5-2.6 1L12 12H6l-1.4 1.5c-1 1.5-2.9 1-2.6-1l.4-2.5C3 7 4 5 6 5Z"/><path d="M6 7v4M4 9h4"/><circle cx="12" cy="8" r=".5"/><circle cx="14" cy="10" r=".5"/></svg><span>Game</span></button>
+     <button id="mode-watch" class="t-tab" type="button" role="tab" aria-selected="false" aria-controls="viewport" tabindex="-1"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="10" rx="2"/><path d="m6.5 5 4 2.5-4 2.5Z" fill="currentColor" stroke="none"/></svg><span>Video</span></button>
+    </div>
+   </div>
+   <div class="hud-row">
+    <div class="game-hud" id="game-hud">
+     <div class="vital health-vital"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 13 2.8 7.7C-.5 4.4 4.4.1 8 4c3.6-3.9 8.5.4 5.2 3.7Z"/></svg><div id="health" class="meter health" role="progressbar" aria-label="Health" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="health-fill"></span></div></div>
+     <div class="vital stamina-vital"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m9 1-6 8h4l-1 6 7-9H9Z"/></svg><div id="stamina" class="meter stamina" role="progressbar" aria-label="Stamina" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="stamina-fill"></span></div></div>
+   </div>
+   <div id="demo-controls" class="demo-controls" hidden><div class="timeline"><input type="range" id="seek" aria-label="Animation timeline" min="0" max="18" value="0" step="0.01"><span class="time" id="time">00:00 / 18</span></div>
+   <button class="speed" id="speed" aria-label="Playback speed: 1 times">1×</button></div>
+   <div class="zoom-controls" role="group" aria-label="Scene zoom">
+    <button id="zoom-out" aria-label="Zoom out" title="Zoom out (−)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 8h10"/></svg></button>
+    <button id="zoom-reset" class="zoom-reset" aria-label="Recenter scene and reset zoom to 100 percent" title="Reset view (0)">100%</button>
+    <button id="zoom-in" aria-label="Zoom in" title="Zoom in (+)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
+   </div>
+   </div>
+   <div class="utility-controls">
+   <details class="key-help" id="key-help"><summary id="help-trigger" class="icon-button" aria-expanded="false" aria-controls="help-panel" aria-label="Keyboard controls" title="Keyboard controls">?</summary><div id="help-panel" class="key-map t-dropdown" data-origin="bottom-right" hidden><span>Move</span><kbd>W A S D</kbd><span id="help-attack">Axe combo</span><kbd>J</kbd><span id="help-throw">Boomerang throw</span><kbd>K</kbd><div class="help-action"><span id="help-special">Frost slam</span><small id="help-special-detail"></small></div><kbd>L</kbd><span id="help-dodge">Dodge</span><kbd>Space</kbd><span id="help-block">Hold shield</span><kbd>Shift</kbd><span id="help-pause-label" hidden>Pause / resume video</span><kbd id="help-pause-key" hidden>Esc</kbd><span>Restart</span><kbd>R</kbd><span>Zoom</span><kbd>− / + / scroll</kbd><span id="help-drag-label">Previous / next scene</span><kbd id="help-drag-key">Drag left / right 25%</kbd><span>Reset view</span><kbd>0</kbd></div></details>
+   </div>
+  </footer>
+  <div id="touch-controls" class="touch-controls" role="group" aria-label="Touch game controller" hidden>
+   <div id="touch-dpad" class="touch-dpad" role="group" aria-label="Movement pad">
+    <button id="touch-up" class="touch-key direction-key" type="button" aria-label="Move up" aria-keyshortcuts="W" data-direction="up"><span aria-hidden="true">↑</span></button>
+    <button id="touch-left" class="touch-key direction-key" type="button" aria-label="Move left" aria-keyshortcuts="A" data-direction="left"><span aria-hidden="true">←</span></button>
+    <span class="dpad-center" aria-hidden="true">✛</span>
+    <button id="touch-right" class="touch-key direction-key" type="button" aria-label="Move right" aria-keyshortcuts="D" data-direction="right"><span aria-hidden="true">→</span></button>
+    <button id="touch-down" class="touch-key direction-key" type="button" aria-label="Move down" aria-keyshortcuts="S" data-direction="down"><span aria-hidden="true">↓</span></button>
+   </div>
+   <div class="touch-actions" role="group" aria-label="Character actions">
+    <button id="touch-attack" class="touch-key action-key" type="button" aria-keyshortcuts="J"><span class="touch-key-code" aria-hidden="true">J</span><span id="touch-label-attack" class="touch-key-label">Axe combo</span></button>
+    <button id="touch-throw" class="touch-key action-key" type="button" aria-keyshortcuts="K"><span class="touch-key-code" aria-hidden="true">K</span><span id="touch-label-throw" class="touch-key-label">Throw</span></button>
+    <button id="touch-special" class="touch-key action-key special-key" type="button" aria-keyshortcuts="L"><span class="touch-key-code" aria-hidden="true">L</span><span id="touch-label-special" class="touch-key-label">Frost slam</span><small id="touch-special-cooldown" aria-hidden="true"></small></button>
+    <button id="touch-dodge" class="touch-key action-key wide-key" type="button" aria-keyshortcuts="Space"><span class="touch-key-code" aria-hidden="true">Space</span><span id="touch-label-dodge" class="touch-key-label">Dodge</span></button>
+    <button id="touch-block" class="touch-key action-key wide-key" type="button" aria-keyshortcuts="Shift"><span class="touch-key-code" aria-hidden="true">Shift</span><span id="touch-label-block" class="touch-key-label">Hold block</span></button>
+   </div>
+  </div>
+  <div class="key-hint" id="key-hint">
+   <span class="key-control"><span class="key-cluster"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>move</span></span>
+   <span class="key-control"><kbd>J</kbd><span id="hint-attack">strike / combo</span></span>
+   <span class="key-control"><kbd>K</kbd><span id="hint-throw">throw</span></span>
+   <span class="key-control"><kbd>L</kbd><span id="hint-special">frost slam</span></span>
+   <span class="key-control"><kbd>Space</kbd><span id="hint-dodge">dodge</span></span>
+   <span class="key-control"><kbd>Shift</kbd><span id="hint-block">hold to block</span></span>
+  </div>
+  <div id="game-status" class="game-status" role="status" aria-live="polite"></div>
+  </section>
+ </div>
+ <script src="scene.js?v=26"></script>
+ <script src="game.js?v=19"></script>
+ <script src="world-art.js?v=20"></script>
+ <script src="world-characters.js?v=16"></script>
+ <script src="legend-art.js?v=31"></script>
+ <script src="legend-characters.js?v=32"></script>
+ <script src="legend-combat.js?v=32"></script>
+ <script src="scene-palettes.js?v=24"></script>
+ <script src="worlds.js?v=28"></script>
+ <script src="player.js?v=34"></script>
+</body>
+</html>

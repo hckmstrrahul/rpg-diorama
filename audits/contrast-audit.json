@@ -1,0 +1,2141 @@
+{
+  "method": "sRGB relative luminance; 42 gradient samples per scene; opacity composited before measuring. Active UI tokens only; this is not a full accessibility conformance assessment. Meter hue separation uses a design target of Delta E 76 >= 25, independently of contrast.",
+  "references": [
+    "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+  ],
+  "scenes": [
+    {
+      "id": "midgard",
+      "title": "God of War",
+      "background": [
+        "#edf0e7",
+        "#e2e7db",
+        "#d5ddce"
+      ],
+      "colors": {
+        "ink": "#303d35",
+        "muted": "#374332",
+        "line": "#b5c3aa",
+        "panel": "#f3f5eb",
+        "well": "#d9e1ce",
+        "selected": "#f3f5eb",
+        "hover": "#d9e1ce",
+        "scene-accent": "#40543a",
+        "primary": "#40543a",
+        "primary-hover": "#303d35",
+        "on-primary": "#fff8ef",
+        "health": "#a34840",
+        "energy": "#517645",
+        "track": "#f3f5eb",
+        "key": "#f3f5eb",
+        "key-edge": "#b5c3aa",
+        "focus": "#40543a",
+        "shadow": "#303d3518",
+        "on-scene": "#303d35",
+        "meter-edge": "#303d35"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#303d35",
+          "opacity": 0.8,
+          "background": "#d5ddce",
+          "ratio": 4.951,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#303d35",
+          "opacity": 1,
+          "background": "#d5ddce",
+          "ratio": 8.166,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#303d35",
+          "opacity": 0.8,
+          "background": "#d5ddce",
+          "ratio": 4.951,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#303d35",
+          "opacity": 1,
+          "background": "#d9e1ce",
+          "ratio": 8.464,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#374332",
+          "opacity": 1,
+          "background": "#d9e1ce",
+          "ratio": 7.762,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#40543a",
+          "opacity": 1,
+          "background": "#d9e1ce",
+          "ratio": 6.129,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#374332",
+          "opacity": 0.8,
+          "background": "#f3f5eb",
+          "ratio": 5.413,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#40543a",
+          "ratio": 7.822,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#a34840",
+          "opacity": 1,
+          "background": "#d5ddce",
+          "ratio": 4.233,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#517645",
+          "opacity": 1,
+          "background": "#d5ddce",
+          "ratio": 3.74,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#303d35",
+          "opacity": 1,
+          "background": "#d5ddce",
+          "ratio": 8.166,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#a34840",
+          "opacity": 1,
+          "background": "#f3f5eb",
+          "ratio": 5.36,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#517645",
+          "opacity": 1,
+          "background": "#f3f5eb",
+          "ratio": 4.736,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#40543a",
+          "opacity": 1,
+          "background": "#d5ddce",
+          "ratio": 5.914,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 60.33,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "tsushima",
+      "title": "Ghost of Tsushima",
+      "background": [
+        "#eee7d9",
+        "#e3ddcb",
+        "#d5d1bb"
+      ],
+      "colors": {
+        "ink": "#493c32",
+        "muted": "#4b392b",
+        "line": "#cbb397",
+        "panel": "#f8efe0",
+        "well": "#e6d6bb",
+        "selected": "#f8efe0",
+        "hover": "#e6d6bb",
+        "scene-accent": "#814f3b",
+        "primary": "#814f3b",
+        "primary-hover": "#493c32",
+        "on-primary": "#fff8ef",
+        "health": "#ad404a",
+        "energy": "#326b62",
+        "track": "#f8efe0",
+        "key": "#f8efe0",
+        "key-edge": "#cbb397",
+        "focus": "#8b5540",
+        "shadow": "#493c3218",
+        "on-scene": "#42362d",
+        "meter-edge": "#493c32"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#42362d",
+          "opacity": 0.8,
+          "background": "#d5d1bb",
+          "ratio": 4.733,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#42362d",
+          "opacity": 1,
+          "background": "#d5d1bb",
+          "ratio": 7.605,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#42362d",
+          "opacity": 0.8,
+          "background": "#d5d1bb",
+          "ratio": 4.733,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#493c32",
+          "opacity": 1,
+          "background": "#e6d6bb",
+          "ratio": 7.441,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#4b392b",
+          "opacity": 1,
+          "background": "#e6d6bb",
+          "ratio": 7.659,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#814f3b",
+          "opacity": 1,
+          "background": "#e6d6bb",
+          "ratio": 4.719,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#4b392b",
+          "opacity": 0.8,
+          "background": "#f8efe0",
+          "ratio": 5.495,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#814f3b",
+          "ratio": 6.397,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#ad404a",
+          "opacity": 1,
+          "background": "#d5d1bb",
+          "ratio": 3.787,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#326b62",
+          "opacity": 1,
+          "background": "#d5d1bb",
+          "ratio": 4.002,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#493c32",
+          "opacity": 1,
+          "background": "#d5d1bb",
+          "ratio": 6.918,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#ad404a",
+          "opacity": 1,
+          "background": "#f8efe0",
+          "ratio": 5.102,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#326b62",
+          "opacity": 1,
+          "background": "#f8efe0",
+          "ratio": 5.392,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#8b5540",
+          "opacity": 1,
+          "background": "#d5d1bb",
+          "ratio": 3.937,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 69.01,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "arkham",
+      "title": "Batman: Arkham",
+      "background": [
+        "#879da5",
+        "#7a919c",
+        "#7a8f9c"
+      ],
+      "colors": {
+        "ink": "#263d4c",
+        "muted": "#15222a",
+        "line": "#6f8b9b",
+        "panel": "#d3dfe1",
+        "well": "#96acb8",
+        "selected": "#d3dfe1",
+        "hover": "#96acb8",
+        "scene-accent": "#293e4c",
+        "primary": "#293e4c",
+        "primary-hover": "#263d4c",
+        "on-primary": "#fff8ef",
+        "health": "#662535",
+        "energy": "#1c3f54",
+        "track": "#d3dfe1",
+        "key": "#d3dfe1",
+        "key-edge": "#6f8b9b",
+        "focus": "#293e4c",
+        "shadow": "#263d4c18",
+        "on-scene": "#05080a",
+        "meter-edge": "#263d4c"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#05080a",
+          "opacity": 0.8,
+          "background": "#7a8f9c",
+          "ratio": 4.723,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#05080a",
+          "opacity": 1,
+          "background": "#7a8f9c",
+          "ratio": 5.965,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#05080a",
+          "opacity": 0.8,
+          "background": "#7a8f9c",
+          "ratio": 4.723,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#263d4c",
+          "opacity": 1,
+          "background": "#96acb8",
+          "ratio": 4.794,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#15222a",
+          "opacity": 1,
+          "background": "#96acb8",
+          "ratio": 6.869,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#293e4c",
+          "opacity": 1,
+          "background": "#96acb8",
+          "ratio": 4.709,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#15222a",
+          "opacity": 0.8,
+          "background": "#d3dfe1",
+          "ratio": 6.944,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#293e4c",
+          "ratio": 10.555,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#662535",
+          "opacity": 1,
+          "background": "#7a8f9c",
+          "ratio": 3.316,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#1c3f54",
+          "opacity": 1,
+          "background": "#7a8f9c",
+          "ratio": 3.303,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#263d4c",
+          "opacity": 1,
+          "background": "#7a8f9c",
+          "ratio": 3.363,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#662535",
+          "opacity": 1,
+          "background": "#d3dfe1",
+          "ratio": 8.194,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#1c3f54",
+          "opacity": 1,
+          "background": "#d3dfe1",
+          "ratio": 8.161,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#293e4c",
+          "opacity": 1,
+          "background": "#7a8f9c",
+          "ratio": 3.304,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 41.92,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "assassin",
+      "title": "Assassin’s Creed",
+      "background": [
+        "#f0e5d3",
+        "#e6d8c0",
+        "#d7c9ad"
+      ],
+      "colors": {
+        "ink": "#4e3e31",
+        "muted": "#49392c",
+        "line": "#c8ad8d",
+        "panel": "#fbefdc",
+        "well": "#e7d5b9",
+        "selected": "#fbefdc",
+        "hover": "#e7d5b9",
+        "scene-accent": "#7e503d",
+        "primary": "#7e503d",
+        "primary-hover": "#4e3e31",
+        "on-primary": "#fff8ef",
+        "health": "#a94543",
+        "energy": "#396c92",
+        "track": "#fbefdc",
+        "key": "#fbefdc",
+        "key-edge": "#c8ad8d",
+        "focus": "#8a5843",
+        "shadow": "#4e3e3118",
+        "on-scene": "#3f3228",
+        "meter-edge": "#4e3e31"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#3f3228",
+          "opacity": 0.8,
+          "background": "#d7c9ad",
+          "ratio": 4.753,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#3f3228",
+          "opacity": 1,
+          "background": "#d7c9ad",
+          "ratio": 7.565,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#3f3228",
+          "opacity": 0.8,
+          "background": "#d7c9ad",
+          "ratio": 4.753,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#4e3e31",
+          "opacity": 1,
+          "background": "#e7d5b9",
+          "ratio": 7.104,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#49392c",
+          "opacity": 1,
+          "background": "#e7d5b9",
+          "ratio": 7.673,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#7e503d",
+          "opacity": 1,
+          "background": "#e7d5b9",
+          "ratio": 4.712,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#49392c",
+          "opacity": 0.8,
+          "background": "#fbefdc",
+          "ratio": 5.536,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#7e503d",
+          "ratio": 6.423,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#a94543",
+          "opacity": 1,
+          "background": "#d7c9ad",
+          "ratio": 3.55,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#396c92",
+          "opacity": 1,
+          "background": "#d7c9ad",
+          "ratio": 3.441,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#4e3e31",
+          "opacity": 1,
+          "background": "#d7c9ad",
+          "ratio": 6.245,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#a94543",
+          "opacity": 1,
+          "background": "#fbefdc",
+          "ratio": 5.106,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#396c92",
+          "opacity": 1,
+          "background": "#fbefdc",
+          "ratio": 4.95,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#8a5843",
+          "opacity": 1,
+          "background": "#d7c9ad",
+          "ratio": 3.611,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 66.62,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "persia",
+      "title": "Prince of Persia",
+      "background": [
+        "#f0e4cf",
+        "#e4d4b5",
+        "#d3c3a0"
+      ],
+      "colors": {
+        "ink": "#344d50",
+        "muted": "#2b4040",
+        "line": "#bca782",
+        "panel": "#f6ecd7",
+        "well": "#e6d5b5",
+        "selected": "#f6ecd7",
+        "hover": "#e6d5b5",
+        "scene-accent": "#376260",
+        "primary": "#376260",
+        "primary-hover": "#344d50",
+        "on-primary": "#fff8ef",
+        "health": "#a2434b",
+        "energy": "#257075",
+        "track": "#f6ecd7",
+        "key": "#f6ecd7",
+        "key-edge": "#bca782",
+        "focus": "#3d6e6c",
+        "shadow": "#344d5018",
+        "on-scene": "#243538",
+        "meter-edge": "#344d50"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#243538",
+          "opacity": 0.8,
+          "background": "#d3c3a0",
+          "ratio": 4.714,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#243538",
+          "opacity": 1,
+          "background": "#d3c3a0",
+          "ratio": 7.362,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#243538",
+          "opacity": 0.8,
+          "background": "#d3c3a0",
+          "ratio": 4.714,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#344d50",
+          "opacity": 1,
+          "background": "#e6d5b5",
+          "ratio": 6.262,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#2b4040",
+          "opacity": 1,
+          "background": "#e6d5b5",
+          "ratio": 7.617,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#376260",
+          "opacity": 1,
+          "background": "#e6d5b5",
+          "ratio": 4.726,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#2b4040",
+          "opacity": 0.8,
+          "background": "#f6ecd7",
+          "ratio": 5.427,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#376260",
+          "ratio": 6.473,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#a2434b",
+          "opacity": 1,
+          "background": "#d3c3a0",
+          "ratio": 3.512,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#257075",
+          "opacity": 1,
+          "background": "#d3c3a0",
+          "ratio": 3.308,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#344d50",
+          "opacity": 1,
+          "background": "#d3c3a0",
+          "ratio": 5.201,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#a2434b",
+          "opacity": 1,
+          "background": "#f6ecd7",
+          "ratio": 5.202,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#257075",
+          "opacity": 1,
+          "background": "#f6ecd7",
+          "ratio": 4.899,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#3d6e6c",
+          "opacity": 1,
+          "background": "#d3c3a0",
+          "ratio": 3.315,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 65.73,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "duty",
+      "title": "Call of Duty",
+      "background": [
+        "#c3cbd0",
+        "#aab8bd",
+        "#8f9fa7"
+      ],
+      "colors": {
+        "ink": "#303c43",
+        "muted": "#253034",
+        "line": "#899c9f",
+        "panel": "#dbe2df",
+        "well": "#b4c2c4",
+        "selected": "#dbe2df",
+        "hover": "#b4c2c4",
+        "scene-accent": "#454e45",
+        "primary": "#454e45",
+        "primary-hover": "#303c43",
+        "on-primary": "#fff8ef",
+        "health": "#7c2f36",
+        "energy": "#254d5e",
+        "track": "#dbe2df",
+        "key": "#dbe2df",
+        "key-edge": "#899c9f",
+        "focus": "#424b42",
+        "shadow": "#303c4318",
+        "on-scene": "#13181b",
+        "meter-edge": "#303c43"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#13181b",
+          "opacity": 0.8,
+          "background": "#8f9fa7",
+          "ratio": 4.701,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#13181b",
+          "opacity": 1,
+          "background": "#8f9fa7",
+          "ratio": 6.545,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#13181b",
+          "opacity": 0.8,
+          "background": "#8f9fa7",
+          "ratio": 4.701,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#303c43",
+          "opacity": 1,
+          "background": "#b4c2c4",
+          "ratio": 6.181,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#253034",
+          "opacity": 1,
+          "background": "#b4c2c4",
+          "ratio": 7.385,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#454e45",
+          "opacity": 1,
+          "background": "#b4c2c4",
+          "ratio": 4.716,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#253034",
+          "opacity": 0.8,
+          "background": "#dbe2df",
+          "ratio": 5.96,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#454e45",
+          "ratio": 8.204,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#7c2f36",
+          "opacity": 1,
+          "background": "#8f9fa7",
+          "ratio": 3.317,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#254d5e",
+          "opacity": 1,
+          "background": "#8f9fa7",
+          "ratio": 3.339,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#303c43",
+          "opacity": 1,
+          "background": "#8f9fa7",
+          "ratio": 4.147,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#7c2f36",
+          "opacity": 1,
+          "background": "#dbe2df",
+          "ratio": 6.887,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#254d5e",
+          "opacity": 1,
+          "background": "#dbe2df",
+          "ratio": 6.932,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#424b42",
+          "opacity": 1,
+          "background": "#8f9fa7",
+          "ratio": 3.317,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 50.55,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "payne",
+      "title": "Max Payne",
+      "background": [
+        "#9da7b9",
+        "#8b97ac",
+        "#828da3"
+      ],
+      "colors": {
+        "ink": "#292e43",
+        "muted": "#232a3c",
+        "line": "#8091ac",
+        "panel": "#dbe0e9",
+        "well": "#aeb9cc",
+        "selected": "#dbe0e9",
+        "hover": "#aeb9cc",
+        "scene-accent": "#414463",
+        "primary": "#414463",
+        "primary-hover": "#292e43",
+        "on-primary": "#fff8ef",
+        "health": "#662731",
+        "energy": "#2f3770",
+        "track": "#dbe0e9",
+        "key": "#dbe0e9",
+        "key-edge": "#8091ac",
+        "focus": "#373a54",
+        "shadow": "#292e4318",
+        "on-scene": "#08080c",
+        "meter-edge": "#292e43"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#08080c",
+          "opacity": 0.8,
+          "background": "#828da3",
+          "ratio": 4.72,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#08080c",
+          "opacity": 1,
+          "background": "#828da3",
+          "ratio": 5.986,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#08080c",
+          "opacity": 0.8,
+          "background": "#828da3",
+          "ratio": 4.72,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#292e43",
+          "opacity": 1,
+          "background": "#aeb9cc",
+          "ratio": 6.775,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#232a3c",
+          "opacity": 1,
+          "background": "#aeb9cc",
+          "ratio": 7.229,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#414463",
+          "opacity": 1,
+          "background": "#aeb9cc",
+          "ratio": 4.755,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#232a3c",
+          "opacity": 0.8,
+          "background": "#dbe0e9",
+          "ratio": 6.243,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#414463",
+          "ratio": 8.928,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#662731",
+          "opacity": 1,
+          "background": "#828da3",
+          "ratio": 3.31,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#2f3770",
+          "opacity": 1,
+          "background": "#828da3",
+          "ratio": 3.307,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#292e43",
+          "opacity": 1,
+          "background": "#828da3",
+          "ratio": 4.015,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#662731",
+          "opacity": 1,
+          "background": "#dbe0e9",
+          "ratio": 8.345,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#2f3770",
+          "opacity": 1,
+          "background": "#dbe0e9",
+          "ratio": 8.337,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#373a54",
+          "opacity": 1,
+          "background": "#828da3",
+          "ratio": 3.317,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 44.57,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "gta",
+      "title": "GTA V",
+      "background": [
+        "#ead7d0",
+        "#d6b9b4",
+        "#c19caa"
+      ],
+      "colors": {
+        "ink": "#4e344a",
+        "muted": "#3f2e3d",
+        "line": "#bb91aa",
+        "panel": "#f4e0db",
+        "well": "#debfca",
+        "selected": "#f4e0db",
+        "hover": "#debfca",
+        "scene-accent": "#6c4266",
+        "primary": "#6c4266",
+        "primary-hover": "#4e344a",
+        "on-primary": "#fff8ef",
+        "health": "#87353b",
+        "energy": "#653e88",
+        "track": "#f4e0db",
+        "key": "#f4e0db",
+        "key-edge": "#bb91aa",
+        "focus": "#6b4265",
+        "shadow": "#4e344a18",
+        "on-scene": "#271a25",
+        "meter-edge": "#4e344a"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#271a25",
+          "opacity": 0.8,
+          "background": "#c19caa",
+          "ratio": 4.719,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#271a25",
+          "opacity": 1,
+          "background": "#c19caa",
+          "ratio": 6.824,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#271a25",
+          "opacity": 0.8,
+          "background": "#c19caa",
+          "ratio": 4.719,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#4e344a",
+          "opacity": 1,
+          "background": "#debfca",
+          "ratio": 6.484,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#3f2e3d",
+          "opacity": 1,
+          "background": "#debfca",
+          "ratio": 7.434,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#6c4266",
+          "opacity": 1,
+          "background": "#debfca",
+          "ratio": 4.757,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#3f2e3d",
+          "opacity": 0.8,
+          "background": "#f4e0db",
+          "ratio": 5.732,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#6c4266",
+          "ratio": 7.638,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#87353b",
+          "opacity": 1,
+          "background": "#c19caa",
+          "ratio": 3.306,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#653e88",
+          "opacity": 1,
+          "background": "#c19caa",
+          "ratio": 3.312,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#4e344a",
+          "opacity": 1,
+          "background": "#c19caa",
+          "ratio": 4.495,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#87353b",
+          "opacity": 1,
+          "background": "#f4e0db",
+          "ratio": 6.352,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#653e88",
+          "opacity": 1,
+          "background": "#f4e0db",
+          "ratio": 6.364,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#6b4265",
+          "opacity": 1,
+          "background": "#c19caa",
+          "ratio": 3.319,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 49.54,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "spider",
+      "title": "Spider-Man",
+      "background": [
+        "#e0d5cd",
+        "#c5bdc9",
+        "#aaaec3"
+      ],
+      "colors": {
+        "ink": "#393f58",
+        "muted": "#383042",
+        "line": "#a899b0",
+        "panel": "#efe3df",
+        "well": "#d2c4cd",
+        "selected": "#efe3df",
+        "hover": "#d2c4cd",
+        "scene-accent": "#7a3f4b",
+        "primary": "#7a3f4b",
+        "primary-hover": "#393f58",
+        "on-primary": "#fff8ef",
+        "health": "#993240",
+        "energy": "#2a5791",
+        "track": "#efe3df",
+        "key": "#efe3df",
+        "key-edge": "#a899b0",
+        "focus": "#814350",
+        "shadow": "#393f5818",
+        "on-scene": "#212432",
+        "meter-edge": "#393f58"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#212432",
+          "opacity": 0.8,
+          "background": "#aaaec3",
+          "ratio": 4.701,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#212432",
+          "opacity": 1,
+          "background": "#aaaec3",
+          "ratio": 7.007,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#212432",
+          "opacity": 0.8,
+          "background": "#aaaec3",
+          "ratio": 4.701,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#393f58",
+          "opacity": 1,
+          "background": "#d2c4cd",
+          "ratio": 6.179,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#383042",
+          "opacity": 1,
+          "background": "#d2c4cd",
+          "ratio": 7.498,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#7a3f4b",
+          "opacity": 1,
+          "background": "#d2c4cd",
+          "ratio": 4.741,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#383042",
+          "opacity": 0.8,
+          "background": "#efe3df",
+          "ratio": 5.772,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#7a3f4b",
+          "ratio": 7.547,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#993240",
+          "opacity": 1,
+          "background": "#aaaec3",
+          "ratio": 3.311,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#2a5791",
+          "opacity": 1,
+          "background": "#aaaec3",
+          "ratio": 3.327,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#393f58",
+          "opacity": 1,
+          "background": "#aaaec3",
+          "ratio": 4.715,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#993240",
+          "opacity": 1,
+          "background": "#efe3df",
+          "ratio": 5.797,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#2a5791",
+          "opacity": 1,
+          "background": "#efe3df",
+          "ratio": 5.826,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#814350",
+          "opacity": 1,
+          "background": "#aaaec3",
+          "ratio": 3.349,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 65.02,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "wukong",
+      "title": "Black Myth: Wukong",
+      "background": [
+        "#d5d2b8",
+        "#bab99d",
+        "#9d9f86"
+      ],
+      "colors": {
+        "ink": "#414737",
+        "muted": "#323225",
+        "line": "#9a9f7a",
+        "panel": "#e6e3c9",
+        "well": "#c5c7a5",
+        "selected": "#e6e3c9",
+        "hover": "#c5c7a5",
+        "scene-accent": "#5b4d2b",
+        "primary": "#5b4d2b",
+        "primary-hover": "#414737",
+        "on-primary": "#fff8ef",
+        "health": "#7e2f32",
+        "energy": "#28503f",
+        "track": "#e6e3c9",
+        "key": "#e6e3c9",
+        "key-edge": "#9a9f7a",
+        "focus": "#554828",
+        "shadow": "#41473718",
+        "on-scene": "#161813",
+        "meter-edge": "#414737"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#161813",
+          "opacity": 0.8,
+          "background": "#9d9f86",
+          "ratio": 4.725,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#161813",
+          "opacity": 1,
+          "background": "#9d9f86",
+          "ratio": 6.589,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#161813",
+          "opacity": 0.8,
+          "background": "#9d9f86",
+          "ratio": 4.725,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#414737",
+          "opacity": 1,
+          "background": "#c5c7a5",
+          "ratio": 5.541,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#323225",
+          "opacity": 1,
+          "background": "#c5c7a5",
+          "ratio": 7.468,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#5b4d2b",
+          "opacity": 1,
+          "background": "#c5c7a5",
+          "ratio": 4.756,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#323225",
+          "opacity": 0.8,
+          "background": "#e6e3c9",
+          "ratio": 5.793,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#5b4d2b",
+          "ratio": 7.841,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#7e2f32",
+          "opacity": 1,
+          "background": "#9d9f86",
+          "ratio": 3.307,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#28503f",
+          "opacity": 1,
+          "background": "#9d9f86",
+          "ratio": 3.35,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#414737",
+          "opacity": 1,
+          "background": "#9d9f86",
+          "ratio": 3.547,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#7e2f32",
+          "opacity": 1,
+          "background": "#e6e3c9",
+          "ratio": 6.922,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#28503f",
+          "opacity": 1,
+          "background": "#e6e3c9",
+          "ratio": 7.013,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#554828",
+          "opacity": 1,
+          "background": "#9d9f86",
+          "ratio": 3.301,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 54.27,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "siege",
+      "title": "Rainbow Six Siege",
+      "background": [
+        "#cbd7dd",
+        "#b0c3ce",
+        "#93acbd"
+      ],
+      "colors": {
+        "ink": "#294355",
+        "muted": "#203545",
+        "line": "#8baabb",
+        "panel": "#e2eaf0",
+        "well": "#b4cad7",
+        "selected": "#e2eaf0",
+        "hover": "#b4cad7",
+        "scene-accent": "#31546d",
+        "primary": "#31546d",
+        "primary-hover": "#294355",
+        "on-primary": "#fff8ef",
+        "health": "#8b353d",
+        "energy": "#20586e",
+        "track": "#e2eaf0",
+        "key": "#e2eaf0",
+        "key-edge": "#8baabb",
+        "focus": "#31566e",
+        "shadow": "#29435518",
+        "on-scene": "#14212a",
+        "meter-edge": "#294355"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#14212a",
+          "opacity": 0.8,
+          "background": "#93acbd",
+          "ratio": 4.75,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#14212a",
+          "opacity": 1,
+          "background": "#93acbd",
+          "ratio": 6.931,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#14212a",
+          "opacity": 0.8,
+          "background": "#93acbd",
+          "ratio": 4.75,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#294355",
+          "opacity": 1,
+          "background": "#b4cad7",
+          "ratio": 6.099,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#203545",
+          "opacity": 1,
+          "background": "#b4cad7",
+          "ratio": 7.467,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#31546d",
+          "opacity": 1,
+          "background": "#b4cad7",
+          "ratio": 4.722,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#203545",
+          "opacity": 0.8,
+          "background": "#e2eaf0",
+          "ratio": 5.955,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#31546d",
+          "ratio": 7.606,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#8b353d",
+          "opacity": 1,
+          "background": "#93acbd",
+          "ratio": 3.319,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#20586e",
+          "opacity": 1,
+          "background": "#93acbd",
+          "ratio": 3.309,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#294355",
+          "opacity": 1,
+          "background": "#93acbd",
+          "ratio": 4.376,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#8b353d",
+          "opacity": 1,
+          "background": "#e2eaf0",
+          "ratio": 6.454,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#20586e",
+          "opacity": 1,
+          "background": "#e2eaf0",
+          "ratio": 6.435,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#31566e",
+          "opacity": 1,
+          "background": "#93acbd",
+          "ratio": 3.304,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 57.61,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "fable",
+      "title": "Fable III",
+      "background": [
+        "#e1dbc8",
+        "#c6c6b2",
+        "#b1b69f"
+      ],
+      "colors": {
+        "ink": "#3b4054",
+        "muted": "#323642",
+        "line": "#a4ad9f",
+        "panel": "#eeebdc",
+        "well": "#cccdbd",
+        "selected": "#eeebdc",
+        "hover": "#cccdbd",
+        "scene-accent": "#495371",
+        "primary": "#495371",
+        "primary-hover": "#3b4054",
+        "on-primary": "#fff8ef",
+        "health": "#973c43",
+        "energy": "#445695",
+        "track": "#eeebdc",
+        "key": "#eeebdc",
+        "key-edge": "#a4ad9f",
+        "focus": "#4f5979",
+        "shadow": "#3b405418",
+        "on-scene": "#242734",
+        "meter-edge": "#3b4054"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#242734",
+          "opacity": 0.8,
+          "background": "#b1b69f",
+          "ratio": 4.715,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#242734",
+          "opacity": 1,
+          "background": "#b1b69f",
+          "ratio": 7.111,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#242734",
+          "opacity": 0.8,
+          "background": "#b1b69f",
+          "ratio": 4.715,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#3b4054",
+          "opacity": 1,
+          "background": "#cccdbd",
+          "ratio": 6.367,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#323642",
+          "opacity": 1,
+          "background": "#cccdbd",
+          "ratio": 7.483,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#495371",
+          "opacity": 1,
+          "background": "#cccdbd",
+          "ratio": 4.724,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#323642",
+          "opacity": 0.8,
+          "background": "#eeebdc",
+          "ratio": 5.751,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#495371",
+          "ratio": 7.222,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#973c43",
+          "opacity": 1,
+          "background": "#b1b69f",
+          "ratio": 3.306,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#445695",
+          "opacity": 1,
+          "background": "#b1b69f",
+          "ratio": 3.342,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#3b4054",
+          "opacity": 1,
+          "background": "#b1b69f",
+          "ratio": 4.914,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#973c43",
+          "opacity": 1,
+          "background": "#eeebdc",
+          "ratio": 5.768,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#445695",
+          "opacity": 1,
+          "background": "#eeebdc",
+          "ratio": 5.83,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#4f5979",
+          "opacity": 1,
+          "background": "#b1b69f",
+          "ratio": 3.312,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 58.67,
+        "minimum": 25,
+        "pass": true
+      }
+    },
+    {
+      "id": "kombat",
+      "title": "Mortal Kombat",
+      "background": [
+        "#cdb5a5",
+        "#b2978b",
+        "#9d8884"
+      ],
+      "colors": {
+        "ink": "#48372f",
+        "muted": "#372922",
+        "line": "#b09980",
+        "panel": "#eee0cb",
+        "well": "#ceb7a0",
+        "selected": "#eee0cb",
+        "hover": "#ceb7a0",
+        "scene-accent": "#6a3d2b",
+        "primary": "#6a3d2b",
+        "primary-hover": "#48372f",
+        "on-primary": "#fff8ef",
+        "health": "#6a2428",
+        "energy": "#1e4237",
+        "track": "#eee0cb",
+        "key": "#eee0cb",
+        "key-edge": "#b09980",
+        "focus": "#583224",
+        "shadow": "#48372f18",
+        "on-scene": "#0b0807",
+        "meter-edge": "#48372f"
+      },
+      "checks": [
+        {
+          "name": "Control labels (80% opacity)",
+          "foreground": "#0b0807",
+          "opacity": 0.8,
+          "background": "#9d8884",
+          "ratio": 4.706,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Status, time and speed",
+          "foreground": "#0b0807",
+          "opacity": 1,
+          "background": "#9d8884",
+          "ratio": 5.977,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Scene preview captions",
+          "foreground": "#0b0807",
+          "opacity": 0.8,
+          "background": "#9d8884",
+          "ratio": 4.706,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Panel text",
+          "foreground": "#48372f",
+          "opacity": 1,
+          "background": "#ceb7a0",
+          "ratio": 5.853,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Secondary panel text",
+          "foreground": "#372922",
+          "opacity": 1,
+          "background": "#ceb7a0",
+          "ratio": 7.257,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Selected / hover text",
+          "foreground": "#6a3d2b",
+          "opacity": 1,
+          "background": "#ceb7a0",
+          "ratio": 4.71,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Key text (80% opacity)",
+          "foreground": "#372922",
+          "opacity": 0.8,
+          "background": "#eee0cb",
+          "ratio": 6.186,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Primary control glyph",
+          "foreground": "#fff8ef",
+          "opacity": 1,
+          "background": "#6a3d2b",
+          "ratio": 8.606,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health icon and fill",
+          "foreground": "#6a2428",
+          "opacity": 1,
+          "background": "#9d8884",
+          "ratio": 3.317,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Energy icon and fill",
+          "foreground": "#1e4237",
+          "opacity": 1,
+          "background": "#9d8884",
+          "ratio": 3.328,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Timeline boundary",
+          "foreground": "#48372f",
+          "opacity": 1,
+          "background": "#9d8884",
+          "ratio": 3.375,
+          "minimum": 3,
+          "pass": true
+        },
+        {
+          "name": "Health fill / empty track",
+          "foreground": "#6a2428",
+          "opacity": 1,
+          "background": "#eee0cb",
+          "ratio": 8.524,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Energy fill / empty track",
+          "foreground": "#1e4237",
+          "opacity": 1,
+          "background": "#eee0cb",
+          "ratio": 8.552,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Focus and timeline thumb",
+          "foreground": "#583224",
+          "opacity": 1,
+          "background": "#9d8884",
+          "ratio": 3.316,
+          "minimum": 3,
+          "pass": true
+        }
+      ],
+      "meterDifference": {
+        "deltaE76": 49.1,
+        "minimum": 25,
+        "pass": true
+      }
+    }
+  ]
+}

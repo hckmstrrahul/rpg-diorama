@@ -1,0 +1,175 @@
+/* Transitions.dev — dropdown and sliding-tab recipes.
+   Source: https://github.com/Jakubantalik/transitions.dev
+   App-specific sizing and palette hooks follow the original snippets. */
+
+
+:root {
+  --dropdown-open-dur: 250ms;
+  --dropdown-close-dur: 150ms;
+  --dropdown-pre-scale: 0.97;
+  --dropdown-closing-scale: 0.99;
+  --dropdown-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.t-dropdown {
+  transform-origin: top left;
+  transform: scale(var(--dropdown-pre-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dropdown-open-dur) var(--dropdown-ease),
+    opacity   var(--dropdown-open-dur) var(--dropdown-ease);
+  will-change: transform, opacity;
+}
+.t-dropdown[data-origin="top-right"]     { transform-origin: top right; }
+.t-dropdown[data-origin="top-center"]    { transform-origin: top center; }
+.t-dropdown[data-origin="bottom-left"]   { transform-origin: bottom left; }
+.t-dropdown[data-origin="bottom-center"] { transform-origin: bottom center; }
+.t-dropdown[data-origin="bottom-right"]  { transform-origin: bottom right; }
+
+.t-dropdown.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-dropdown.is-closing {
+  transform: scale(var(--dropdown-closing-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dropdown-close-dur) var(--dropdown-ease),
+    opacity   var(--dropdown-close-dur) var(--dropdown-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-dropdown { transition: none !important; }
+}
+
+
+:root {
+  --tabs-dur: 250ms;
+  --tabs-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --tabs-text-muted: rgba(15, 15, 15, 0.8);
+  --tabs-text-active: #0f0f0f;
+  --tabs-bar-bg: #f1f1f1;
+  --tabs-pill-bg: #ffffff;
+}
+
+
+/* The bar is just a flex container with padding for the pill
+   to sit inside. Tabs sit on z-index: 1, the pill on z-index: 0,
+   so labels read above the pill background. */
+.t-tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 48px;
+  background: var(--tabs-bar-bg);
+}
+.t-tab {
+  position: relative;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  height: 30px;
+  padding: 4px 12px;
+  color: var(--tabs-text-muted);
+  cursor: pointer;
+  border-radius: 48px;
+  z-index: 1;
+  transition: color var(--tabs-dur) var(--tabs-ease);
+}
+.t-tab:not([aria-selected="true"]):hover,
+.t-tab[aria-selected="true"] {
+  color: var(--tabs-text-active);
+}
+
+/* The pill: width + transform are written inline by JS so
+   the transition tweens between the previous and next
+   measured positions. */
+.t-tabs-pill {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: 30px;
+  width: 0;
+  background: var(--tabs-pill-bg);
+  border-radius: 48px;
+  transform: translateX(0);
+  transition:
+    transform var(--tabs-dur) var(--tabs-ease),
+    width     var(--tabs-dur) var(--tabs-ease);
+  will-change: transform, width;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-tabs-pill, .t-tab { transition: none !important; }
+}
+
+/* Keep this app's compact dimensions and scene-specific colors. */
+:root {
+  --scene-switch-dur: 500ms;
+  --scene-drag-response: 300ms;
+  --scene-switch-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --scene-switch-reduced-dur: 120ms;
+  --ui-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --control-feedback-dur: 120ms;
+}
+body {
+  --tabs-bar-bg: var(--well);
+  --tabs-pill-bg: var(--selected);
+  --tabs-text-muted: var(--muted);
+  --tabs-text-active: var(--scene-accent);
+}
+.scene-selector.t-tabs { position: absolute; display: flex; gap: 2px; border-radius: 999px; box-shadow: none; }
+.mode-tabs.t-tabs { display: flex; gap: 2px; border-radius: 999px; }
+.scene-overflow-wrap { z-index: 1; }
+.scene-overflow.t-tab { height: 24px; padding: 0 10px; border-radius: 999px; }
+.scene-selector > .t-tabs-pill { height: 24px; }
+.mode-tabs > .t-tabs-pill { height: calc(var(--segment-height) - 8px); }
+.scene-selector > .t-tabs-pill, .mode-tabs > .t-tabs-pill {
+  border-radius: 999px;
+  box-shadow: 0 1px 3px var(--shadow);
+  opacity: 0;
+}
+.t-tabs[data-motion-ready] > .t-tabs-pill { opacity: 1; }
+.t-tabs[data-motion-ready] .t-tab[aria-selected="true"],
+.t-tabs[data-motion-ready] .scene-overflow.is-selected { background: transparent; box-shadow: none; }
+.scene-overflow svg { transition: transform var(--dropdown-close-dur) var(--dropdown-ease); }
+.scene-overflow[aria-expanded="true"] svg { transform: rotate(180deg); }
+.key-map { max-height: min(520px, calc(100svh - 100px)); overflow-y: auto; overscroll-behavior: contain; }
+
+/* Small, direct feedback; no motion on continuously updating game meters. */
+.icon-button, .zoom-controls button, .speed {
+  transition: transform var(--control-feedback-dur) var(--ui-ease),
+    background-color var(--control-feedback-dur) ease,
+    border-color var(--control-feedback-dur) ease,
+    color var(--control-feedback-dur) ease;
+}
+.icon-button:active:not(:disabled), .zoom-controls button:active:not(:disabled), .speed:active { transform: scale(.94); }
+.scene-nav { transition: opacity var(--dropdown-close-dur) var(--ui-ease); }
+.scene-nav img { transition: opacity var(--dropdown-close-dur) var(--ui-ease), transform var(--tabs-dur) var(--tabs-ease); }
+.scene-nav:active img { transform: scale(.96); }
+.scene-nav:focus-visible img { opacity: 1; }
+.icon-button[aria-expanded="true"] { background: var(--hover); color: var(--scene-accent); }
+@media (hover: hover) and (pointer: fine) {
+  .scene-nav:hover img { transform: scale(1.025); }
+  .scene-nav:active img { transform: scale(.96); }
+}
+@media (hover: none) {
+  .t-tab:not([aria-selected="true"]):hover { color: var(--muted); }
+  .scene-overflow.is-selected:hover { color: var(--scene-accent); }
+}
+@media (max-width: 540px) {
+  .scene-overflow.t-tab, .scene-selector > .t-tabs-pill { height: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .icon-button:active:not(:disabled), .zoom-controls button:active:not(:disabled), .speed:active,
+  .scene-nav:hover img, .scene-nav:active img { transform: none; }
+}
+
