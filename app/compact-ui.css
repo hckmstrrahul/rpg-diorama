@@ -112,11 +112,11 @@ button,summary{user-select:none;-webkit-user-select:none;-webkit-touch-callout:n
 .github-link svg{width:15px;height:15px;flex:none}
 @media (hover:hover) and (pointer:fine){.github-link:hover{background:var(--selected);color:var(--scene-accent)}}
 @media (min-width:641px){main{padding-top:62px}}
-@media (max-width:900px){.site-header{gap:12px}.site-brand p{font-size:9px}.site-name{font-size:14px}.github-link{padding-inline:10px}}
+@media (max-width:900px){.site-header{gap:12px}.site-name{font-size:14px}.github-link{padding-inline:10px}}
 @media (max-width:640px){
   main{padding-top:100px}
   .site-header{--header-control-height:40px;top:0;grid-template-columns:minmax(0,1fr) auto;gap:10px 12px}
-  .site-brand{grid-column:1 / -1}.site-brand p{font-size:10px}
+  .site-brand{grid-column:1 / -1}
   .site-header .scene-selector.t-tabs{justify-self:start;width:max-content;max-width:100%}
   .site-header .scene-overflow{min-width:0;max-width:calc(100vw - 146px);height:32px;gap:12px;padding-inline:12px}
   .site-header .scene-selector>.t-tabs-pill{height:32px}
