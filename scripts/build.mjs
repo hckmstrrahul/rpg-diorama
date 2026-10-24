@@ -12,7 +12,7 @@ class Element {
   all(){return [this,...this.children.flatMap(c=>c.all())];}
   xml(){const escape=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');return `<${this.tag}${Object.entries(this.attributes).map(([k,v])=>` ${k}="${escape(v)}"`).join('')}>${this.children.map(n=>n.xml()).join('')}</${this.tag}>`;}
 }
-fs.mkdirSync(new URL('../artwork-exports/',import.meta.url),{recursive:true});
+for(const folder of ['poster-svgs','animated-svgs'])fs.mkdirSync(new URL(`../artwork-exports/${folder}/`,import.meta.url),{recursive:true});
 const root=new Element('svg');
 Object.entries({xmlns:'http://www.w3.org/2000/svg',viewBox:'0 0 1200 880',width:'1200',height:'880',role:'img','aria-label':'Kratos fights two draugr in an isometric Norse courtyard. Animated SVG fan art.'}).forEach(([k,v])=>root.setAttribute(k,v));
 const window={};
@@ -47,7 +47,7 @@ render(0);
 const staticPaths=root.all().filter(n=>n.tag==='path');
 for(const n of staticPaths){const d=n.getAttribute('d');if(d)assert(!/NaN|Infinity/.test(d));}
 // SVG exports include a useful still image in viewers that disable animation.
-fs.writeFileSync(new URL('../artwork-exports/midgard-poster.svg',import.meta.url),'<?xml version="1.0" encoding="UTF-8"?>\n'+root.xml());
+fs.writeFileSync(new URL('../artwork-exports/poster-svgs/midgard-poster.svg',import.meta.url),'<?xml version="1.0" encoding="UTF-8"?>\n'+root.xml());
 let animations=0;
 dynamic.forEach((node,j)=>attrs.forEach(a=>{
   const list=values[j][a];
@@ -61,7 +61,7 @@ dynamic.forEach((node,j)=>attrs.forEach(a=>{
   node.setAttribute(a,list[0]);node.appendChild(animation);animations++;
 }));
 const result='<?xml version="1.0" encoding="UTF-8"?>\n<!-- Original SVG fan-art study. Native SMIL animation; no JavaScript, raster images, fonts, or external dependencies. -->\n'+root.xml();
-fs.writeFileSync(new URL('../artwork-exports/midgard.svg',import.meta.url),result);
-fs.writeFileSync(new URL('../artwork-exports/midgard.svgz',import.meta.url),zlib.gzipSync(result,{level:9}));
+fs.writeFileSync(new URL('../artwork-exports/animated-svgs/midgard.svg',import.meta.url),result);
+fs.writeFileSync(new URL('../artwork-exports/animated-svgs/midgard.svgz',import.meta.url),zlib.gzipSync(result,{level:9}));
 assert(bounds[0]>=0&&bounds[1]>=0&&bounds[2]<=1200&&bounds[3]<=880,'Animated content leaves the viewBox');
 console.log(JSON.stringify({frames:N,animatedPaths:dynamic.length,animationTracks:animations,totalPaths:staticPaths.length,animatedBounds:bounds,svgMB:+(Buffer.byteLength(result)/1e6).toFixed(2),loop:'All tracks have identical endpoints',geometry:'All frames finite and within viewBox'},null,2));

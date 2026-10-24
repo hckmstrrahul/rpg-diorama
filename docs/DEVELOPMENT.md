@@ -41,7 +41,7 @@ Measured from the source files with `npm run size`:
 
 | Payload | Uncompressed | Gzip estimate |
 | --- | ---: | ---: |
-| All runtime HTML, CSS, and JavaScript (mobile/tablet initial load) | 355.1 KiB | 121.7 KiB |
+| All runtime HTML, CSS, and JavaScript (mobile/tablet initial load) | 355.3 KiB | 121.8 KiB |
 | The initial two neighboring previews | 2.74 MiB | 730.5 KiB |
 | Desktop initial page plus those two previews | About 3.09 MiB | About 852.3 KiB |
 | All thirteen previews, across the whole collection | 14.82 MiB | 3.63 MiB |
@@ -80,7 +80,7 @@ The local-only `artwork-exports/` and `trailer-production/` directories are inte
 
 ## Validation
 
-`npm test` checks rigid bone lengths, foot placement, weapon orientation, attack contacts, projectile timing, collisions, enemy behavior, cooldowns, animation loops, and per-scene action labels. Controller checks cover keyboard and multi-touch input, cleanup after interruption, horizontal and vertical scene navigation, circular wraparound, scroll inertia, and reduced motion. The contrast audit covers all thirteen palettes.
+`npm test` checks rigid bone lengths, foot placement, weapon orientation, attack contacts, projectile timing, collisions, enemy behavior, cooldowns, animation loops, and per-scene action labels. Controller checks cover keyboard and multi-touch input, cleanup after interruption, desktop scene swipes, compact arrow navigation, pan/pinch gestures, circular wraparound, and reduced motion. The contrast audit covers all thirteen palettes.
 
 The spatial regression suite exercises all thirteen scenes with 6,626 obstacle and boundary probes, crowded-character starts, and 3,120 movement frames. It also checks complete character groups, front/behind prop ordering, and rooftop fan motion in both Game and Video modes. See the [scene audit](../audits/scene-audit.md) for coverage and limits.
 
@@ -95,6 +95,16 @@ Import this repository into Vercel with the repository root as the project root.
 The same `app/` directory can be hosted on another static host. For the configuration fields, see [Vercel's `vercel.json` documentation](https://vercel.com/docs/project-configuration/vercel-json).
 
 Optional standalone animated SVGs can be generated locally with `npm run export:svg`. These are frame-sampled artwork exports, can be large, and are unrelated to what the live app downloads.
+
+Local artwork is organized under `artwork-exports/`:
+
+| Folder | Contents |
+| --- | --- |
+| `poster-svgs/` | Static scene posters. |
+| `animated-svgs/` | Standalone SVG animations and optional compressed SVGs. |
+| `animated-mp4/` | MP4 versions of the animations, with music credits. |
+
+MP4 recording scripts, samples, and review files stay in `trailer-production/scene-exports/`. Both parent folders remain ignored by Git and excluded from deployment.
 
 ## README media
 

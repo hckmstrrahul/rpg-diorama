@@ -18,7 +18,7 @@ button,summary{user-select:none;-webkit-user-select:none;-webkit-touch-callout:n
   .scene-nav-arrow{display:block;width:16px;height:16px}
   .scene-nav::before{content:"";position:absolute;inset:-3px}
   .scene-nav:active{background:var(--hover)}
-  .control-panel{position:relative;z-index:20;flex-shrink:0;align-self:center;display:grid;grid-template-columns:40px 40px minmax(0,1fr) auto 40px;gap:12px 8px;width:min(100%,720px);padding:16px;border:1px solid color-mix(in srgb,var(--line) 75%,transparent);border-radius:26px;background:color-mix(in srgb,var(--well) 92%,transparent);box-shadow:0 -6px 30px color-mix(in srgb,var(--shadow) 40%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);isolation:isolate}
+  .control-panel{position:relative;z-index:20;flex-shrink:0;align-self:center;display:grid;grid-template-columns:minmax(0,1fr) auto 40px;gap:12px 8px;width:min(100%,720px);padding:16px;border:1px solid color-mix(in srgb,var(--line) 75%,transparent);border-radius:26px;background:color-mix(in srgb,var(--well) 92%,transparent);box-shadow:0 -6px 30px color-mix(in srgb,var(--shadow) 40%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);isolation:isolate}
   .control-panel footer,.control-panel .controls,.control-panel .hud-row,.control-panel .utility-controls{display:contents}
   .current-game-name{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
   .sheet-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;grid-row:1;grid-column:1 / -1;min-width:0}
@@ -45,20 +45,20 @@ button,summary{user-select:none;-webkit-user-select:none;-webkit-touch-callout:n
   input[type=range]::-webkit-slider-thumb{height:12px;width:12px;margin-top:-5px}
   input[type=range]::-moz-range-thumb{height:12px;width:12px}
   .speed{min-width:40px;min-height:40px}
-  .restart-controls{display:flex;align-items:center;gap:6px;grid-row:4;grid-column:1 / 4;min-width:0;height:40px}
+  .restart-controls{display:flex;align-items:center;gap:6px;grid-row:4;grid-column:1;min-width:0;height:40px}
   #restart{order:-1;flex-shrink:0}
   #play{flex-shrink:0}
-  .zoom-controls{--segment-height:40px;grid-row:4;grid-column:4;justify-self:end;height:40px}
+  .zoom-controls{--segment-height:40px;grid-row:4;grid-column:2;justify-self:end;height:40px}
   .zoom-controls button{height:32px;width:32px}
   .zoom-controls .zoom-reset{width:46px}
-  .key-help{grid-row:4;grid-column:5;align-self:center}
+  .key-help{grid-row:4;grid-column:3;align-self:center}
   .icon-button{width:40px;height:40px}
   .icon-button::before,.zoom-controls button::before{content:"";position:absolute;inset:-2px}
   .icon-button,.zoom-controls button{position:relative}
   .key-map{bottom:52px;right:0;max-height:min(520px,calc(100dvh - 100px));max-width:calc(100vw - 48px);white-space:normal}
   .key-map kbd{white-space:nowrap}
   .key-hint{display:none!important}
-  .game-status{margin:0;min-height:0;min-width:0;font-size:10px;line-height:14px;text-align:left;white-space:pre-line}
+  .game-status{margin:0;min-height:0;min-width:0;font-size:10px;line-height:14px;text-align:left;white-space:nowrap}
   .game-status:empty{display:none}
   .touch-controls{grid-row:3;grid-column:1 / -1;display:grid;grid-template-columns:132px minmax(0,1fr);align-items:center;gap:18px;padding:2px 0 4px;touch-action:none}
   .touch-dpad{display:grid;grid-template:repeat(3,44px) / repeat(3,44px);touch-action:none}
@@ -88,9 +88,17 @@ button,summary{user-select:none;-webkit-user-select:none;-webkit-touch-callout:n
   .action-key{min-height:80px}.wide-key{min-height:54px}
   .touch-key-label{font-size:11px}
 }
+@media (max-width:390px){
+  .game-status{font-size:9px;letter-spacing:-.15px}
+  .zoom-controls button{width:28px}
+  .zoom-controls .zoom-reset{width:42px}
+}
 @media (max-width:360px){
   .shell{--page-gutter:8px}
-  .control-panel{padding:12px;gap:10px 6px;border-radius:22px;grid-template-columns:38px 38px minmax(0,1fr) auto 38px}
+  .control-panel{padding:12px;gap:10px 4px;border-radius:22px;grid-template-columns:minmax(0,1fr) auto 38px}
+  .restart-controls{gap:4px}
+  .zoom-controls button{width:24px}
+  .zoom-controls .zoom-reset{width:36px}
   .current-game-name{font-size:13px}
   .mode-tabs button{padding-inline:8px}
   .touch-controls{grid-template-columns:120px minmax(0,1fr);gap:4px}

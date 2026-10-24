@@ -469,7 +469,7 @@
     $('time').textContent=`00:${String(Math.floor(time)).padStart(2,'0')} / ${scene.duration}`;
     $('health-fill').style.transform=`scaleX(${state.health/100})`;$('stamina-fill').style.transform=`scaleX(${state.stamina/100})`;
     $('health').setAttribute('aria-valuenow',Math.round(state.health));$('stamina').setAttribute('aria-valuenow',Math.round(state.stamina));
-    const restartHint=compact.matches?'Tap restart':'R to restart',separator=compact.matches?'\n':' · ';
+    const restartHint=compact.matches?'Tap restart':'R to restart',separator=' · ';
     const message=live?(state.phase==='won'?`Victory${separator}${restartHint}`:state.phase==='defeated'?`Defeated${separator}${restartHint}`:''):'';
     if($('game-status').textContent!==message)$('game-status').textContent=message;
     if(live&&compact.matches){

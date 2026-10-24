@@ -12,7 +12,7 @@ class Element {
   all(){return [this,...this.children.flatMap(c=>c.all())];}
   xml(){const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');return `<${this.tag}${Object.entries(this.attributes).map(([k,v])=>` ${k}="${esc(v)}"`).join('')}>${this.children.map(n=>n.xml()).join('')}</${this.tag}>`;}
 }
-fs.mkdirSync(new URL('../artwork-exports/',import.meta.url),{recursive:true});
+for(const folder of ['poster-svgs','animated-svgs'])fs.mkdirSync(new URL(`../artwork-exports/${folder}/`,import.meta.url),{recursive:true});
 for(const id of (process.argv.slice(2).length?process.argv.slice(2):['tsushima','arkham','assassin','persia','duty','payne','gta','spider','wukong','siege','fable','kombat'])){
   const root=new Element('svg');for(const [k,v] of Object.entries({xmlns:'http://www.w3.org/2000/svg',viewBox:'0 0 1200 880',width:1200,height:880,role:'img'}))root.setAttribute(k,v);
   const window={},context=vm.createContext({window,Math,document:{getElementById:()=>root,createElementNS:(_,tag)=>new Element(tag)}});
@@ -31,9 +31,9 @@ for(const id of (process.argv.slice(2).length?process.argv.slice(2):['tsushima',
     render(i===N?0:i/FPS);
     dynamic.forEach((node,j)=>attrs.forEach(a=>{let v=node.getAttribute(a)||(a==='opacity'?'1':a==='fill'||a==='stroke'?'none':a==='stroke-width'?'.4':'');assert(!/NaN|Infinity/.test(v),`${id}: non-finite geometry`);if(a==='d')v=v.replace(/-?\d+\.\d+/g,n=>String(Math.round(Number(n)*10)/10));values[j][a].push(v);}));
   }
-  render(1.2);fs.writeFileSync(new URL(`../artwork-exports/${id}-poster.svg`,import.meta.url),root.xml());render(0);
+  render(1.2);fs.writeFileSync(new URL(`../artwork-exports/poster-svgs/${id}-poster.svg`,import.meta.url),root.xml());render(0);
   let tracks=0;
   dynamic.forEach((node,j)=>attrs.forEach(a=>{const list=values[j][a];assert.equal(list[0],list.at(-1));if(list.every(v=>v===list[0]))return;const selected=[],times=[];for(let i=0;i<=N;i++)if(i===0||i===N||list[i]!==list[i-1]){selected.push(list[i]);times.push((i/N).toFixed(6));}const anim=new Element('animate');for(const [k,v] of Object.entries({attributeName:a,dur:'18s',repeatCount:'indefinite',calcMode:'discrete',keyTimes:times.join(';'),values:selected.join(';')}))anim.setAttribute(k,v);node.setAttribute(a,list[0]);node.appendChild(anim);tracks++;}));
-  const xml='<?xml version="1.0" encoding="UTF-8"?>\n'+root.xml();fs.writeFileSync(new URL(`../artwork-exports/${id}.svg`,import.meta.url),xml);
+  const xml='<?xml version="1.0" encoding="UTF-8"?>\n'+root.xml();fs.writeFileSync(new URL(`../artwork-exports/animated-svgs/${id}.svg`,import.meta.url),xml);
   console.log(JSON.stringify({scene:id,frames:N,paths:dynamic.length,tracks,MB:+(Buffer.byteLength(xml)/1e6).toFixed(2)}));
 }
