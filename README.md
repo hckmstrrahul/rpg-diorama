@@ -4,8 +4,6 @@
 
 Thirteen miniature game worlds, built from SVG and brought to life with vanilla JavaScript. Move, fight, dodge, and use character-specific abilities—or switch to **Video** and watch a choreographed performance.
 
-Built by [Rahul Chakraborty](https://github.com/hckmstrrahul), iterating with Codex on the art, character rigs, combat, and interface.
-
 ![God of War-inspired SVG courtyard](app/assets/midgard-preview.svg)
 
 ## How it was built
