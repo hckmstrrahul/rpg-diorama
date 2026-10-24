@@ -1,5 +1,5 @@
 {
-  "name": "mini-rpg",
+  "name": "rpg-diorama",
   "private": true,
   "version": "1.0.0",
   "description": "Thirteen playable isometric SVG worlds, built with vanilla JavaScript and zero runtime dependencies.",
@@ -8,14 +8,14 @@
     "build": "node scripts/build-previews.mjs",
     "build:worlds": "node scripts/build-worlds.mjs",
     "export:svg": "node scripts/build.mjs && node scripts/build-worlds.mjs",
-    "test": "node tests/rig.test.mjs && node tests/game.test.mjs && node tests/legend.test.mjs && node audits/contrast-audit.mjs",
+    "test": "node tests/rig.test.mjs && node tests/game.test.mjs && node tests/legend.test.mjs && node tests/spatial.test.mjs && node audits/contrast-audit.mjs",
     "build:previews": "node scripts/build-previews.mjs",
     "audit:contrast": "node audits/contrast-audit.mjs --write",
     "size": "node scripts/size-report.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hckmstrrahul/mini-rpg.git"
+    "url": "https://github.com/hckmstrrahul/rpg-diorama.git"
   },
-  "homepage": "https://rpg-dioramas.vercel.app"
+  "homepage": "https://rpg-diorama.vercel.app"
 }

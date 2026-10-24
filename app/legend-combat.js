@@ -6,13 +6,13 @@
   const mix=(a,b,t)=>a+(b-a)*t,V=(a,b)=>a.map((x,i)=>x+b[i]),M=(a,n)=>a.map(x=>x*n),L=(a,b,u)=>a.map((x,i)=>mix(x,b[i],u));
   const unit=v=>M(v,1/(Math.hypot(...v)||1)),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),angle=(a,b)=>Math.atan2(-(b.x-a.x),b.y-a.y),facing=a=>[-Math.sin(a.angle),Math.cos(a.angle),0];
   const profiles=[
-    {id:'duty',title:'Call of Duty',hero:'Ghost',place:'Stormbound cargo deck',bg:['#c3cbd0','#aab8bd','#8f9fa7'],accent:'#5c5e47',palette:'duty',labels:['rifle burst','frag grenade','slide burst','combat dive','brace'],help:['Rifle burst','Frag grenade','Slide and fire','Combat dive','Hold brace'],obstacles:[[-95,-151,78],[88,-150,76],[155,-48,29],[-154,-64,22],[-154,139,24]],ranged:true},
-    {id:'payne',title:'Max Payne',hero:'Max Payne',place:'New York after midnight',bg:['#9da7b9','#8b97ac','#828da3'],accent:'#454260',palette:'payne',labels:['dual pistols','shootdodge','bullet time','roll','take cover'],help:['Dual-pistol fire','Shootdodge','Bullet Time (6 seconds)','Defensive roll','Crouch and brace'],obstacles:[[-157,-57,27],[153,-69,29],[147,124,24]],ranged:true},
-    {id:'gta',title:'GTA V',hero:'Trevor Philips',place:'Los Santos at golden hour',bg:['#ead7d0','#d6b9b4','#c19caa'],accent:'#785074',palette:'gta',labels:['carbine','grenade','red mist','combat roll','brace'],help:['Carbine burst','Throw grenade','Red Mist (damage / resistance)','Combat roll','Hold brace'],obstacles:[[-148,-67,39],[153,-115,12],[-150,116,12],[157,135,12]],ranged:true},
+    {id:'duty',title:'Call of Duty',hero:'Ghost',place:'Stormbound cargo deck',bg:['#c3cbd0','#aab8bd','#8f9fa7'],accent:'#5c5e47',palette:'duty',labels:['rifle burst','frag grenade','slide burst','combat dive','brace'],help:['Rifle burst','Frag grenade','Slide and fire','Combat dive','Hold brace'],obstacles:[[-95,-151,78],[88,-150,76],[155,-48,39],[-154,-64,22],[-150,-29,10],[-154,139,26],[156,100,15],[156,136,16]],ranged:true},
+    {id:'payne',title:'Max Payne',hero:'Max Payne',place:'New York after midnight',bg:['#9da7b9','#8b97ac','#828da3'],accent:'#454260',palette:'payne',labels:['dual pistols','shootdodge','bullet time','roll','take cover'],help:['Dual-pistol fire','Shootdodge','Bullet Time (6 seconds)','Defensive roll','Crouch and brace'],obstacles:[[-157,-57,35],[154,-66,32],[147,124,27],[166,54,6]],ranged:true},
+    {id:'gta',title:'GTA V',hero:'Trevor Philips',place:'Los Santos at golden hour',bg:['#ead7d0','#d6b9b4','#c19caa'],accent:'#785074',palette:'gta',labels:['carbine','grenade','red mist','combat roll','brace'],help:['Carbine burst','Throw grenade','Red Mist (damage / resistance)','Combat roll','Hold brace'],obstacles:[[-148,-67,40],[153,-115,12],[-150,116,12],[157,135,12],[160,43,6]],ranged:true},
     {id:'spider',title:'Spider-Man',hero:'Peter Parker',place:'Above the streets of Manhattan',bg:['#e0d5cd','#c5bdc9','#aaaec3'],accent:'#974e59',palette:'spider',labels:['acrobatic combo','web snare','web travel','vault dodge','spider-sense'],help:['Acrobatic combo','Web snare','Web travel (direction + L, 1.2s)','Acrobatic vault','Spider-sense counter'],obstacles:[[-119,-137,25],[139,-74,21],[-148,48,21],[146,66,26]],ranged:false},
     {id:'wukong',title:'Black Myth: Wukong',hero:'The Destined One',place:'Black Wind Mountain shrine',bg:['#d5d2b8','#bab99d','#9d9f86'],accent:'#766334',palette:'wukong',labels:['staff combo','immobilize','pillar smash','perfect dodge','staff spin'],help:['Staff sweep combo','Immobilize (2.6 seconds)','Pillar smash','Perfect dodge','Hold staff spin'],obstacles:[[113,-126,22],[-141,99,14],[126,99,14],[-165,113,12]],ranged:false},
     {id:'siege',title:'Rainbow Six Siege',hero:'Sledge',place:'Clubhouse breach room',bg:['#cbd7dd','#b0c3ce','#93acbd'],accent:'#3c6886',palette:'siege',labels:['rifle burst','stun grenade','breaching hammer','sidestep','brace'],help:['Controlled rifle burst','Stun nearby defenders','Hammer / breach barricade','Tactical sidestep','Crouch and brace'],obstacles:[[148,75,25],[144,116,21],[-147,129,26]],ranged:true},
-    {id:'fable',title:'Fable III',hero:'The Hero of Brightwall',place:'Brightwall market square',bg:['#e1dbc8','#c6c6b2','#b1b69f'],accent:'#5c658b',palette:'fable',labels:['sword flourish','flintlock','spell weave','roll','sword guard'],help:['Sword flourish combo','Flintlock pistol shot','Weave fire and lightning','Combat roll','Hold sword guard'],obstacles:[[132,97,23],[-159,88,14],[158,-65,14],[158,8,25],[-144,150,24]],ranged:false},
+    {id:'fable',title:'Fable III',hero:'The Hero of Brightwall',place:'Brightwall market square',bg:['#e1dbc8','#c6c6b2','#b1b69f'],accent:'#5c658b',palette:'fable',labels:['sword flourish','flintlock','spell weave','roll','sword guard'],help:['Sword flourish combo','Flintlock pistol shot','Weave fire and lightning','Combat roll','Hold sword guard'],obstacles:[[132,97,23],[-159,88,14],[158,-65,14],[158,8,25],[-144,150,24],[-117,139,8],[146,145,8],[-137,-93,8],[115,-108,8]],ranged:false},
     {id:'kombat',title:'Mortal Kombat',hero:'Scorpion',place:'The firelit tournament courtyard',bg:['#cdb5a5','#b2978b','#9d8884'],accent:'#874d38',palette:'kombat',labels:['kombat combo','spear pull','hellport','dash evade','guard'],help:['Punch and uppercut combo','Spear pull','Hellport strike','Dash evade','Hold fighting guard'],obstacles:[[-151,-57,18],[149,-56,18],[-145,130,18],[146,130,18]],ranged:false}
   ].map(p=>({...p,expanded:true,contact:[0,0,1],attackRange: p.id==='wukong'?57:p.id==='fable'?45:34}));
   class LegendCombat extends G{
@@ -31,8 +31,8 @@
       // Sweep the whole route so the zip cannot tunnel through rooftop equipment.
       for(let distance=2;distance<=112;distance+=2){
         const point={x:h.x+dir[0]*distance,y:h.y+dir[1]*distance};
-        if(point.x< -137||point.x>137||point.y< -104||point.y>136||!this._clear(h,point,8))break;
-        if(this.enemies.every(e=>e.hp<=0||dist(e,point)>20))destination=point;
+        if(point.x< -137||point.x>137||point.y< -104||point.y>136||!this._clear(h,point,this._radius(h)))break;
+        if(this.enemies.every(e=>e.hp<=0||dist(e,point)>this._radius(h)+this._radius(e)))destination=point;
       }
       if(dist(h,destination)<20)return null;
       const anchors=[[-164,-160,98],[167,-160,98],[-164,158,97],[167,158,97],[-119,-137,108]];
@@ -58,7 +58,7 @@
       let destination=route?.destination||null;
       if(type==='teleport'){
         const f=facing(target);destination={x:target.x-f[0]*24,y:target.y-f[1]*24};
-        if(Math.abs(destination.x)>140||destination.y< -105||destination.y>138||!this._obstacles().every(([x,y,r])=>Math.hypot(destination.x-x,destination.y-y)>r+6))return false;
+        if(Math.abs(destination.x)>140||destination.y< -105||destination.y>138||!this._obstacles().every(([x,y,r])=>Math.hypot(destination.x-x,destination.y-y)>r+this._radius(h)))return false;
       }
       const cost=type==='webTravel'?14:index===2?34:index===1?18:6;if(!this._spend(cost))return false;
       const durations={ranged:.53,melee:id==='wukong'?.72:.64,grenade:.66,flash:.66,slide:.9,shootdodge:1.15,bulletTime:.12,rage:.4,web:.64,webTravel:.95,immobilize:.62,pillar:1.65,hammer:1.18,flintlock:.65,spell:1.24,spear:1.1,teleport:1.1};
@@ -236,11 +236,7 @@
       }
       this._move(e,velocity,dt);
     }
-    _bounds(a){
-      a.x=clamp(a.x,-141,141);a.y=clamp(a.y,-108,140);
-      for(const [x,y,r] of this._obstacles()){const dx=a.x-x,dy=a.y-y,d=Math.hypot(dx,dy),R=r+(a.boss?22:5);if(d<R){a.x=x+(d?dx/d:1)*R;a.y=y+(d?dy/d:0)*R;}}
-      a.x=clamp(a.x,-141,141);a.y=clamp(a.y,-108,140);
-    }
+    _limits(){return [-141,141,-108,140];}
     _feet(a,dt){
       const action=a.action,age=action?this.time-action.start:0;
       const airborne=a.id===0&&(['webTravel','shootdodge','pillar','slide'].includes(action?.kind)||action?.kind==='dodge'&&this.profile?.id==='spider');

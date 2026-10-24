@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 class Element{
  constructor(tag){this.tag=tag;this.attributes={};this.children=[];}
  setAttribute(k,v){this.attributes[k]=String(v);}getAttribute(k){return this.attributes[k]??null;}
- appendChild(n){this.children.push(n);return n;}insertBefore(n,b){const i=this.children.indexOf(b);this.children.splice(i<0?this.children.length:i,0,n);return n;}
+ appendChild(n){if(n.parentNode)n.parentNode.children=n.parentNode.children.filter(c=>c!==n);this.children.push(n);n.parentNode=this;return n;}replaceChildren(...nodes){for(const n of this.children)n.parentNode=null;this.children=[];nodes.forEach(n=>this.appendChild(n));}
+ insertBefore(n,b){const i=this.children.indexOf(b);this.children.splice(i<0?this.children.length:i,0,n);return n;}
  all(){return [this,...this.children.flatMap(n=>n.all())];}
 }
 const svg=new Element('svg'),window={},context=vm.createContext({window,Math,document:{getElementById:()=>svg,createElementNS:(_,tag)=>new Element(tag)}});
@@ -78,7 +79,7 @@ g=fixture('payne',125);g._shot(g.enemies[0]);g.command('dodge',{x:1});step(g,.4)
 g=fixture('payne',125);g._shot();g.enemies[0].x=50;step(g,.6);assert.equal(g.enemies[0].hp,72,'A missed bullet homes onto the target');
 // Six real seconds of dilation; the existing six-second cooldown ends with it.
 g=fixture('payne',125);assert(g.command('slam'));step(g,5.9);assert(g.bulletTimeActive);assert.equal(g.command('slam'),false);step(g,.12);assert(!g.bulletTimeActive);const restored=g.time;step(g,.2);assert(Math.abs(g.time-restored-.2)<1e-6,'Normal clock does not resume');assert(g.command('slam'),'Six-second real-time cooldown was stretched by slow motion');g.reset();assert.equal(g.bullets.length,0);assert(!g.bulletTimeActive);assert.equal(g.specialReadyAt,0);
-W.activate('payne');const environment=W.themes.get('payne').environment,rotor=environment.back.all().filter(n=>n.getAttribute('data-turbine-blade')==='true');assert.equal(rotor.length,5);environment.animate(0);const fanStart=rotor[0].getAttribute('d');environment.animate(.5);assert.notEqual(rotor[0].getAttribute('d'),fanStart);environment.animate(2);assert.equal(rotor[0].getAttribute('d'),fanStart,'Fan should complete one revolution in two seconds');
+W.activate('payne');const environment=W.themes.get('payne').environment,rotor=[...environment.back.all(),...environment.entities.flatMap(e=>e.node.all())].filter(n=>n.getAttribute('data-turbine-blade')==='true');assert.equal(rotor.length,5);environment.animate(0);const fanStart=rotor[0].getAttribute('d');environment.animate(.5);assert.notEqual(rotor[0].getAttribute('d'),fanStart);environment.animate(2);assert.equal(rotor[0].getAttribute('d'),fanStart,'Fan should complete one revolution in two seconds');
 normal=fixture('payne');slow=fixture('payne');slow.command('slam');step(normal,.5);step(slow,.5);slow.render();const slowBlade=rotor[0].getAttribute('d');environment.animate(normal.time*.3);assert.equal(rotor[0].getAttribute('d'),slowBlade,'Fan ignores slow simulation time');environment.animate(normal.time);assert.notEqual(rotor[0].getAttribute('d'),slowBlade);
 const drops=[];window.LegendCharacters.ambient(slow.time,{fx:(points)=>drops.push(points)},'payne');assert.equal(drops.length,90);const equivalent=[];window.LegendCharacters.ambient(normal.time*.3,{fx:(points)=>equivalent.push(points)},'payne');assert(distance(drops[0][0],equivalent[0][0])<1e-6,'Rain ignores the slowed clock');
 // GTA throws a grenade: it arcs through the air, then explodes without a second K.

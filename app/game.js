@@ -14,7 +14,7 @@
   const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
   const band=(t,a,b,c,d)=>smooth((t-a)/(b-a))*(1-smooth((t-c)/(d-c)));
   const flat=(v,angle)=>[v[2]*Math.cos(angle)+v[1]*Math.sin(angle),v[2]*Math.sin(angle)-v[1]*Math.cos(angle),v[0]];
-  const obstacles=[{x:132,y:-86,r:17},{x:135,y:-28,r:16},{x:-131,y:-96,r:15}];
+  const obstacles=[{x:132,y:-86,r:17},{x:135,y:-28,r:16},{x:-131,y:-96,r:15},{x:-155,y:112,r:17},{x:154,y:105,r:18},{x:92,y:149,r:22},{x:-145,y:135,r:12},{x:145,y:135,r:12}];
   class Combat {
     constructor(options={}){this.ai=options.ai!==false;this.reset();}
     reset(starts=null){
@@ -123,10 +123,36 @@
       this._move(e,velocity,dt);
     }
     _move(a,velocity,dt){a.x+=(velocity[0]+a.push[0])*dt;a.y+=(velocity[1]+a.push[1])*dt;a.push=a.push.map(v=>v*Math.exp(-10*dt));}
+    _radius(a){return a.radius||11;}
+    _obstacles(){return obstacles.map(o=>[o.x,o.y,o.r]);}
+    _limits(){return [-132,132,-107,128];}
     _bounds(a){
-      a.x=clamp(a.x,-132,132);a.y=clamp(a.y,-107,128);
-      for(const o of obstacles){const dx=a.x-o.x,dy=a.y-o.y,d=Math.hypot(dx,dy),r=o.r+7;if(d<r){const n=d||1;a.x=o.x+dx/n*r;a.y=o.y+dy/n*r;}}
-      a.x=clamp(a.x,-132,132);a.y=clamp(a.y,-107,128);
+      const [left,right,top,bottom]=this._limits(),radius=this._radius(a),solids=this._obstacles();
+      const clampPoint=()=>{a.x=clamp(a.x,left,right);a.y=clamp(a.y,top,bottom);};
+      clampPoint();
+      for(let pass=0;pass<12;pass++){
+        let changed=false;
+        for(const [x,y,r] of solids){
+          const dx=a.x-x,dy=a.y-y,d=Math.hypot(dx,dy),R=r+radius;
+          if(d>=R-1e-7)continue;
+          // At an arena edge, choose a feasible escape along the obstacle's
+          // circle instead of projecting outside then clamping back inside it.
+          const angles=[Math.atan2(dy,dx),0,Math.PI/2,Math.PI,Math.PI*1.5];
+          for(const X of [left,right])if(Math.abs(X-x)<=R){const t=Math.acos((X-x)/R);angles.push(t,-t);}
+          for(const Y of [top,bottom])if(Math.abs(Y-y)<=R){const t=Math.asin((Y-y)/R);angles.push(t,Math.PI-t);}
+          for(const [ox,oy,or] of solids){
+            const q=or+radius,cd=Math.hypot(ox-x,oy-y);
+            if(cd>1e-6&&cd<R+q&&cd>Math.abs(R-q)){
+              const base=Math.atan2(oy-y,ox-x),offset=Math.acos(clamp((R*R+cd*cd-q*q)/(2*R*cd),-1,1));angles.push(base-offset,base+offset);
+            }
+          }
+          const candidates=angles.map(t=>({x:x+Math.cos(t)*R,y:y+Math.sin(t)*R})).filter(p=>p.x>=left-1e-6&&p.x<=right+1e-6&&p.y>=top-1e-6&&p.y<=bottom+1e-6);
+          const score=p=>solids.reduce((sum,[ox,oy,or])=>sum+Math.max(0,or+radius-Math.hypot(p.x-ox,p.y-oy)),0)*10000+Math.hypot(p.x-a.x,p.y-a.y);
+          candidates.sort((p,q)=>score(p)-score(q));
+          if(candidates[0]){a.x=candidates[0].x;a.y=candidates[0].y;changed=true;}
+        }
+        clampPoint();if(!changed)break;
+      }
     }
     _feet(a,dt){
       for(const foot of a.feet){
@@ -223,11 +249,11 @@
       if(this.hitStop>0){this.hitStop=Math.max(0,this.hitStop-dt);return;}
       this.time+=dt;
       const old=this.actors.map(a=>[a.x,a.y]);this._hero(dt,input);this.enemies.forEach(e=>this._enemy(e,dt));
-      for(let pass=0;pass<2;pass++){
+      for(let pass=0;pass<16;pass++){
         this.actors.forEach(a=>this._bounds(a));
         for(let i=0;i<3;i++)for(let j=i+1;j<3;j++){
           const a=this.actors[i],b=this.actors[j];if(a.hp<=0||b.hp<=0||a.airborneCollision||b.airborneCollision)continue;
-          const d=dist(a,b),spacing=(a.radius||7)+(b.radius||7);if(d<spacing){const n=unit(d>.001?[b.x-a.x,b.y-a.y]:[1,.1]),push=(spacing-d)/2;a.x-=n[0]*push;a.y-=n[1]*push;b.x+=n[0]*push;b.y+=n[1]*push;}
+          const d=dist(a,b),spacing=this._radius(a)+this._radius(b);if(d<spacing){const n=unit(d>.001?[b.x-a.x,b.y-a.y]:[1,.1]),push=(spacing-d)/2;a.x-=n[0]*push;a.y-=n[1]*push;b.x+=n[0]*push;b.y+=n[1]*push;}
         }
       }
       this.actors.forEach((a,i)=>{this._bounds(a);a.vx=(a.x-old[i][0])/(dt||1);a.vy=(a.y-old[i][1])/(dt||1);a.speed=Math.hypot(a.vx,a.vy);this._feet(a,dt);});

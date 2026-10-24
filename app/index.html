@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta id="theme-color" name="theme-color" content="#e2e7db">
-  <title>mini-rpg — Playable SVG worlds</title>
+  <title>rpg-diorama — Playable SVG worlds</title>
   <meta name="description" content="Thirteen miniature game worlds built from SVG. Play with keyboard or touch, or watch animated character performances.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M7 28V12l13-8 13 8v16l-13 8z' fill='%23823229'/%3E%3Cpath d='M20 11v18m-6-14 6 5 6-5' stroke='%23fff' stroke-width='2' fill='none'/%3E%3C/svg%3E">
   <style>
@@ -70,8 +70,8 @@
     @media(max-width:480px){footer{--segment-height:36px}.hud-row{gap:16px}.mode-tabs button{padding-inline:8px;gap:4px;font-size:10px}.mode-tabs svg{display:none}}
     @media(prefers-reduced-motion:reduce){*{transition:none!important}}
   </style>
-  <link rel="stylesheet" href="ui-motion.css?v=29">
-  <link rel="stylesheet" href="compact-ui.css?v=34">
+  <link rel="stylesheet" href="ui-motion.css?v=35">
+  <link rel="stylesheet" href="compact-ui.css?v=35">
 </head>
 <body>
  <div class="shell">
@@ -80,9 +80,11 @@
    <div id="scene-motion" class="scene-motion" role="tabpanel" aria-labelledby="scene-tab-midgard">
    <svg id="scene" tabindex="0" aria-label="Kratos in the Wildwoods" aria-describedby="scene-description key-hint" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 880" role="img"><desc id="scene-description">Control Kratos in an isometric courtyard. Move with arrow keys or WASD, strike with J, throw with K, slam with L, dodge with Space, and block with Shift. Open keyboard controls for details.</desc></svg>
    </div>
-   <button id="scene-prev" class="scene-nav scene-prev" type="button" aria-label="Previous scene"><img id="scene-prev-image" alt="" draggable="false" src="assets/kombat-preview.svg?v=31"><span id="scene-prev-name"></span></button>
-   <button id="scene-next" class="scene-nav scene-next" type="button" aria-label="Next scene"><img id="scene-next-image" alt="" draggable="false" src="assets/tsushima-preview.svg?v=31"><span id="scene-next-name"></span></button>
+   <button id="scene-prev" class="scene-nav scene-prev" type="button" aria-label="Previous scene"><img id="scene-prev-image" alt="" draggable="false" src="assets/kombat-preview.svg?v=35"><span id="scene-prev-name"></span></button>
+   <button id="scene-next" class="scene-nav scene-next" type="button" aria-label="Next scene"><img id="scene-next-image" alt="" draggable="false" src="assets/tsushima-preview.svg?v=35"><span id="scene-next-name"></span></button>
    </div>
+   <header id="site-header" class="site-header">
+    <div id="site-brand" class="site-brand"><a href="./" class="site-name">rpg-diorama</a><p>Tiny, lightweight role playing games using SVG</p></div>
    <nav id="scene-selector" class="scene-selector t-tabs" aria-label="Choose a game scene">
    <span id="scene-selection-pill" class="t-tabs-pill" aria-hidden="true"></span>
    <div id="scene-tabs" class="scene-tabs" role="tablist" aria-label="Game scene">
@@ -105,6 +107,8 @@
     <div id="scene-menu" class="scene-menu t-dropdown" data-origin="top-right" role="listbox" aria-label="More game scenes" tabindex="-1" hidden></div>
    </div>
    </nav>
+    <a id="github-link" class="github-link" href="https://github.com/hckmstrrahul/rpg-diorama" target="_blank" rel="noopener noreferrer" aria-label="View rpg-diorama on GitHub (opens a new tab)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.07c-3.09.67-3.75-1.31-3.75-1.31-.51-1.28-1.24-1.62-1.24-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.6 1.21 3.23.93.1-.72.39-1.21.71-1.49-2.47-.28-5.06-1.24-5.06-5.49 0-1.21.43-2.2 1.14-2.97-.11-.28-.5-1.41.11-2.94 0 0 .93-.3 3.05 1.13a10.6 10.6 0 0 1 5.55 0c2.12-1.43 3.05-1.13 3.05-1.13.61 1.53.22 2.66.11 2.94.71.77 1.14 1.76 1.14 2.97 0 4.26-2.6 5.2-5.08 5.48.4.35.75 1.02.75 2.06V22c0 .29.2.64.76.53A11.1 11.1 0 0 0 12 .9Z"/></svg><span>GitHub</span></a>
+   </header>
   </main>
   <section id="control-panel" class="control-panel" aria-label="Scene controls">
   <h1 id="current-game-name" class="current-game-name">God of War</h1>
@@ -162,15 +166,15 @@
   <div id="game-status" class="game-status" role="status" aria-live="polite"></div>
   </section>
  </div>
- <script src="scene.js?v=26"></script>
- <script src="game.js?v=19"></script>
- <script src="world-art.js?v=20"></script>
- <script src="world-characters.js?v=16"></script>
- <script src="legend-art.js?v=31"></script>
- <script src="legend-characters.js?v=32"></script>
- <script src="legend-combat.js?v=32"></script>
- <script src="scene-palettes.js?v=24"></script>
- <script src="worlds.js?v=28"></script>
- <script src="player.js?v=34"></script>
+ <script src="scene.js?v=35"></script>
+ <script src="game.js?v=35"></script>
+ <script src="world-art.js?v=35"></script>
+ <script src="world-characters.js?v=35"></script>
+ <script src="legend-art.js?v=35"></script>
+ <script src="legend-characters.js?v=35"></script>
+ <script src="legend-combat.js?v=35"></script>
+ <script src="scene-palettes.js?v=35"></script>
+ <script src="worlds.js?v=35"></script>
+ <script src="player.js?v=35"></script>
 </body>
 </html>

@@ -73,6 +73,33 @@
           "pass": true
         },
         {
+          "name": "Website heading",
+          "foreground": "#303d35",
+          "opacity": 1,
+          "background": "#d5ddce",
+          "ratio": 8.166,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#303d35",
+          "opacity": 1,
+          "background": "#d5ddce",
+          "ratio": 8.166,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
+          "foreground": "#303d35",
+          "opacity": 1,
+          "background": "#d9e1ce",
+          "ratio": 8.464,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
           "name": "Secondary panel text",
           "foreground": "#374332",
           "opacity": 1,
@@ -229,6 +256,33 @@
         },
         {
           "name": "Panel text",
+          "foreground": "#493c32",
+          "opacity": 1,
+          "background": "#e6d6bb",
+          "ratio": 7.441,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website heading",
+          "foreground": "#42362d",
+          "opacity": 1,
+          "background": "#d5d1bb",
+          "ratio": 7.605,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#42362d",
+          "opacity": 1,
+          "background": "#d5d1bb",
+          "ratio": 7.605,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
           "foreground": "#493c32",
           "opacity": 1,
           "background": "#e6d6bb",
@@ -401,6 +455,33 @@
           "pass": true
         },
         {
+          "name": "Website heading",
+          "foreground": "#05080a",
+          "opacity": 1,
+          "background": "#7a8f9c",
+          "ratio": 5.965,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#05080a",
+          "opacity": 1,
+          "background": "#7a8f9c",
+          "ratio": 5.965,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
+          "foreground": "#263d4c",
+          "opacity": 1,
+          "background": "#96acb8",
+          "ratio": 4.794,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
           "name": "Secondary panel text",
           "foreground": "#15222a",
           "opacity": 1,
@@ -557,6 +638,33 @@
         },
         {
           "name": "Panel text",
+          "foreground": "#4e3e31",
+          "opacity": 1,
+          "background": "#e7d5b9",
+          "ratio": 7.104,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website heading",
+          "foreground": "#3f3228",
+          "opacity": 1,
+          "background": "#d7c9ad",
+          "ratio": 7.565,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#3f3228",
+          "opacity": 1,
+          "background": "#d7c9ad",
+          "ratio": 7.565,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
           "foreground": "#4e3e31",
           "opacity": 1,
           "background": "#e7d5b9",
@@ -729,6 +837,33 @@
           "pass": true
         },
         {
+          "name": "Website heading",
+          "foreground": "#243538",
+          "opacity": 1,
+          "background": "#d3c3a0",
+          "ratio": 7.362,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#243538",
+          "opacity": 1,
+          "background": "#d3c3a0",
+          "ratio": 7.362,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
+          "foreground": "#344d50",
+          "opacity": 1,
+          "background": "#e6d5b5",
+          "ratio": 6.262,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
           "name": "Secondary panel text",
           "foreground": "#2b4040",
           "opacity": 1,
@@ -885,6 +1020,33 @@
         },
         {
           "name": "Panel text",
+          "foreground": "#303c43",
+          "opacity": 1,
+          "background": "#b4c2c4",
+          "ratio": 6.181,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website heading",
+          "foreground": "#13181b",
+          "opacity": 1,
+          "background": "#8f9fa7",
+          "ratio": 6.545,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#13181b",
+          "opacity": 1,
+          "background": "#8f9fa7",
+          "ratio": 6.545,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
           "foreground": "#303c43",
           "opacity": 1,
           "background": "#b4c2c4",
@@ -1057,6 +1219,33 @@
           "pass": true
         },
         {
+          "name": "Website heading",
+          "foreground": "#08080c",
+          "opacity": 1,
+          "background": "#828da3",
+          "ratio": 5.986,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#08080c",
+          "opacity": 1,
+          "background": "#828da3",
+          "ratio": 5.986,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
+          "foreground": "#292e43",
+          "opacity": 1,
+          "background": "#aeb9cc",
+          "ratio": 6.775,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
           "name": "Secondary panel text",
           "foreground": "#232a3c",
           "opacity": 1,
@@ -1213,6 +1402,33 @@
         },
         {
           "name": "Panel text",
+          "foreground": "#4e344a",
+          "opacity": 1,
+          "background": "#debfca",
+          "ratio": 6.484,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website heading",
+          "foreground": "#271a25",
+          "opacity": 1,
+          "background": "#c19caa",
+          "ratio": 6.824,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#271a25",
+          "opacity": 1,
+          "background": "#c19caa",
+          "ratio": 6.824,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
           "foreground": "#4e344a",
           "opacity": 1,
           "background": "#debfca",
@@ -1385,6 +1601,33 @@
           "pass": true
         },
         {
+          "name": "Website heading",
+          "foreground": "#212432",
+          "opacity": 1,
+          "background": "#aaaec3",
+          "ratio": 7.007,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#212432",
+          "opacity": 1,
+          "background": "#aaaec3",
+          "ratio": 7.007,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
+          "foreground": "#393f58",
+          "opacity": 1,
+          "background": "#d2c4cd",
+          "ratio": 6.179,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
           "name": "Secondary panel text",
           "foreground": "#383042",
           "opacity": 1,
@@ -1541,6 +1784,33 @@
         },
         {
           "name": "Panel text",
+          "foreground": "#414737",
+          "opacity": 1,
+          "background": "#c5c7a5",
+          "ratio": 5.541,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website heading",
+          "foreground": "#161813",
+          "opacity": 1,
+          "background": "#9d9f86",
+          "ratio": 6.589,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#161813",
+          "opacity": 1,
+          "background": "#9d9f86",
+          "ratio": 6.589,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
           "foreground": "#414737",
           "opacity": 1,
           "background": "#c5c7a5",
@@ -1713,6 +1983,33 @@
           "pass": true
         },
         {
+          "name": "Website heading",
+          "foreground": "#14212a",
+          "opacity": 1,
+          "background": "#93acbd",
+          "ratio": 6.931,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#14212a",
+          "opacity": 1,
+          "background": "#93acbd",
+          "ratio": 6.931,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
+          "foreground": "#294355",
+          "opacity": 1,
+          "background": "#b4cad7",
+          "ratio": 6.099,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
           "name": "Secondary panel text",
           "foreground": "#203545",
           "opacity": 1,
@@ -1877,6 +2174,33 @@
           "pass": true
         },
         {
+          "name": "Website heading",
+          "foreground": "#242734",
+          "opacity": 1,
+          "background": "#b1b69f",
+          "ratio": 7.111,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#242734",
+          "opacity": 1,
+          "background": "#b1b69f",
+          "ratio": 7.111,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
+          "foreground": "#3b4054",
+          "opacity": 1,
+          "background": "#cccdbd",
+          "ratio": 6.367,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
           "name": "Secondary panel text",
           "foreground": "#323642",
           "opacity": 1,
@@ -2033,6 +2357,33 @@
         },
         {
           "name": "Panel text",
+          "foreground": "#48372f",
+          "opacity": 1,
+          "background": "#ceb7a0",
+          "ratio": 5.853,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website heading",
+          "foreground": "#0b0807",
+          "opacity": 1,
+          "background": "#9d8884",
+          "ratio": 5.977,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "Website subtitle",
+          "foreground": "#0b0807",
+          "opacity": 1,
+          "background": "#9d8884",
+          "ratio": 5.977,
+          "minimum": 4.5,
+          "pass": true
+        },
+        {
+          "name": "GitHub pill",
           "foreground": "#48372f",
           "opacity": 1,
           "background": "#ceb7a0",

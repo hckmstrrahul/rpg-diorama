@@ -1,6 +1,6 @@
-# mini-rpg
+# rpg-diorama
 
-[Play the live app](https://rpg-dioramas.vercel.app) · [Source on GitHub](https://github.com/hckmstrrahul/mini-rpg)
+[Play the live app](https://rpg-diorama.vercel.app) · [Source on GitHub](https://github.com/hckmstrrahul/rpg-diorama)
 
 Thirteen miniature game worlds, built from SVG and brought to life with vanilla JavaScript. Move, fight, dodge, and use character-specific abilities—or switch to **Video** and watch a choreographed performance.
 
@@ -30,7 +30,7 @@ The stack is deliberately small:
 1. **Build the environment.** Seeded geometry gives each scene repeatable surface variation and detail. Environments are constructed when first visited and retained for later visits.
 2. **Advance the simulation.** Input changes movement or starts an action. The combat system handles collisions, enemy AI, stamina, damage, projectiles, cooldowns, and recovery.
 3. **Pose the character.** Movement and action state drive the rig. Inverse kinematics places limbs while preserving bone lengths and ground contact.
-4. **Project and draw.** Three-dimensional points are projected into an isometric two-dimensional SVG. The browser paints the resulting shapes.
+4. **Project and draw.** Three-dimensional points are projected into an isometric two-dimensional SVG. Faces are sorted within each character, then complete characters and nearby solid props are ordered by their ground positions. This prevents faces from different characters mixing together and lets a character pass correctly behind or in front of a prop.
 5. **Animate the interface separately.** Scene transitions, sliding selection pills, dropdowns, and touch feedback use CSS and the Web Animations API. Reduced-motion preferences replace large scene transitions with fades.
 
 **Video mode is rendered live too.** It is not an embedded video or a downloaded MP4. God of War uses authored choreography; the additional scenes cache simulated performance frames on demand and render them through the same SVG pipeline.
@@ -47,10 +47,10 @@ Measured from the source files with `npm run size`:
 
 | Payload | Uncompressed | Gzip estimate |
 | --- | ---: | ---: |
-| All runtime HTML, CSS, and JavaScript | 337 KiB | 116.5 KiB |
-| The initial two neighboring previews | 2.74 MiB | 729 KiB |
-| Initial page plus those two previews | About 3.07 MiB | About 846 KiB |
-| All thirteen previews, across the whole collection | 14.74 MiB | 3.61 MiB |
+| All runtime HTML, CSS, and JavaScript | 349.7 KiB | 120.6 KiB |
+| The initial two neighboring previews | 2.74 MiB | 730.5 KiB |
+| Initial page plus those two previews | About 3.08 MiB | About 851.1 KiB |
+| All thirteen previews, across the whole collection | 14.82 MiB | 3.63 MiB |
 
 These estimates compress each file separately at gzip level 6. Actual transfer depends on the host's compression and browser cache. The full preview collection is **not fetched on first load**: the previous and next preview images change as you browse.
 
@@ -106,15 +106,15 @@ Each world has its own architecture, costumes, effects, and interface palette. M
 Use Node.js 24 or later for the build and tests, and Python 3 for the supplied local server. There are no packages to install.
 
 ```sh
-git clone https://github.com/hckmstrrahul/mini-rpg.git
-cd mini-rpg
+git clone https://github.com/hckmstrrahul/rpg-diorama.git
+cd rpg-diorama
 npm start
 ```
 
 Open [localhost:4181](http://127.0.0.1:4181). You can also serve `app/` with any static HTTP server.
 
 ```sh
-npm test                  # Rig, gameplay, UI, and color-contrast checks
+npm test                  # Rig, gameplay, spatial, UI, and contrast checks
 npm run build             # Regenerate navigation previews
 npm run size              # Report runtime and preview payload sizes
 npm run audit:contrast    # Regenerate the contrast report
@@ -125,7 +125,7 @@ The previews are committed, so a fresh checkout can run immediately. Rebuild the
 ## Source map
 
 ```text
-mini-rpg/
+rpg-diorama/
 ├── app/                 # The complete deployed application
 │   ├── index.html       # Shared UI and semantic controls
 │   ├── scene.js         # Projection, geometry, rigs, original choreography
@@ -140,7 +140,7 @@ mini-rpg/
 │   └── assets/          # Static neighboring-scene previews only
 ├── scripts/             # Preview builds, optional SVG exports, size report
 ├── tests/               # Rig, gameplay, and controller regression tests
-├── audits/              # Contrast audit and generated report
+├── audits/              # Contrast report and scene audit findings
 ├── docs/licenses/       # Third-party notices
 ├── package.json
 └── vercel.json          # Static deployment settings
@@ -152,11 +152,13 @@ The local-only `artwork-exports/` and `trailer-production/` directories are inte
 
 `npm test` checks rigid bone lengths, foot placement, weapon orientation, attack contacts, projectile timing, collisions, enemy behavior, cooldowns, animation loops, and per-scene action labels. Controller checks cover keyboard and multi-touch input, cleanup after interruption, horizontal and vertical scene navigation, circular wraparound, scroll inertia, and reduced motion. The contrast audit covers all thirteen palettes.
 
+The spatial regression suite exercises all thirteen scenes with 6,626 obstacle and boundary probes, crowded-character starts, and 3,120 movement frames. It also checks complete character groups, front/behind prop ordering, and rooftop fan motion in both Game and Video modes. See the [scene audit](audits/scene-audit.md) for coverage and limits.
+
 Browser checks have also exercised portrait and landscape layouts, touch movement plus attacks, preview taps, zoomed panning, and scene transitions. Touch emulation is not a substitute for testing performance and browser chrome on physical phones.
 
 ## Deploy
 
-The production site is [rpg-dioramas.vercel.app](https://rpg-dioramas.vercel.app). Vercel is connected to this repository; pushes to `main` run the checks and publish a new production deployment.
+The production site is [rpg-diorama.vercel.app](https://rpg-diorama.vercel.app). Vercel is connected to this repository; pushes to `main` run the checks and publish a new production deployment.
 
 Import this repository into Vercel with the repository root as the project root. The committed configuration selects a static build, runs `npm test && npm run build`, and publishes **only `app/`**. No environment variables or server functions are needed.
 

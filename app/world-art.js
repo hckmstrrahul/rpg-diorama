@@ -5,12 +5,26 @@
   const add=(a,b)=>a.map((v,i)=>v+b[i]),mix=(a,b,u)=>a+(b-a)*u;
   class Environment {
     constructor(id,seed){
-      this.id=id;this.seed=seed;this.animators=[];this.casts=[];this.castReady=false;
+      this.id=id;this.seed=seed;this.entities=[];this.entityContext=null;this.animators=[];this.casts=[];this.castReady=false;
       this.cast=this.node('g',{'data-shadow-world':id,'pointer-events':'none','aria-hidden':'true'});S.svg.insertBefore(this.cast,S.environmentAnchors.shadow);
       this.back=this.node('g',{'data-world':id});this.front=this.node('g',{'data-world':id});
       S.svg.insertBefore(this.back,S.environmentAnchors.back);S.svg.insertBefore(this.front,S.environmentAnchors.front);
     }
-    node(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.appendChild(n);return n;}
+    node(tag,attrs={},parent){if(this.entityContext&&(parent===this.back||parent===this.front))parent=this.entityContext;const n=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.appendChild(n);return n;}
+    entity(x,y,draw){
+      if(this.entityContext)return draw();
+      const node=this.node('g',{'data-prop':`${this.id}-${this.entities.length}`},S.environmentAnchors.entities);
+      this.entities.push({node,x,y});this.entityContext=node;
+      try{return draw();}finally{this.entityContext=null;}
+    }
+    depth(draw){
+      const poly=this.poly,line=this.line,faces=[];
+      const record=(fn,points,args)=>{const node=fn.call(this,points,...args);faces.push({node,depth:points.reduce((sum,p)=>sum+p[0]+p[1]+p[2],0)/(points.length||1)});return node;};
+      this.poly=(points,...args)=>record(poly,points,args);this.line=(points,...args)=>record(line,points,args);
+      try{draw();}finally{this.poly=poly;this.line=line;}
+      const nodes=faces.sort((a,b)=>a.depth-b.depth).map(f=>f.node),parent=this.entityContext;
+      if(parent){if(parent.replaceChildren)parent.replaceChildren(...nodes);else parent.children=nodes;}
+    }
     rand(a=0,b=1){this.seed=(Math.imul(this.seed,1664525)+1013904223)>>>0;return a+(b-a)*this.seed/4294967296;}
     pick(a){return a[Math.floor(this.rand(0,a.length))];}
     d(points,close=true){return points.map((v,i)=>{const q=S.project(v);return `${i?'L':'M'}${q.map(x=>x.toFixed(2)).join(',')}`;}).join('')+(close?'Z':'');}
@@ -161,7 +175,7 @@
       this.animators.push(t=>{const points=[];for(let i=0;i<=6;i++){const u=i/6,wave=Math.sin(t*2+u*3+x)*u*3;points.push(axis==='x'?[x+w*u,y+wave,z-u*1.5]:[x+wave,y+w*u,z-u*1.5]);}for(let i=6;i>=0;i--){const u=i/6,wave=Math.sin(t*2+u*3+x+.6)*3;points.push(axis==='x'?[x+w*u,y+wave,z-h+Math.cos(u*5)*2]:[x+wave,y+w*u,z-h+Math.cos(u*5)*2]);}n.setAttribute('d',this.d(points));});return n;
     }
     animate(t){this.animators.forEach(fn=>fn(t));}
-    show(visible){if(visible&&!this.castReady){S.paintCast(this.cast,this.casts);this.castReady=true;this.casts=[];}for(const n of [this.cast,this.back,this.front])n.setAttribute('display',visible?'inline':'none');}
+    show(visible){if(visible&&!this.castReady){S.paintCast(this.cast,this.casts);this.castReady=true;this.casts=[];}for(const n of [this.cast,this.back,this.front,...this.entities.map(e=>e.node)])n.setAttribute('display',visible?'inline':'none');}
   }
   function mapleLeaf(e,x,y,z,s,color,parent=e.back,a=0){
     const shape=[[-.25,0],[-1.1,.25],[-.8,-.22],[-1.25,-.75],[-.45,-.62],[-.35,-1.2],[0,-.8],[.45,-1.5],[.65,-.55],[1.1,-.85],[.8,-.15],[1.2,.2],[.3,.3],[0,.7]];
@@ -273,11 +287,16 @@
       e.tube([x+side*3,y,29],[x+side*7,y+4,21],2.7,2.3,c,parent);e.tube([x+side*7,y+4,21],[x+side*6,y+9,19],2.3,1.4,c,parent);
       e.tube([x+side*3,y+1,35],[x+side*5,y+8,24],1.7,1.3,c,parent);
       for(let j=0;j<3;j++)e.tube([x+side*5+j*.7,y+8,24],[x+side*5+j*.7,y+11,23],.5,.2,c,parent,5);
-      const pts=[[x+side*3,y-2,35],[x+side*11,y-5,47],[x+side*25,y-5,52],[x+side*21,y-3,41],[x+side*19,y,32],[x+side*14,y-1,35],[x+side*10,y+1,28],[x+side*6,y,31]];
-      e.poly(pts,side===1?'#66838e':'#4d6d7d',parent);for(let j=3;j<8;j++)e.poly([pts[0],pts[1],pts[j]],j%2?'#5f7c89':'#78929a',parent);e.line(pts.slice(0,4),'#9cafa9',.65,parent);
+      // Contiguous membrane facets follow the wing outline; no crossing triangles.
+      const pts=[[x+side*4,y-3,35],[x+side*11,y-6,46],[x+side*23,y-7,50],[x+side*21,y-4,39],[x+side*18,y-2,32],[x+side*14,y-3,35],[x+side*10,y-1,28],[x+side*6,y-1,31]],hub=[x+side*10,y-4,37];
+      for(let j=0;j<pts.length;j++)e.poly([hub,pts[j],pts[(j+1)%pts.length]],['#758c94','#81979c','#5f7b87','#69838c'][j%4],parent);
+      e.line([...pts,pts[0]],'#a2b3b2',.65,parent);
+      for(const j of [2,4,6])e.tube(hub,pts[j],.55,.25,['#b0bcb8','#708b95','#92a6aa'],parent,6);
     }
     e.lathe(x,y+1,36,[[0,3],[4,4.4],[8,3.4],[10,1.7]],c,parent,7);
-    e.box(x-3,y+3,38,6,5,3,c,parent);e.cone(x-2.8,y,44,1.4,5,c,parent,5);e.cone(x+2.8,y,44,1.4,5,c,parent,5);
+    e.box(x-2.6,y+3.2,38,5.2,4.2,2.5,c,parent);
+    e.line([[x-2,y+7.5,39],[x+2,y+7.5,39]],'#354f5c',.65,parent);
+    for(const side of [-1,1])e.poly([[x+side*3.2,y+2,43],[x+side*.8,y+4.7,42.8],[x+side*1.1,y+5.1,41.8],[x+side*3,y+3,42]],'#344d59',parent);e.cone(x-2.8,y,44,1.4,5,c,parent,5);e.cone(x+2.8,y,44,1.4,5,c,parent,5);
     e.line([[x-2.5,y+5.3,43],[x-1,y+5.3,42]],'#263e4c',1,parent);e.line([[x+1,y+5.3,42],[x+2.5,y+5.3,43]],'#263e4c',1,parent);
   }
   function gotham(){
@@ -339,13 +358,17 @@
     for(const x of [47,53])e.line([[x,-131,3],[x,-131,86]],'#789093',1.2);for(let z=6;z<85;z+=6)e.line([[47,-131,z],[53,-131,z]],'#a0aaa0',.9);
     e.line([[26,-126,44],[26,-120,44],[26,-120,8],[80,-120,8]],'#314b58',4);e.line([[26,-126,44],[26,-120,44],[26,-120,8],[80,-120,8]],'#6e8b8f',2);
     // HVAC housing, actual fan cage, access panels and fasteners.
+    e.entity(110,-130,()=>{
     e.box(83,-147,3,47,34,24,['#8d9fa2','#5c7682','#415e6f']);e.box(81,-149,27,51,38,2,['#a3b3b0','#6b8791','#496a7b']);
     for(let i=0;i<11;i++)e.line([[87+i*3.9,-112.8,7],[87+i*3.9,-112.8,23]],'#2f4e5f',1.3);
     e.cylinder(106,-131,29,13,2,['#3a5765','#82999d','#4c6c7a']);
-    for(let i=0;i<5;i++){const a=i*1.256;e.poly([[106,-131,31.2],[106+Math.cos(a)*11,-131+Math.sin(a)*11,31.2],[106+Math.cos(a+.65)*8,-131+Math.sin(a+.65)*8,31.2]],'#879fa2');}
+    const blades=Array.from({length:5},()=>e.poly([], '#a4b7b8',e.back,{'data-fan-blade':'arkham','data-animated':'true'}));
+    e.animators.push(t=>blades.forEach((blade,i)=>{const a=i*Math.PI*2/5+t*Math.PI*2/1.8,at=(r,o)=>[106+Math.cos(a+o)*r,-131+Math.sin(a+o)*r,31.2];blade.setAttribute('d',e.d([at(2,0),at(11,-.15),at(10,.45),at(3,.8)]));}));
+    e.disk(106,-131,31.5,2.7,2.7,'#b6c4bf');
     for(const r of [4,8,12])e.line(Array.from({length:25},(_,i)=>[106+Math.cos(i*Math.PI/12)*r,-131+Math.sin(i*Math.PI/12)*r,32]),'#344e5f',.75);
     for(const x of [86,126])for(const y of [-144,-116])e.disk(x,y,29.1,.8,.8,'#ced2b8');
     e.box(132,-142,3,8,22,12,['#7e9398','#506e7d','#345568']);
+    });
     // Roof cable, scraps, utility luminaires and their wet reflections.
     e.line([[-145,-114,3.8],[-85,-92,3.8],[-35,-103,3.8],[4,-96,3.8],[77,-113,3.8]],'#253e4c',1.5);
     for(const x of [-149,151]){e.box(x-6,-168,20,12,4,8,['#a6b2a5','#485d69','#334b5a']);e.box(x-4,-163.8,22,8,.4,4,['#ebd092','#e6c386','#cfac6d']);e.patch(x,-150,3.5,13,21,'#d7b87a').setAttribute('opacity','.12');}
@@ -429,17 +452,21 @@
     e.box(-177,12,3,25,67,17,c);tiledRoof(e,-180,9,20,30,74,12);e.line([[-178,83,33],[-150,83,33]],'#d1a176',1.5);
     for(let i=0;i<4;i++)e.box(-153,23+i*13,4,2,8,10,['#8e8b65','#6a7053','#565f47']);
     // Draped linen, crates, barrels and roof pottery at the side of the arena.
+    e.entity(146,60,()=>{
     for(const [x,y] of [[123,37],[169,37],[123,78],[169,78]])e.tube([x,y,3],[x,y,42],1.1,1.1,['#967b55','#6b6047','#b19b70']);
     for(let i=0;i<8;i++){
       const X=121+i*6;e.poly([[X,35,45],[X+6,35,45],[X+6,59,39],[X+6,83,39],[X,83,39],[X,59,39]],i%2?'#c8b18a':'#a36f53');
       e.poly([[X,83,39],[X+6,83,39],[X+5,83,35],[X+1,83,35]],i%2?'#c6ad83':'#96654c');
     }
     for(const [x,y,z] of [[138,55,3],[151,59,3],[146,61,17]]){e.box(x,y,z,14,14,14,['#b99b6b','#94764f','#7b6447']);for(let i=0;i<4;i++)e.line([[x+i*3.5,y+14.1,z],[x+i*3.5,y+14.1,z+14]],'#6d5c42',.5);e.line([[x,y+14.3,z],[x+14,y+14.3,z+14]],'#c4a479',1.2);}
+    });
     e.urn(-156,103,.8,e.back);e.urn(155,110,.8,e.back);
     for(const [x,y] of [[-156,73],[145,121]]){e.urn(x,y,.85,e.front);for(let i=0;i<7;i++)e.grass(x+e.rand(-3,3),y+e.rand(-3,3),19,.6,e.front,['#5a744c','#87915b','#697f50']);}
+    e.entity(-131,139,()=>{
     e.box(-146,127,3,31,24,6,c,e.front);e.box(-144,129,9,27,20,7,['#9a9f70','#898b60','#657249'],e.front);e.box(-148,125,15,35,28,2,c,e.front);
     e.poly([[-144,129,17.1],[-117,129,17.1],[-117,149,17.1],[-144,149,17.1]],'#646849',e.front);
     for(let i=0;i<25;i++){const x=e.rand(-142,-120),y=e.rand(131,147);e.grass(x,y,18,.55,e.front);e.disk(x,y,24+e.rand(1,3),1.1,1.1,e.pick(['#c6ab87','#b4847b','#d1bc95']),e.front);}
+    });
     for(let i=0;i<42;i++){const x=e.rand(-170,169),y=e.rand(-165,170);if(Math.abs(x)>145||Math.abs(y)>145)e.patch(x,y,3.5,2,1.5,'#939773',e.back,5);}
     return e;
   }
@@ -532,6 +559,7 @@
     // Palm fronds are feathered, arcing leaves instead of solid fans.
     palm(e,-151,-91,105);palm(e,154,-97,107);
     // Cascading two-tier fountain with carved basin and water ripples.
+    e.entity(7,-108,()=>{
     e.lathe(7,-108,3,[[0,24],[2,24],[4,22],[7,22],[8,24]],c,e.back,16);e.disk(7,-108,11.1,20,20,'#5e9692');
     for(let i=0;i<16;i++){const a=i*Math.PI/8,x=7+Math.cos(a)*23,y=-108+Math.sin(a)*23;e.poly([[x-1,y,7],[x,y,9],[x+1,y,7],[x,y,5]],'#69998c');}
     e.lathe(7,-108,11,[[0,5],[3,3.5],[13,2.5],[15,11],[17,12],[19,12]],c,e.back,12);e.disk(7,-108,30.1,10,10,'#85b5a6');
@@ -542,16 +570,19 @@
     for(let i=0;i<3;i++){
       const ripple=e.line([],'#bdd0b5',.65,e.back,{'data-animated':'true'});e.animators.push(t=>{const u=(t*.35+i/3)%1,r=6+u*13;ripple.setAttribute('d',e.d(Array.from({length:25},(_,j)=>[7+Math.cos(j*Math.PI/12)*r,-108+Math.sin(j*Math.PI/12)*r,11.2]),false));ripple.setAttribute('opacity',((1-u)*.45).toFixed(3));});
     }
+    });
     // Low carved balustrade and a blue upholstered resting bench.
     for(let y=-68;y<112;y+=17){e.box(172,y,3,8,8,3,c);e.lathe(176,y+4,6,[[0,3],[2,2],[5,3],[9,2],[12,3]],c,e.back,8);}
     e.box(170,-69,18,12,191,3,c);
+    e.entity(144,75,()=>{
     e.box(132,49,3,24,51,9,c);e.box(133,49,12,23,51,4,['#729b8c','#447a76','#326666']);
     for(let y=52;y<99;y+=7)e.poly([[134,y,16.1],[143,y+3,16.1],[155,y,16.1],[143,y-3,16.1]],'#c5b079');
-    for(const [x,y] of [[-146,128],[146,126]]){
+    });
+    for(const [x,y] of [[-146,128],[146,126]])e.entity(x,y,()=>{
       const p=e.front;e.lathe(x,y,3,[[0,9],[3,9],[5,6],[7,4],[10,2],[27,2],[29,5]],['#c5ad75','#987e4e','#dfc38a'],p);
       e.lathe(x,y,32,[[0,6],[3,7],[10,5],[13,3],[15,0]],['#d8b477','#af8c51','#efd09a'],p,8);
       for(let i=0;i<8;i++){const a=i*Math.PI/4;e.line([[x+Math.cos(a)*6,y+Math.sin(a)*6,35],[x+Math.cos(a)*4,y+Math.sin(a)*4,43]],'#7d754d',.65,p);}
-    }
+    });
     for(const [x,y,s] of [[-148,65,1],[-150,86,.7],[149,123,.8]])e.urn(x,y,s,x+y>100?e.front:e.back);
     // Sand, broken masonry and planting soften the pristine geometric patterns.
     for(let i=0;i<60;i++){const x=e.rand(-174,174),y=e.rand(-170,168);if(Math.abs(x)<138&&Math.abs(y)<130)continue;e.patch(x,y,3.6,e.rand(1,5),e.rand(1,3),e.pick(['#b6a27a','#dcc49a','#a8ab7b']),e.back,6);}
@@ -559,5 +590,14 @@
     for(let i=0;i<10;i++){const x=-163+e.rand(-6,10),y=-21+e.rand(-13,13);e.rock(x,y,e.rand(2,4.5),e.rand(4,7),['#dbc39b','#af9976','#c5ac84']);}
     return e;
   }
+  for(const name of ['urn','lamp','rock']){
+    const draw=Environment.prototype[name];Environment.prototype[name]=function(x,y,...args){return this.entity(x,y,()=>draw.call(this,x,y,...args));};
+  }
+  const M=maple,C=cypress,P=palm,L=stoneLantern,G=gargoyle;
+  maple=(e,x,y,...args)=>e.entity(x,y,()=>M(e,x,y,...args));
+  cypress=(e,x,y,...args)=>e.entity(x,y,()=>C(e,x,y,...args));
+  palm=(e,x,y,...args)=>e.entity(x,y,()=>P(e,x,y,...args));
+  stoneLantern=(e,x,y,...args)=>e.entity(x,y,()=>L(e,x,y,...args));
+  gargoyle=(e,x,y,...args)=>e.entity(x,y,()=>e.depth(()=>G(e,x,y,...args)));
   window.WorldArt={Environment,build:{tsushima,arkham:gotham,assassin,persia}};
 })();

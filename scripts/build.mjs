@@ -8,7 +8,7 @@ class Element {
   constructor(tag){this.tag=tag;this.attributes={};this.children=[];}
   setAttribute(k,v){this.attributes[k]=String(v);}
   getAttribute(k){return this.attributes[k]??null;}
-  appendChild(n){this.children.push(n);return n;}
+  appendChild(n){if(n.parentNode)n.parentNode.children=n.parentNode.children.filter(c=>c!==n);this.children.push(n);n.parentNode=this;return n;}
   all(){return [this,...this.children.flatMap(c=>c.all())];}
   xml(){const escape=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');return `<${this.tag}${Object.entries(this.attributes).map(([k,v])=>` ${k}="${escape(v)}"`).join('')}>${this.children.map(n=>n.xml()).join('')}</${this.tag}>`;}
 }

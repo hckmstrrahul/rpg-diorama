@@ -6,7 +6,8 @@ class Element {
   constructor(tag){this.tag=tag;this.attributes={};this.children=[];}
   setAttribute(k,v){this.attributes[k]=String(v);}
   getAttribute(k){return this.attributes[k]??null;}
-  appendChild(n){this.children.push(n);return n;}
+  appendChild(n){if(n.parentNode)n.parentNode.children=n.parentNode.children.filter(c=>c!==n);this.children.push(n);n.parentNode=this;return n;}
+  replaceChildren(...nodes){for(const n of this.children)n.parentNode=null;this.children=[];nodes.forEach(n=>this.appendChild(n));}
   insertBefore(n,b){const i=this.children.indexOf(b);this.children.splice(i<0?this.children.length:i,0,n);return n;}
   all(){return [this,...this.children.flatMap(c=>c.all())];}
   xml(){const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');return `<${this.tag}${Object.entries(this.attributes).map(([k,v])=>` ${k}="${esc(v)}"`).join('')}>${this.children.map(n=>n.xml()).join('')}</${this.tag}>`;}

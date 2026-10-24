@@ -9,9 +9,9 @@
   const band=(t,a,b,c,d)=>smooth((t-a)/(b-a))*(1-smooth((t-c)/(d-c)));
   const catalog=[
     {id:'midgard',title:'God of War',hero:'Kratos',place:'The Wildwoods',bg:['#edf0e7','#e2e7db','#d5ddce'],accent:'#40543a',labels:['strike / combo','throw','frost slam','dodge','hold to block'],help:['Axe combo','Boomerang throw','Frost slam','Dodge','Hold shield']},
-    {id:'tsushima',title:'Ghost of Tsushima',hero:'Jin Sakai',place:'Maple courtyard',bg:['#eee7d9','#e3ddcb','#d5d1bb'],accent:'#8b5540',labels:['katana combo','kunai','heavenly strike','sidestep','hold to parry'],help:['Katana combo','Kunai volley','Heavenly strike','Sidestep','Hold sword guard'],attackRange:43,contact:[0,1.2,28],obstacles:[[-139,78,19],[148,-70,18],[-146,128,14],[147,127,14]]},
-    {id:'arkham',title:'Batman: Arkham',hero:'Batman',place:'Gotham rooftops',bg:['#879da5','#7a919c','#7a8f9c'],accent:'#344f61',labels:['punch / combo','batarang','grapnel takedown','evade','hold to counter'],help:['Punch combo','Returning batarang','Grapnel takedown','Evade','Hold counter guard'],attackRange:33,contact:[0,0,1],obstacles:[[106,-131,25],[-99,-142,42],[32,-149,27],[-154,117,15],[150,125,15]]},
-    {id:'assassin',title:'Assassin’s Creed',hero:'Ezio',place:'The bell tower terrace',bg:['#f0e5d3','#e6d8c0','#d7c9ad'],accent:'#8a5843',labels:['sword combo','throwing knife','hidden blade','dodge','hold to parry'],help:['Sword combo','Throwing knife','Hidden blade lunge','Dodge','Hold parry'],attackRange:42,contact:[0,0,28],obstacles:[[146,57,28],[-131,139,23],[-156,73,11],[145,121,11]]},
+    {id:'tsushima',title:'Ghost of Tsushima',hero:'Jin Sakai',place:'Maple courtyard',bg:['#eee7d9','#e3ddcb','#d5d1bb'],accent:'#8b5540',labels:['katana combo','kunai','heavenly strike','sidestep','hold to parry'],help:['Katana combo','Kunai volley','Heavenly strike','Sidestep','Hold sword guard'],attackRange:43,contact:[0,1.2,28],obstacles:[[-139,78,19],[148,-70,18],[-154,-38,12],[-151,-106,10],[-132,-123,14],[-146,128,14],[147,127,14]]},
+    {id:'arkham',title:'Batman: Arkham',hero:'Batman',place:'Gotham rooftops',bg:['#879da5','#7a919c','#7a8f9c'],accent:'#344f61',labels:['punch / combo','batarang','grapnel takedown','evade','hold to counter'],help:['Punch combo','Returning batarang','Grapnel takedown','Evade','Hold counter guard'],attackRange:33,contact:[0,0,1],obstacles:[[110,-131,32],[-99,-142,43],[32,-149,27],[-154,117,28],[150,125,28]]},
+    {id:'assassin',title:'Assassin’s Creed',hero:'Ezio',place:'The bell tower terrace',bg:['#f0e5d3','#e6d8c0','#d7c9ad'],accent:'#8a5843',labels:['sword combo','throwing knife','hidden blade','dodge','hold to parry'],help:['Sword combo','Throwing knife','Hidden blade lunge','Dodge','Hold parry'],attackRange:42,contact:[0,0,28],obstacles:[[146,60,34],[-131,139,24],[-156,73,11],[-156,103,9],[145,121,11],[-154,-91,10],[-164,42,25]]},
     {id:'persia',title:'Prince of Persia',hero:'The Prince',place:'Palace of the sands',bg:['#f0e4cf','#e4d4b5','#d3c3a0'],accent:'#467e7c',labels:['scimitar combo','dagger cast','rewind time','vault dodge','hold to guard'],help:['Scimitar combo','Dagger cast','Rewind position / health','Vault dodge','Hold blade guard'],attackRange:44,contact:[0,3,28],obstacles:[[7,-108,26],[144,75,24],[-148,75,14],[-146,128,13],[146,126,13]]}
   ].concat(window.LegendScenes||[]);
   catalog.forEach(p=>{
@@ -40,7 +40,7 @@
         // The pull stops short of the enemy and cannot pass through rooftop props.
         return this.profile.obstacles.every(([x,y,r])=>{
           const t=clamp((x-h.x)*v[0]+(y-h.y)*v[1],0,travel);
-          return Math.hypot(x-h.x-v[0]*t,y-h.y-v[1]*t)>=r+5-.001;
+          return Math.hypot(x-h.x-v[0]*t,y-h.y-v[1]*t)>=r+this._radius(h)-.001;
         });
       });
     }
@@ -91,11 +91,8 @@
         }
       }
     }
-    _bounds(a){
-      a.x=clamp(a.x,-141,141);a.y=clamp(a.y,-109,139);
-      for(const [x,y,r] of this.profile?.obstacles||[]){const dx=a.x-x,dy=a.y-y,d=Math.hypot(dx,dy),R=r+5;if(d<R){a.x=x+(d?dx/d:1)*R;a.y=y+(d?dy/d:0)*R;}}
-      a.x=clamp(a.x,-141,141);a.y=clamp(a.y,-109,139);
-    }
+    _limits(){return [-141,141,-109,139];}
+    _obstacles(){return this.profile?.obstacles||[];}
     _feet(a,dt){
       const age=this.time-(a.action?.start??0);
       const airborne=a.id===0&&this.profile?.id==='arkham'&&a.action?.kind==='special'&&age>=.18&&age<.62;

@@ -3,7 +3,7 @@
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.getElementById('scene');
-  let activeTheme=null;
+  let activeTheme=null;const midgardEntities=[];
   const S = 1.66, OX = 600, OY = 485, DURATION = 18;
   const el = (tag, attrs = {}, parent = svg) => { const n = document.createElementNS(NS, tag); for (const [k,v] of Object.entries(attrs)) n.setAttribute(k,v); parent.appendChild(n); return n; };
   const p = ([x,y,z = 0]) => [OX + (x-y)*.8660254*S, OY + (x+y)*.5*S - z*S];
@@ -138,21 +138,23 @@
     fires.push({x,y,node:el('g',{'data-flame':'true'},group)});
   }
   brazier(-145,-135);brazier(145,-135);
+  function midgardEntity(x,y,draw){const node=el('g',{'data-prop':`midgard-${midgardEntities.length}`},actors);midgardEntities.push({node,x,y});draw(node);}
   // Edge dressing in front: low enough never to hide the fighters.
-  rock(-155,112,17,10,front);rock(154,105,14,11,front);rock(149,114,7,6,front);
-  box(74,141,2,35,10,7,['#b6c0aa','#82997f','#6e886e'],front);box(89,151,2,12,12,15,['#c6cdb9','#95a98c','#788e77'],front);
+  midgardEntity(-155,112,n=>rock(-155,112,17,10,n));midgardEntity(154,105,n=>{rock(154,105,14,11,n);rock(149,114,7,6,n);});
+  midgardEntity(92,149,n=>{box(74,141,2,35,10,7,['#b6c0aa','#82997f','#6e886e'],n);box(89,151,2,12,12,15,['#c6cdb9','#95a98c','#788e77'],n);});
   for(let i=0;i<95;i++){
     const x=rng(-180,180),y=rng(155,182),h=rng(1,5);stroke([[x,y,1],[x+rng(-2,2),y+rng(-1,1),h]],pick(['#819976','#687e5e','#a9b49b']),.8,front);
   }
 
-  brazier(-145,135,front);brazier(145,135,front);
+  midgardEntity(-145,135,n=>brazier(-145,135,n));midgardEntity(145,135,n=>brazier(145,135,n));
 
   paintCast(environmentShadow,midgardCasts);
 
   // Dynamic geometry uses a little painter's algorithm over SVG paths.
   // The camera is orthographic; every point is projected by the same isometric basis.
-  let mesh=[],pool=[],meshOpacity=1;
-  function face(points,fill,strokeColor=null,width=.4){mesh.push({points,fill,stroke:strokeColor,width,opacity:meshOpacity,depth:points.reduce((a,v)=>a+v[0]+v[1]+v[2],0)/points.length});}
+  let mesh=[],meshOpacity=1,meshOwner=null;
+  const actorLayers=new Map();let paintedOrder=[];
+  function face(points,fill,strokeColor=null,width=.4){mesh.push({points,fill,stroke:strokeColor,width,opacity:meshOpacity,owner:meshOwner,depth:points.reduce((a,v)=>a+v[0]+v[1]+v[2],0)/points.length});}
   function solidBox(T,x,y,z,w,d,h,c){
     const q=[[x,y,z],[x+w,y,z],[x+w,y+d,z],[x,y+d,z],[x,y,z+h],[x+w,y,z+h],[x+w,y+d,z+h],[x,y+d,z+h]].map(T);
     [[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7],[4,5,6,7]].forEach((f,i)=>face(f.map(j=>q[j]),c[i%c.length]));
@@ -570,11 +572,33 @@
     const transform=v=>vec(center,flatAxeVector(sub(v,AXE.pivot),spin));
     return {t,center,spin,transform,contact:transform(AXE.contact),normal:[0,0,1]};
   }
+  function drawActor(r){meshOwner=r.id;character(r);meshOwner=null;}
   function flushMesh(){
-    mesh.sort((a,b)=>a.depth-b.depth);
-    mesh.forEach((f,i)=>{
-      let n=pool[i];if(!n){n=el('path',{},actors);pool.push(n);}const d=path(f.points);if(n._d!==d){n.setAttribute('d',d);n._d=d;}if(n._fill!==f.fill){n.setAttribute('fill',f.fill);n._fill=f.fill;}if(n._stroke!==f.stroke){n.setAttribute('stroke',f.stroke||'none');n._stroke=f.stroke;}n.setAttribute('stroke-width',f.width);n.setAttribute('opacity',f.opacity??1);
-    });for(let i=mesh.length;i<pool.length;i++)pool[i].setAttribute('opacity','0');
+    // Anatomical faces may interleave within one rig, never between two bodies.
+    const batches=new Map();
+    for(const f of mesh){const key=f.owner??'projectile';if(!batches.has(key))batches.set(key,[]);batches.get(key).push(f);}
+    const order=[];
+    for(const [key,faces] of batches){
+      let layer=actorLayers.get(key);
+      if(!layer){layer={node:el('g',{'data-actor':key},actors),pool:[]};actorLayers.set(key,layer);}
+      const rig=rigState.find(r=>r.id===key);
+      order.push({node:layer.node,depth:rig?rig.base.x+rig.base.y:faces.reduce((sum,f)=>sum+f.depth,0)/faces.length});
+      faces.sort((a,b)=>a.depth-b.depth);
+      faces.forEach((f,i)=>{
+        let n=layer.pool[i];if(!n){n=el('path',{},layer.node);layer.pool.push(n);}
+        const d=path(f.points);if(n._d!==d){n.setAttribute('d',d);n._d=d;}if(n._fill!==f.fill){n.setAttribute('fill',f.fill);n._fill=f.fill;}if(n._stroke!==f.stroke){n.setAttribute('stroke',f.stroke||'none');n._stroke=f.stroke;}
+        n.setAttribute('stroke-width',f.width);n.setAttribute('opacity',f.opacity??1);
+      });
+      for(let i=faces.length;i<layer.pool.length;i++)layer.pool[i].setAttribute('opacity','0');
+    }
+    for(const [key,layer] of actorLayers)if(!batches.has(key))layer.node.setAttribute('display','none');else layer.node.setAttribute('display','inline');
+    for(const entity of activeTheme?.environment.entities||midgardEntities)order.push({node:entity.node,depth:entity.x+entity.y});
+    order.sort((a,b)=>a.depth-b.depth);
+    const nodes=order.map(e=>e.node);
+    if(nodes.length!==paintedOrder.length||nodes.some((n,i)=>n!==paintedOrder[i])){
+      if(actors.replaceChildren)actors.replaceChildren(...nodes);else actors.children=nodes;
+      paintedOrder=nodes;
+    }
   }
   function drawFires(t){
     if(activeTheme){activeTheme.environment?.animate(t);return;}
@@ -614,7 +638,7 @@
     t=((t%DURATION)+DURATION)%DURATION;lastTime=t;mesh=[];fxCount=0;meshOpacity=1;hideHealthBars();
     const ct=combatTime(t);
     rigState=[0,1,2].map(id=>makeRig(id,ct));
-    rigState.forEach(character);
+    rigState.forEach(drawActor);
     const k=[rigState[0].base.x,rigState[0].base.y],a=[rigState[1].base.x,rigState[1].base.y],b=[rigState[2].base.x,rigState[2].base.y];
     flightState=ct>THROW.release&&ct<THROW.catch?axeFlightAt(ct):null;
     if(flightState){
@@ -671,7 +695,7 @@
     const t=frame.time;lastTime=t;mesh=[];fxCount=0;meshOpacity=1;
     activeTheme?.environment.syncState?.(frame.worldState);
     rigState=frame.actors.map(d=>makeRig(d.id,t,d));flightState=frame.flight||null;
-    rigState.forEach(r=>{if(r.opacity>.005){meshOpacity=r.opacity;character(r);}});meshOpacity=1;
+    rigState.forEach(r=>{if(r.opacity>.005){meshOpacity=r.opacity;drawActor(r);}});meshOpacity=1;
     if(flightState){
       if(activeTheme)activeTheme.drawProjectile(flightState,graphics);else axe(flightState.transform,[0,0,0]);
       const trail=flightState.trail||[];
@@ -703,5 +727,5 @@
   const graphics={face,lit,loft,muscle,solidBox,limb,head,vec,sub,mul,norm,rotZ,lerp3,fx,arc,burst};
   function setTheme(theme){activeTheme=theme;[environmentShadow,ground,backdrop,front].forEach(n=>n.setAttribute('display',theme?'none':'inline'));}
   render(0);
-  window.Diorama={render,renderGame,makeRig,poseAt,project:p,setTheme,graphics,castPath,paintCast,environmentAnchors:{shadow:ground,back:shadows,front:healthLayer},shieldScale:1.2,duration:DURATION,svg,get time(){return lastTime;},get rigs(){return rigState;},get flight(){return flightState;},footPlans,axeGeometry:AXE,throwTiming:THROW,axeFlightAt};
+  window.Diorama={render,renderGame,makeRig,poseAt,project:p,setTheme,graphics,castPath,paintCast,environmentAnchors:{shadow:ground,back:shadows,front:healthLayer,entities:actors},shieldScale:1.2,duration:DURATION,svg,get time(){return lastTime;},get rigs(){return rigState;},get flight(){return flightState;},footPlans,axeGeometry:AXE,throwTiming:THROW,axeFlightAt};
 })();

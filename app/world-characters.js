@@ -3,7 +3,7 @@
   'use strict';
   const palettes={
     tsushima:{skin:'#c0a080',cloth:'#354751',trim:'#9d4e3d',metal:'#727d79',hair:'#34352f',enemy:['#78604b','#79744e']},
-    arkham:{skin:'#bba98c',cloth:'#697a86',trim:'#b39e63',metal:'#3a4f5d',hair:'#2a3e4b',enemy:['#6b617c','#61786b']},
+    arkham:{skin:'#c4ac93',cloth:'#59646b',trim:'#b39e63',metal:'#3a4f5d',hair:'#2a3e4b',enemy:['#6b617c','#61786b']},
     assassin:{skin:'#c2a68d',cloth:'#e4e0cf',trim:'#9d493e',metal:'#807970',hair:'#544638',enemy:['#8b4e45','#7a6560']},
     persia:{skin:'#b99a75',cloth:'#d9cfb7',trim:'#a75542',metal:'#b49b63',hair:'#443c33',enemy:['#8e9b8c','#b29971']}
   };
@@ -24,7 +24,7 @@
   function drawCharacter(r,g,id){
     const {P,C,H,legs,arms,feet,angle,q,t}=r,{loft,muscle,face,lit,solidBox,vec,rotZ,lerp3}=g;
     const hero=r.id===0,p=palettes[id],bat=id==='arkham'&&hero,assassin=id==='assassin'&&hero,samurai=id==='tsushima',prince=id==='persia'&&hero;
-    const cloth=hero?p.cloth:p.enemy[r.id-1],skin=hero?p.skin:id==='arkham'?'#c5b9a2':id==='persia'?'#bbb598':'#b99e82',leather=bat?'#293d4a':prince?'#494337':'#5a4c3d',ref=rotZ([0,1,.08],angle);
+    const cloth=hero?p.cloth:p.enemy[r.id-1],skin=hero?p.skin:id==='arkham'?'#c5b9a2':id==='persia'?'#bbb598':'#b99e82',leather=bat?'#222d34':prince?'#494337':'#5a4c3d',ref=rotZ([0,1,.08],angle);
     // Cloth legs and rigid boots follow the solved ankles.
     legs.forEach((b,i)=>{
       muscle(b.a,b.b,[[0,samurai?3.9:3.3],[.45,samurai?4.0:3.4],[1,2.3]],bat?cloth:hero?p.cloth:cloth,ref,8);
@@ -57,26 +57,49 @@
     loft(P,[[0,0,27.5,6.3,4.1],[0,0,29.5,6.2,4.1]],hero?p.trim:'#786248',12);
     solidBox(P,-1.5,4,27.4,3,.7,2.3,['#c6b17e','#93845c']);
     if(bat){
-      // Cowl with separate pointed ears and an exposed jaw.
-      loft(H,[[0,-.3,53.2,3.5,3],[0,-.1,56.6,3.6,3.3],[0,-.3,58.6,2.6,2.6]],leather,10);
-      for(const side of [-1,1])face([[side*2.6,-.5,56],[side*3.4,-.9,65],[side*1.5,1,57.5]].map(H),side===1?'#3e5361':'#263c49');
-      for(const side of [-1,1])face([[side*.7,3.5,54.2],[side*2.7,2.94,54.7],[side*2.4,3.18,53.6],[side*.8,3.62,53.5]].map(H),'#d7e3da');
-      face([[-6,4,40],[-3.8,4.5,41.3],[-2.1,4.6,40.2],[-1,4.7,42],[0,4.8,40.8],[1,4.7,42],[2.1,4.6,40.2],[3.8,4.5,41.3],[6,4,40],[3.5,4.7,37.7],[1.6,4.8,38.3],[0,4.9,36.6],[-1.6,4.8,38.3],[-3.5,4.7,37.7]].map(v=>C([v[0],v[1]+1,v[2]])),leather);
-      for(let i=-2;i<=2;i++)solidBox(P,i*2.7-1.1,3.5,27,2.2,1.6,3.1,['#c1ac72','#9a8756']);
-      // Segmented armor catches the light separately from the flexible undersuit.
+      // A sculpted graphite cowl: solid ears, brow ridge, cheek guards and jaw opening.
+      loft(H,[[0,-.45,50.1,2.5,2.35],[0,-.45,52.5,3.3,2.9],[0,-.35,55.5,3.55,3.2],[0,-.4,57.6,3.2,2.95],[0,-.5,59.3,2.3,2.2],[0,-.5,59.9,.8,.9]],leather,16);
       for(const side of [-1,1]){
-        loft(C,[[side*3.5,3.4,38,2.4,1.1],[side*3.5,3.9,40,3.4,1.5],[side*3.5,3.2,43,3,1]],'#687e8b',8);
-        for(let j=0;j<3;j++)loft(C,[[side*1.7,3.5,31+j*2,1.45,.6],[side*1.7,3.8,32+j*2,1.4,.8]],'#526b79',6);
-        loft(C,[[side*8.2,0,42.5,3.7,3.7],[side*8.3,0,45,3.2,3]],'#526b7a',8);
+        const a=[side*2.5,-.8,57],b=[side*3.1,-1.2,64.5],c=[side*1.8,.8,58],d=[side*3.3,.2,57.8];
+        face([a,b,c].map(H),'#34434d');face([b,d,c].map(H),'#1b252b');face([a,d,b].map(H),'#52616a');
+        face([[side*.5,3.13,55.8],[side*2.8,2.5,55.7],[side*3.05,2.5,54.8],[side*.65,3.5,54.5]].map(H),'#41515b');
+        face([[side*.65,3.48,54.6],[side*2.6,2.96,55],[side*2.45,3.07,54.3],[side*.8,3.53,54.1]].map(H),'#111d24');
+        face([[side*.85,3.56,54.45],[side*2.28,3.2,54.69],[side*2.13,3.27,54.42],[side*1,3.58,54.22]].map(H),'#d2d8ce');
+        face([[side*1.5,3.43,54.57],[side*1.75,3.38,54.62],[side*1.75,3.4,54.36],[side*1.5,3.45,54.32]].map(H),'#516367');
+        face([[side*2.8,2.6,54.4],[side*3.15,2.45,52.1],[side*2.05,3.13,50.8],[side*2.15,3.4,53.2]].map(H),'#293840');
       }
-      // Short vertical cape panels sort correctly against the moving back and shoulders.
+      face([[-.65,3.4,55.1],[.65,3.4,55.1],[.75,4.2,53],[0,4.52,52.7],[-.75,4.2,53]].map(H),'#34444d');
+      face([[0,3.6,55.1],[.65,3.4,55.1],[.75,4.2,53],[0,4.52,52.7]].map(H),'#1d2a32');
+      // Mouth and broad chin remain exposed, with subtle stubble and cheek planes.
+      face([[-2.05,3.23,52.7],[-.65,3.88,52.4],[.65,3.88,52.4],[2.05,3.23,52.7],[1.85,3.3,50.5],[.9,3.55,49.8],[-.9,3.55,49.8],[-1.85,3.3,50.5]].map(H),'#c0aa92');
+      face([[-1.85,3.32,51.4],[1.85,3.32,51.4],[1.5,3.45,50.35],[.75,3.62,49.95],[-.75,3.62,49.95],[-1.5,3.45,50.35]].map(H),'#9c9181');
+      face([[-1.35,3.69,51.65],[0,3.91,51.52],[1.35,3.69,51.65],[1.1,3.73,51.34],[0,3.94,51.3],[-1.1,3.73,51.34]].map(H),'#6b655d');
+      face([[-.95,3.73,50.7],[.95,3.73,50.7],[.65,3.79,50.35],[-.65,3.79,50.35]].map(H),'#c8b59e');
+      // Curved pectorals and articulated plates sit on a darker flexible undersuit.
+      for(const side of [-1,1]){
+        loft(C,[[side*3.35,3.2,37.6,2.3,.8],[side*3.5,3.65,39.4,3.3,1.45],[side*3.6,3.25,42.2,3.25,1.3],[side*3.25,2.8,43.5,2.4,.7]],'#626f77',12);
+        for(let j=0;j<3;j++)loft(C,[[side*1.8,3.15,30.8+j*2.3,1.55,.75],[side*1.8,3.5,32.3+j*2.3,1.6,.9],[side*1.8,3.15,32.7+j*2.3,1.35,.65]],j%2?'#47565f':'#52616a',8);
+        const arm=arms[side<0?1:0];muscle(arm.a,lerp3(arm.a,arm.b,.42),[[0,3.2],[.35,4.1],[.8,3.8],[1,2.9]],'#495961',ref,12);
+        const leg=legs[side<0?0:1];muscle(lerp3(leg.a,leg.b,.35),lerp3(leg.a,leg.b,.83),[[0,3.45],[.7,3],[1,2.6]],'#52616a',ref,10);
+        muscle(lerp3(leg.a,leg.b,.92),lerp3(leg.b,leg.end,.15),[[0,2.7],[.4,3],[1,2.25]],'#2e3d46',ref,10);
+        for(let j=0;j<4;j++)face([[side*5.2,3,32+j*1.3],[side*5.65,2.7,32+j*1.3],[side*6.25,2.7,33+j*1.3],[side*5.8,3,33+j*1.3]].map(C),'#34444c');
+      }
+      // The emblem is proud of the chest plates, so it cannot disappear inside them.
+      face([[-6.5,5.15,41.2],[-4,5.8,41.9],[-2.1,5.9,40.7],[-.8,6,42],[0,6,41],[.8,6,42],[2.1,5.9,40.7],[4,5.8,41.9],[6.5,5.15,41.2],[4.3,5.9,39],[2.6,6,39.8],[1.4,6.1,38.6],[0,6.2,37.5],[-1.4,6.1,38.6],[-2.6,6,39.8],[-4.3,5.9,39]].map(C),'#18262e');
+      for(let i=-2;i<=2;i++){
+        const x=i*2.55;solidBox(P,x-1,3.65,27,2,1.5,3,['#baa16b','#887348','#a18b58']);
+        solidBox(P,x-.8,5.18,28.8,1.6,.22,.55,['#c4ad7e','#9c875a']);
+      }
+      solidBox(P,-1.2,5.35,27.55,2.4,.5,1.8,['#d2bc89','#a48b53']);
+      // A continuous, scalloped cape, attached at the shoulders with broad fabric folds.
       const cape=(u,v)=>{
-        const sway=Math.sin(t*3+u*2)*v*v*1.5+r.base.speed*.02*v;
-        return v<.35?C([u*(8.6+v*8),-4.5-v*3,44-v*32]):P([u*(11+v*4),-6-v*5-sway,44-v*37+(Math.cos(u*Math.PI*4)*1.5+1)*v]);
+        const ripple=Math.sin(t*3.3+u*3)*v*v*.65,trail=Math.min(7,r.base.speed*.055)*v*v;
+        const hem=(1-Math.cos(u*Math.PI*6))*1.6*v*v*v;
+        const x=u*(8.1+v*6),y=-4.7-v*5-trail+ripple-Math.cos(u*Math.PI*6)*v*.7,z=45-v*37+hem;
+        return v<.3?C([x,y,z]):P([x,y,z]);
       };
-      for(let i=0;i<12;i++)for(let j=0;j<6;j++){const a=-1+i/6,b=a+1/6,v=j/6,V=(j+1)/6;face([cape(a,v),cape(b,v),cape(b,V),cape(a,V)],i%3===0?'#263f4e':i%3===1?'#324d5c':'#3c5765');}
-      // The cowl wraps the nape; only the lower face remains exposed.
-      for(let i=0;i<8;i++){const a=Math.PI*.82+i*Math.PI*1.36/8,b=a+Math.PI*1.36/8;face([[Math.cos(a)*3.3,Math.sin(a)*3.05,55],[Math.cos(b)*3.3,Math.sin(b)*3.05,55],[Math.cos(b)*2.5,Math.sin(b)*2.4,49],[Math.cos(a)*2.5,Math.sin(a)*2.4,49]].map(H),leather);}
+      const shades=['#202f39','#273843','#2c3e49','#25353f','#1e2c35','#263741'];
+      for(let i=0;i<24;i++)for(let j=0;j<10;j++){const a=-1+i/12,b=a+1/12,v=j/10,V=(j+1)/10;face([cape(a,v),cape(b,v),cape(b,V),cape(a,V)],shades[i%6]);}
     }else if(assassin){
       // Beaked hood, open face, red sash and split white coat tails.
       loft(H,[[0,-.9,50,4.2,3.6],[0,-.6,55,4.0,3.6],[0,-.3,58.5,3.2,3],[0,-.2,60,1.2,1.5]],'#e1dfce',10);

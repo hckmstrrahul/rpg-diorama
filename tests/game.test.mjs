@@ -7,11 +7,11 @@ class Element {
   constructor(tagName='DIV'){this.tagName=tagName;this.attributes={};Object.defineProperty(this.attributes,Symbol.iterator,{value:function*(){for(const [name,value] of Object.entries(this))yield {name,value};}});this.children=[];Object.defineProperty(this,'parentNode',{value:null,writable:true});this.handlers={};this.style={setProperty(k,v){this[k]=String(v);}};this.dataset={};this.textContent='';this.classList={values:new Set(),add(...v){v.forEach(x=>this.values.add(x));},remove(...v){v.forEach(x=>this.values.delete(x));},toggle(v,on){if(on)this.add(v);else this.remove(v);},contains(v){return this.values.has(v);}};}
   setAttribute(k,v){this.attributes[k]=String(v);}
   getAttribute(k){return this.attributes[k]??null;}
-  appendChild(n){this.children.push(n);n.parentNode=this;return n;}
+  appendChild(n){if(n.parentNode)n.parentNode.children=n.parentNode.children.filter(c=>c!==n);this.children.push(n);n.parentNode=this;return n;}
   insertBefore(n,b){const i=this.children.indexOf(b);this.children.splice(i<0?this.children.length:i,0,n);}
   removeAttribute(k){delete this.attributes[k];}
   remove(){if(this.parentNode)this.parentNode.children=this.parentNode.children.filter(n=>n!==this);}
-  replaceChildren(){this.children=[];}
+  replaceChildren(...nodes){this.children=nodes;nodes.forEach(n=>n.parentNode=this);}
   cloneNode(deep){const n=new Element(this.tagName);Object.entries(this.attributes).forEach(([k,v])=>n.setAttribute(k,v));if(deep)this.children.forEach(c=>n.appendChild(c.cloneNode(true)));return n;}
   querySelectorAll(selector){const all=this.children.flatMap(n=>[n,...n.querySelectorAll('*')]);return selector==='*'?all:selector==='[id]'?all.filter(n=>n.getAttribute('id')):all.filter(n=>n.getAttribute('display')==='none');}
   getBoundingClientRect(){const id=this.getAttribute('id');if(id==='scene-stage')return {left:0,top:0,width:window.innerWidth,height:window.innerHeight};if(id==='scene-motion'||id==='scene')return {left:0,top:60,width:window.innerWidth,height:700};if(id==='viewport')return {left:0,top:18,width:window.innerWidth,height:742,bottom:760};if(id==='scene-controls')return {top:780};if(id==='scene-prev'||id==='scene-next'){const width=240;return {left:id==='scene-prev'?-76.8:window.innerWidth-163.2,top:304,width,height:176};}if(id==='scene-overflow-wrap')return {width:(document.getElementById('scene-overflow-label').textContent.length)*7+32};return {width:100};}
@@ -43,12 +43,12 @@ const fixture=(enemyY=30)=>new Combat({ai:false}).reset([{x:0,y:0,angle:0},{x:0,
 
 // Screen-relative movement, equal diagonal speed, release, and arena boundaries.
 for(const [input,sign,axis] of [[{x:1},1,0],[{x:-1},-1,0],[{y:1},1,1],[{y:-1},-1,1]]){
-  const g=fixture(),before=scene.project(point(g.hero));step(g,.2,input);const after=scene.project(point(g.hero));
+  const g=fixture(100),before=scene.project(point(g.hero));step(g,.2,input);const after=scene.project(point(g.hero));
   assert((after[axis]-before[axis])*sign>0,'Movement must follow screen direction');
   assert(Math.abs(after[1-axis]-before[1-axis])<1e-5,'Cardinal input drifts across the screen');
   const stopped=point(g.hero);step(g,.2);assert(distance(stopped,point(g.hero))<1e-8,'Movement sticks after release');
 }
-const straight=fixture(),diagonal=fixture();step(straight,.2,{x:1});step(diagonal,.2,{x:1,y:1});
+const straight=fixture(100),diagonal=fixture(100);step(straight,.2,{x:1});step(diagonal,.2,{x:1,y:1});
 const origin=scene.project([0,0,0]);
 assert(Math.abs(distance(origin,scene.project(point(straight.hero)))-distance(origin,scene.project(point(diagonal.hero))))<1e-5,'Diagonal input moves faster');
 step(straight,15,{x:1});assert(straight.hero.x<=132&&straight.hero.y>=-107,'Kratos leaves the courtyard');
@@ -285,7 +285,7 @@ bat=worlds.createGame('arkham',{ai:false}).reset([{x:-120,y:-95,angle:0},{x:125,
 assert.equal(bat.command('slam'),false,'Grapnel accepts an out-of-range target');assert.equal(bat.hero.stamina,100);
 bat=worlds.createGame('arkham',{ai:false}).reset([{x:-125,y:-100,angle:0},{x:-58,y:-100,angle:0},{x:100,y:120,angle:0}]);bat.enemies[1].hp=0;
 assert.equal(bat.command('slam'),false,'Grapnel pulls through the clock tower');assert.equal(bat.hero.stamina,100);
-bat=worlds.createGame('arkham',{ai:false}).reset([{x:-99,y:-95,angle:0},{x:-99,y:-15,angle:Math.PI},{x:100,y:120,angle:0}]);bat.enemies[1].hp=0;
+bat=worlds.createGame('arkham',{ai:false}).reset([{x:-99,y:-88,angle:0},{x:-99,y:-15,angle:Math.PI},{x:100,y:120,angle:0}]);bat.enemies[1].hp=0;
 assert(bat.command('slam'),'Touching a prop prevents grappling away from it');step(bat,1);assert.equal(bat.enemies[0].hp,24);
 bat=batFixture();bat.command('slam');step(bat,.3);assert(bat.command('dodge',{x:1}));assert(!bat.frame().actors[0].grapnel);step(bat,1);assert.equal(bat.enemies[0].hp,72,'Cancelled grapnel still hits');
 bat=batFixture();bat.command('slam');step(bat,.3);bat.enemies[0].hp=0;bat.enemies[0].deadAt=bat.time;step(bat,1);assert(!bat.frame().actors[0].grapnel);assert.equal(bat.enemies[1].hp,72,'Grapnel retargets after its target dies');
@@ -320,6 +320,7 @@ key('ArrowRight',{target:sceneTabs.at(-1)});assert.equal(player.sceneId,'midgard
 key('End',{target:sceneTabs[0]});assert.equal(player.sceneId,'kombat');key('Home',{target:sceneTabs.at(-1)});assert.equal(player.sceneId,'midgard');
 key('ArrowRight',{target:sceneTabs[0],repeat:true});assert.equal(player.sceneId,'midgard','Holding an arrow rapidly changes scenes');
 key('Space',{target:sceneTabs[0]});assert.equal(player.game.hero.action,null,'Scene tabs steal native Space activation');
+document.getElementById('site-header').appendChild(document.getElementById('scene-selector'));
 document.getElementById('scene-selector').appendChild(document.getElementById('scene-tabs'));
 const tabsWheel={deltaY:30,target:sceneTabs[0],preventDefault(){this.prevented=true;}};document.getElementById('viewport').handlers.wheel(tabsWheel);assert.equal(player.zoom,1.25);assert.equal(tabsWheel.prevented,undefined,'Scrolling scene tabs zooms the game');
 player.setMode('watch');sceneTabs[1].onclick({detail:0});assert.equal(player.mode,'watch');assert.equal(sceneTabs.filter(t=>t.getAttribute('aria-selected')==='true').length,1);

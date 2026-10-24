@@ -4,7 +4,7 @@
   const sceneTabs=catalog.map(p=>$(`scene-tab-${p.id}`));
   let sceneIndex=0,game=worlds.createGame(catalog[0].id);
   let visibleTabCount=5,sceneAnimations=[],exitLayer=null,swipeLayer=null,transitionId=0;
-  const previewSource=i=>`assets/${catalog[(i+catalog.length)%catalog.length].id}-preview.svg?v=31`;
+  const previewSource=i=>`assets/${catalog[(i+catalog.length)%catalog.length].id}-preview.svg?v=35`;
   let menuOpen=false,menuActive=-1,menuOptions=[],menuType='',menuTypedAt=0,menuInput='keyboard',helpOpen=false;
   const popovers=new Map();
   function motionValue(name,fallback){
@@ -118,8 +118,10 @@
   function layoutSelector(animate=false){
     const selector=$('scene-selector'),trigger=$('scene-overflow'),menu=$('scene-menu'),label=$('scene-overflow-label');
     if(menuOpen)closeSceneMenu(true);
-    const available=($('viewport').clientWidth||window.innerWidth||1200)-32;
-    const mobile=(window.innerWidth||available)<=540;
+    const header=$('site-header').getBoundingClientRect(),brand=$('site-brand').getBoundingClientRect(),github=$('github-link').getBoundingClientRect();
+    const viewportWidth=window.innerWidth||1200,mobile=viewportWidth<=640;
+    const gap=viewportWidth<=900?12:20;
+    const available=header.width>200?header.width-github.width-gap-(mobile?0:brand.width+gap):($('viewport').clientWidth||viewportWidth)-32;
     // Measure the real labels with the current font, so tablet layouts don't overflow.
     $('scene-tabs').hidden=false;sceneTabs.forEach(tab=>tab.hidden=false);
     const widths=sceneTabs.map(tab=>tab.getBoundingClientRect?.().width||100);
@@ -227,7 +229,7 @@
   const renderWatch=()=>worlds.renderWatch(catalog[sceneIndex].id,time);
   function applySceneUI(animate=false){
     const p=catalog[sceneIndex];
-    document.title=`${p.title} — mini-rpg`;
+    document.title=`${p.title} — rpg-diorama`;
     $('current-game-name').textContent=p.title;
     document.body.dataset.world=p.id;
     $('theme-color').setAttribute('content',p.bg[1]);
@@ -310,7 +312,7 @@
   }
   function beginPan(e){
     if(e.isPrimary===false||e.button!==undefined&&e.button!==0||e.ctrlKey||e.metaKey||e.altKey||panGesture)return;
-    if((compact.matches?['scene-selector']:['scene-prev','scene-next','scene-selector']).some(id=>$(id).contains(e.target)))return;
+    if((compact.matches?['site-header']:['scene-prev','scene-next','site-header']).some(id=>$(id).contains(e.target)))return;
     if(![e.clientX,e.clientY].every(Number.isFinite))return;
     const base=scenePose($('scene-motion'));settleSceneMotion();
     const rect=$('scene').getBoundingClientRect(),scale=Math.min(rect.width/1200,rect.height/880)*zoom;
@@ -517,7 +519,7 @@
     };
   }
   $('viewport').addEventListener('wheel',e=>{
-    if(!e.deltaY||$('scene-selector').contains(e.target))return;
+    if(!e.deltaY||$('site-header').contains(e.target))return;
     e.preventDefault();
     const unit=e.deltaMode===1?16:e.deltaMode===2?880:1,delta=Math.max(-120,Math.min(120,e.deltaY*unit));
     if(compact.matches&&!e.ctrlKey){

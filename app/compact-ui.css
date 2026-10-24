@@ -101,3 +101,30 @@ button,summary{user-select:none;-webkit-user-select:none;-webkit-touch-callout:n
 }
 @media (prefers-reduced-transparency:reduce){.control-panel{background:var(--well);backdrop-filter:none;-webkit-backdrop-filter:none}}
 @media (prefers-reduced-motion:reduce){.touch-key{transition:none}.touch-key.is-pressed,.touch-key:active{transform:none}}
+
+/* Shared branding and repository link stay above the full-page scene camera. */
+.site-header{--header-control-height:32px;position:absolute;z-index:40;top:5px;left:var(--page-gutter);right:var(--page-gutter);display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:20px;pointer-events:auto}
+.site-brand{min-width:0}
+.site-name{color:var(--on-scene);text-decoration:none;font-size:15px;line-height:20px;font-weight:650;letter-spacing:-.3px}
+.site-brand p{margin:3px 0 0;color:var(--on-scene);font-size:10px;line-height:14px;white-space:nowrap}
+.site-header .scene-selector.t-tabs{position:relative;top:auto;left:auto;transform:none;justify-self:center;max-width:100%;height:var(--header-control-height);margin:0}
+.github-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:var(--header-control-height);padding:0 13px;border-radius:999px;background:var(--well);color:var(--ink);text-decoration:none;font-size:12px;font-weight:550;white-space:nowrap;transition:background-color 120ms ease,color 120ms ease}
+.github-link svg{width:15px;height:15px;flex:none}
+@media (hover:hover) and (pointer:fine){.github-link:hover{background:var(--selected);color:var(--scene-accent)}}
+@media (min-width:641px){main{padding-top:62px}}
+@media (max-width:900px){.site-header{gap:12px}.site-brand p{font-size:9px}.site-name{font-size:14px}.github-link{padding-inline:10px}}
+@media (max-width:640px){
+  main{padding-top:100px}
+  .site-header{--header-control-height:40px;top:0;grid-template-columns:minmax(0,1fr) auto;gap:10px 12px}
+  .site-brand{grid-column:1 / -1}.site-brand p{font-size:10px}
+  .site-header .scene-selector.t-tabs{justify-self:start;width:max-content;max-width:100%}
+  .site-header .scene-overflow{min-width:0;max-width:calc(100vw - 146px);height:32px;gap:12px;padding-inline:12px}
+  .site-header .scene-selector>.t-tabs-pill{height:32px}
+  .site-header .scene-tabs{display:none}
+  .github-link{font-size:11px;padding-inline:12px}
+}
+
+@media (max-height:560px) and (min-width:641px) and (max-width:1024px), (max-height:560px) and (min-width:641px) and (pointer:coarse) and (max-width:1366px){
+  .site-header{position:fixed;top:calc(10px + env(safe-area-inset-top));left:12px;right:12px}
+  .control-panel{max-height:calc(100dvh - 82px)}
+}
