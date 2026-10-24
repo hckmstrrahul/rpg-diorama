@@ -8,7 +8,7 @@ class Element {
   setAttribute(k,v){this.attributes[k]=String(v);}
   getAttribute(k){return this.attributes[k]??null;}
   appendChild(n){if(n.parentNode)n.parentNode.children=n.parentNode.children.filter(c=>c!==n);this.children.push(n);n.parentNode=this;return n;}
-  insertBefore(n,b){const i=this.children.indexOf(b);this.children.splice(i<0?this.children.length:i,0,n);}
+  insertBefore(n,b){if(n.parentNode)n.parentNode.children=n.parentNode.children.filter(c=>c!==n);const i=this.children.indexOf(b);this.children.splice(i<0?this.children.length:i,0,n);n.parentNode=this;return n;}
   removeAttribute(k){delete this.attributes[k];}
   remove(){if(this.parentNode)this.parentNode.children=this.parentNode.children.filter(n=>n!==this);}
   replaceChildren(...nodes){this.children=nodes;nodes.forEach(n=>n.parentNode=this);}
@@ -344,7 +344,7 @@ assert.equal(sceneTabs.filter(t=>!t.hidden).length,5);assert.equal(document.getE
 window.innerWidth=600;windowListeners.resize();assert(Number(document.getElementById('scene-selector').dataset.visibleTabs)<5);
 window.innerWidth=390;windowListeners.resize();assert.equal(sceneTabs.filter(t=>!t.hidden).length,0);assert.equal(document.getElementById('scene-menu').children.length,13);assert.equal(document.getElementById('scene-overflow-label').textContent,'God of War');
 document.getElementById('scene-menu').children[11].onclick();assert.equal(player.sceneId,'fable');assert.equal(document.getElementById('scene-overflow-label').textContent,'Fable III');
-assert(document.getElementById('scene-prev-image').getAttribute('src').includes('/siege-preview.svg'));assert(document.getElementById('scene-next-image').getAttribute('src').includes('/kombat-preview.svg'));
+assert.equal(document.getElementById('scene-prev-image').getAttribute('src'),null);assert.equal(document.getElementById('scene-next-image').getAttribute('src'),null);assert(document.getElementById('scene-prev').getAttribute('aria-label').includes('Rainbow Six Siege'));
 const completed=document.getElementById('scene-motion').lastAnimation;completed.onfinish();assert(!document.getElementById('scene-stage').classList.contains('is-switching'));
 player.selectScene(0);window.innerWidth=1400;windowListeners.resize();
 // The themed menu owns its keys, restores focus, and dismisses outside.
@@ -411,7 +411,7 @@ playTab.getBoundingClientRect=()=>({left:104,width:64});windowListeners.resize()
 const selector=document.getElementById('scene-selector'),scenePill=document.getElementById('scene-selection-pill');
 selector.getBoundingClientRect=()=>({left:200,width:800});selector.clientLeft=1;
 sceneTabs[2].getBoundingClientRect=()=>({left:413,width:95});player.selectScene(2);assert.equal(scenePill.style.transform,'translateX(212px)');assert.equal(scenePill.style.width,'95px');
-trigger.getBoundingClientRect=()=>({left:204,width:182});window.innerWidth=390;windowListeners.resize();assert.equal(scenePill.style.transform,'translateX(3px)');assert.equal(scenePill.style.width,'182px');assert.equal(menu.dataset.origin,'top-center');
+trigger.getBoundingClientRect=()=>({left:204,width:182});window.innerWidth=390;windowListeners.resize();assert.equal(scenePill.style.transform,'translateX(3px)');assert.equal(scenePill.style.width,'182px');assert.equal(menu.dataset.origin,'bottom-left');
 window.innerWidth=1400;windowListeners.resize();assert.equal(menu.dataset.origin,'top-right');
 const motion=document.getElementById('scene-motion');motion.computedOpacity='.79';motion.computedTransform='matrix(.8, 0, 0, .8, 20, 0)';
 player.selectScene(1);const interruptedExit=document.getElementById('scene-stage').children.at(-1).lastAnimation.frames[0];
@@ -455,23 +455,30 @@ for(const exit of ['mode','scene','blur','resize','hidden']){
 }
 mobile.setMode('game');mobile.selectScene(7);mobile.game.ai=false;mobile.game.reset();touch('throw','pointerdown');touch('throw','pointerup');assert.equal(mobile.game.hero.action.kind,'grenade');
 mobile.setMode('watch');mobile.pause();mobile.selectScene(0);mobile.resetView();finishCompactScene();
-pointer('pointerdown',190,500,{pointerType:'touch'});pointer('pointermove',190,400,{pointerType:'touch'});pointer('pointerup',190,400,{pointerType:'touch'});
-assert.equal(mobile.sceneIndex,0,'Short vertical drag changes scenes');finishCompactScene();
-pointer('pointerdown',300,400,{pointerType:'touch'});pointer('pointermove',20,400,{pointerType:'touch'});pointer('pointerup',20,400,{pointerType:'touch'});
-assert.equal(mobile.sceneIndex,0,'Compact horizontal drag navigates');finishCompactScene();
-pointer('pointerdown',190,500,{pointerType:'touch'});pointer('pointermove',190,300,{pointerType:'touch'});pointer('pointerup',190,300,{pointerType:'touch'});
-assert.equal(mobile.sceneIndex,1);assert.equal(mobile.mode,'watch');assert.equal(mobile.playing,false);finishCompactScene();
-pointer('pointerdown',190,300,{pointerType:'touch'});pointer('pointermove',190,500,{pointerType:'touch'});pointer('pointercancel',190,500,{pointerType:'touch'});
-assert.equal(mobile.sceneIndex,1,'Cancelled vertical swipe navigates');finishCompactScene();
-mobile.selectScene(0);finishCompactScene();pointer('pointerdown',190,300,{pointerType:'touch'});pointer('pointermove',190,500,{pointerType:'touch'});pointer('pointerup',190,500,{pointerType:'touch'});
-assert.equal(mobile.sceneId,'kombat','Vertical scene stack fails to wrap');finishCompactScene();
-pointer('pointerdown',190,680,{pointerType:'touch',target:document.getElementById('scene-next')});pointer('pointerup',190,680,{pointerType:'touch',target:document.getElementById('scene-next')});
-assert.equal(mobile.sceneId,'midgard','Tapping a compact preview does not select it');finishCompactScene();mobile.selectScene(12);finishCompactScene();
-mobile.setZoom(1.25);const compactCamera=box();pointer('pointerdown',190,300,{pointerType:'touch'});pointer('pointermove',190,500,{pointerType:'touch'});pointer('pointerup',190,500,{pointerType:'touch'});
-assert.equal(mobile.sceneId,'kombat');assert.notDeepEqual(box(),compactCamera,'Zoomed compact scene does not pan');mobile.resetView();
-// One wheel burst selects one scene, ignoring the inertia tail.
+assert.equal(document.getElementById('scene-selector').parentNode,document.getElementById('sheet-heading'));
+assert.equal(document.getElementById('game-status').parentNode,document.getElementById('restart-controls'));
+assert.equal(menu.parentNode,document.body);trigger.onclick({detail:1});listeners.pointerdown({target:menu});assert.equal(menu.inert,false,'Portal menu closes on its own pointer events');closeMenu();
+function closeMenu(){key('Escape',{target:menu});}
+// Both axes pan at every compact zoom level, without navigating or resuming Video.
+for(const mode of ['watch','game'])for(const zoom of [.75,1,1.25]){
+ mobile.setMode(mode);if(mode==='watch')mobile.pause();mobile.resetView();mobile.setZoom(zoom);
+ const initial=box();pointer('pointerdown',190,300,{pointerType:'touch'});pointer('pointermove',100,400,{pointerType:'touch'});pointer('pointerup',100,400,{pointerType:'touch'});
+ assert.equal(mobile.sceneIndex,0);assert.notDeepEqual(box(),initial,`${mode} ${zoom}: compact drag does not pan`);const manual=box();advance(.05);assert.deepEqual(box(),manual,'Manual pan is discarded at default zoom');if(mode==='watch')assert.equal(mobile.playing,false);
+}
+mobile.setMode('watch');mobile.pause();mobile.resetView();
+const arrowDown=pointer('pointerdown',20,300,{pointerType:'touch',target:document.getElementById('scene-prev')});assert.equal(arrowDown.prevented,undefined);assert.equal(surface.capturedPointer,null);
+document.getElementById('scene-prev').onclick();assert.equal(mobile.sceneId,'kombat','Previous arrow does not wrap');finishCompactScene();
+document.getElementById('scene-next').onclick();assert.equal(mobile.sceneId,'midgard');finishCompactScene();
+// Two fingers zoom about their midpoint; lifting one continues a smooth pan.
+pointer('pointerdown',100,300,{pointerType:'touch'});pointer('pointerdown',200,300,{pointerType:'touch',pointerId:2,isPrimary:false});
+pointer('pointermove',300,300,{pointerType:'touch',pointerId:2,isPrimary:false});assert.equal(mobile.zoom,2);assert.equal(mobile.sceneIndex,0);assert(box().every(Number.isFinite));
+pointer('pointerup',300,300,{pointerType:'touch',pointerId:2,isPrimary:false});const pinched=box();pointer('pointermove',130,330,{pointerType:'touch'});pointer('pointerup',130,330,{pointerType:'touch'});assert.notDeepEqual(box(),pinched);assert.equal(surface.capturedPointer,null);
+mobile.resetView();pointer('pointerdown',100,300,{pointerType:'touch'});pointer('pointerdown',200,300,{pointerType:'touch',pointerId:2,isPrimary:false});windowListeners.blur();assert.equal(surface.capturedPointer,null);assert(!surface.classList.contains('is-panning'));assert.equal(mobile.sceneIndex,0);
+// Trackpad and wheel zoom only; they never change a compact scene.
 const compactWheel=delta=>document.getElementById('viewport').handlers.wheel({deltaY:delta,deltaMode:0,target:cameraSvg,preventDefault(){}});
-clock+=200;compactWheel(60);assert.equal(mobile.sceneIndex,0);compactWheel(90);compactWheel(50);assert.equal(mobile.sceneIndex,0,'Wheel inertia skips multiple scenes');clock+=200;compactWheel(60);assert.equal(mobile.sceneIndex,1);
-window.innerWidth=1200;windowListeners.resize();assert.equal(mobile.mode,'watch','Responsive resize overwrites an explicit mode choice');assert(document.getElementById('touch-controls').hidden);
-console.log('Compact controls passed: Video default, multi-touch, held input cleanup, cooldown feedback, vertical swipes, circular navigation and wheel inertia.');
+mobile.resetView();compactWheel(-60);assert(mobile.zoom>1);compactWheel(90);compactWheel(50);assert.equal(mobile.sceneIndex,0);
+mobile.setMode('game');mobile.game.reset();advance(.05);assert.equal(document.getElementById('touch-special-cooldown').textContent,'3.2s cooldown');
+mobile.setMode('watch');
+window.innerWidth=1200;windowListeners.resize();assert.equal(mobile.mode,'watch','Responsive resize overwrites an explicit mode choice');assert(document.getElementById('touch-controls').hidden);assert.equal(document.getElementById('scene-selector').parentNode,document.getElementById('site-header'));assert.equal(menu.parentNode,wrap);
+console.log('Compact controls passed: Video default, multi-touch, held input cleanup, cooldown labels, camera pan/pinch, arrow navigation and selector relocation.');
 console.log(`Original five combat suites and all thirteen scene controls passed: combat, live rig geometry, watch performances, scene wraparound, saved fights, input cleanup, shared controls and per-scene action labels.`);

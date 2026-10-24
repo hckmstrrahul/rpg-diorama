@@ -33,7 +33,7 @@ HTML provides the interface structure, CSS its appearance, and JavaScript the si
 
 ## What makes it lightweight
 
-There is no framework bundle, game-engine download, model loader, raster texture pack, external font, or runtime service. Every world uses the same renderer and rig infrastructure. Only the active scene is animated; neighboring scenes use static SVG previews.
+There is no framework bundle, game-engine download, model loader, raster texture pack, external font, or runtime service. Every world uses the same renderer and rig infrastructure. Only the active scene is animated. Desktop shows neighboring scenes as static SVG previews; mobile and tablet use arrow buttons and do not fetch those previews.
 
 The app still has detailed artwork, so “zero dependencies” does not mean “zero download.” The preview files are the largest part of its network payload.
 
@@ -41,12 +41,12 @@ Measured from the source files with `npm run size`:
 
 | Payload | Uncompressed | Gzip estimate |
 | --- | ---: | ---: |
-| All runtime HTML, CSS, and JavaScript | 349.7 KiB | 120.6 KiB |
+| All runtime HTML, CSS, and JavaScript (mobile/tablet initial load) | 355.1 KiB | 121.7 KiB |
 | The initial two neighboring previews | 2.74 MiB | 730.5 KiB |
-| Initial page plus those two previews | About 3.08 MiB | About 851.1 KiB |
+| Desktop initial page plus those two previews | About 3.09 MiB | About 852.3 KiB |
 | All thirteen previews, across the whole collection | 14.82 MiB | 3.63 MiB |
 
-These estimates compress each file separately at gzip level 6. Actual transfer depends on the host's compression and browser cache. The full preview collection is **not fetched on first load**: the previous and next preview images change as you browse.
+These estimates compress each file separately at gzip level 6. Actual transfer depends on the host's compression and browser cache. The full preview collection is **not fetched on first load**: desktop's previous and next preview images change as you browse.
 
 The optional `artwork-exports/` and `trailer-production/` folders can contain hundreds of megabytes or gigabytes of production material. They are ignored by Git, excluded from deployment uploads, and never requested by the app. **Visitors do not download those files to play.**
 

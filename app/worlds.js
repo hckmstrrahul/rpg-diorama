@@ -17,6 +17,7 @@
   catalog.forEach(p=>{
     const cooldown=p.id==='payne'?6:p.id==='gta'?7:p.id==='spider'?1.2:p.id==='persia'?5:p.expanded?3.4:3.2;
     const energy=p.id==='spider'?14:p.expanded?34:38;
+    p.specialCooldown=cooldown;
     p.specialDetails=`${cooldown}s cooldown · ${energy} energy`+(p.id==='payne'?' · 6s at 30% speed. Cooldown starts on activation.':p.id==='gta'?' · 4.5s of increased damage and resistance.':'');
   });
   const byId=new Map(catalog.map(c=>[c.id,c])),themes=new Map(),watchCache=new Map();let activeId='midgard';

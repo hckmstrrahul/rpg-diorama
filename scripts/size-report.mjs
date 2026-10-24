@@ -11,9 +11,9 @@ const measure=files=>files.reduce((sum,name)=>{
 },{files:0,raw:0,gzip:0});
 const format=n=>n>=1024*1024?`${(n/1024/1024).toFixed(2)} MiB`:`${(n/1024).toFixed(1)} KiB`;
 console.table(Object.fromEntries([
- ['Runtime HTML / CSS / JS',runtime],
+ ['Runtime / compact initial load',runtime],
  ['First two scene previews',entry],
- ['Initial load estimate',[...runtime,...entry]],
+ ['Desktop initial load estimate',[...runtime,...entry]],
  ['All 13 scene previews',previews]
 ].map(([name,files])=>{const m=measure(files);return [name,{files:m.files,uncompressed:format(m.raw),'gzip estimate':format(m.gzip)}];})));
-console.log('Compression is an estimate, not a measured browser transfer. Only neighboring previews load as you browse. Artwork exports and videos are excluded.');
+console.log('Compression is an estimate, not a measured browser transfer. Desktop loads only neighboring previews; mobile and tablet skip them. Artwork exports and videos are excluded.');
