@@ -65,7 +65,7 @@ Open **?** for character-specific moves and cooldowns. Mobile and tablet start i
 
 HTML and CSS provide the interface. Vanilla JavaScript generates SVG geometry and animates shared character rigs, combat, and effects. Video mode also renders live in the browser.
 
-**Zero runtime dependencies.** Runtime code is about **123 KiB gzipped**. Desktop's initial page includes two neighboring previews, bringing it to about **854 KiB**; mobile and tablet skip those previews. These are compression estimates. README media and trailer exports are separate from the app. The optional YouTube showcase loads only when opened.
+**Zero runtime dependencies.** Runtime code is about **124 KiB gzipped**. Desktop's initial page includes two neighboring previews, bringing it to about **854 KiB**; mobile and tablet skip those previews. These are compression estimates. README media and trailer exports are separate from the app. The optional YouTube showcase loads only when opened.
 
 ## Run locally
 

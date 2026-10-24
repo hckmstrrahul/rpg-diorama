@@ -37,15 +37,17 @@ Playing a scene needs no framework bundle, game-engine download, model loader, r
 
 The header's YouTube button opens an optional embedded showcase. Its iframe loads only on request, pauses the scene while open, and is unloaded when closed. This is separate from the app's live-rendered Video mode.
 
+Social-sharing metadata references a six-second God of War MP4 loop and a JPEG fallback in `app/social/`. The silent video shows an axe throw and frost slam at a fixed close-up. These files are fetched for link previews or when opened directly; the game does not load them. Sharing platforms decide whether to play or loop the video. Production sources and review files stay in `trailer-production/og-preview/`.
+
 The app still has detailed artwork, so “zero dependencies” does not mean “zero download.” The preview files are the largest part of its network payload.
 
 Measured from the source files with `npm run size`:
 
 | Payload | Uncompressed | Gzip estimate |
 | --- | ---: | ---: |
-| All runtime HTML, CSS, and JavaScript (mobile/tablet initial load) | 361.2 KiB | 123.1 KiB |
+| All runtime HTML, CSS, and JavaScript (mobile/tablet initial load) | 363.4 KiB | 123.5 KiB |
 | The initial two neighboring previews | 2.74 MiB | 730.5 KiB |
-| Desktop initial page plus those two previews | About 3.09 MiB | About 853.7 KiB |
+| Desktop initial page plus those two previews | About 3.10 MiB | About 854.1 KiB |
 | All thirteen previews, across the whole collection | 14.82 MiB | 3.63 MiB |
 
 These estimates compress each file separately at gzip level 6. Actual transfer depends on the host's compression and browser cache. The full preview collection is **not fetched on first load**: desktop's previous and next preview images change as you browse.
@@ -69,7 +71,8 @@ rpg-diorama/
 │   ├── scene-palettes.js
 │   ├── ui-motion.css
 │   ├── compact-ui.css
-│   └── assets/          # Static neighboring-scene previews only
+│   ├── assets/          # Static neighboring-scene previews only
+│   └── social/          # Small OG video and fallback image for link sharing
 ├── scripts/             # Preview builds, optional SVG exports, size report
 ├── tests/               # Rig, gameplay, and controller regression tests
 ├── audits/              # Contrast report and scene audit findings

@@ -16,4 +16,4 @@ console.table(Object.fromEntries([
  ['Desktop initial load estimate',[...runtime,...entry]],
  ['All 13 scene previews',previews]
 ].map(([name,files])=>{const m=measure(files);return [name,{files:m.files,uncompressed:format(m.raw),'gzip estimate':format(m.gzip)}];})));
-console.log('Compression is an estimate, not a measured browser transfer. Desktop loads only neighboring previews; mobile and tablet skip them. Artwork exports and videos are excluded.');
+console.log('Compression is an estimate, not a measured browser transfer. Desktop loads only neighboring previews; mobile and tablet skip them. Local exports and on-demand social media are excluded from these initial-load estimates.');

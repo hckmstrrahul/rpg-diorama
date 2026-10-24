@@ -1,11 +1,33 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta id="theme-color" name="theme-color" content="#e2e7db">
   <title>rpg-diorama — Playable SVG worlds</title>
-  <meta name="description" content="Thirteen miniature game worlds built from SVG. Play with keyboard or touch, or watch animated character performances.">
+  <meta name="description" content="Miniature game worlds built from SVG, vanilla JS. Play with keyboard or touch, or watch animated character performances.">
+  <link rel="canonical" href="https://rpg-diorama.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="rpg-diorama">
+  <meta property="og:title" content="rpg-diorama — Playable SVG worlds">
+  <meta property="og:description" content="Miniature game worlds built from SVG, vanilla JS. Play with keyboard or touch, or watch animated character performances.">
+  <meta property="og:url" content="https://rpg-diorama.vercel.app/">
+  <meta property="og:image" content="https://rpg-diorama.vercel.app/social/god-of-war-poster.jpg">
+  <meta property="og:image:secure_url" content="https://rpg-diorama.vercel.app/social/god-of-war-poster.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Kratos raises his axe in a miniature SVG courtyard, with rpg-diorama in white at the lower left.">
+  <meta property="og:video" content="https://rpg-diorama.vercel.app/social/god-of-war-loop.mp4">
+  <meta property="og:video:secure_url" content="https://rpg-diorama.vercel.app/social/god-of-war-loop.mp4">
+  <meta property="og:video:type" content="video/mp4">
+  <meta property="og:video:width" content="1200">
+  <meta property="og:video:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="rpg-diorama — Playable SVG worlds">
+  <meta name="twitter:description" content="Miniature game worlds built from SVG, vanilla JS. Play with keyboard or touch, or watch animated character performances.">
+  <meta name="twitter:image" content="https://rpg-diorama.vercel.app/social/god-of-war-poster.jpg">
+  <meta name="twitter:image:alt" content="Kratos raises his axe in a miniature SVG courtyard, with rpg-diorama in white at the lower left.">
   <link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%2374372e%22%20d%3D%22M16%20.5%2030%208.25v15.5L16%2031.5%202%2023.75V8.25Z%22%2F%3E%3Cpath%20fill%3D%22%23c67552%22%20d%3D%22M16%20.5%2030%208.25%2016%2016%202%208.25Z%22%2F%3E%3Cpath%20fill%3D%22%239b4b38%22%20d%3D%22m2%208.25%2014%207.75v15.5L2%2023.75Z%22%2F%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23fff4de%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22m7.5%2011.3%208.5%204.7%208.5-4.7M16%2016v10%22%2F%3E%3C%2Fsvg%3E">
   <style>
     :root {color-scheme:light;--ink:#303b38;--muted:#7b8774;--line:#ced6c7;--red:#943e32;--panel:#f3f5eb;--well:#d9e1ce;--selected:#f3f5eb;--hover:#d9e1ce;--primary:#40543a;--primary-hover:#303d35;--on-primary:#fff8ef;--health:#a66c59;--energy:#7a9364;--track:#b5c3aa;--key:#f3f5eb;--key-edge:#b5c3aa;--focus:#40543a;--shadow:#303d3518;--on-scene:#303d35;--meter-edge:#54674d;--ease-out:cubic-bezier(.23,1,.32,1);--bg-center:#edf0e7;--bg-middle:#e2e7db;--bg-edge:#d5ddce;--scene-accent:#40543a}
