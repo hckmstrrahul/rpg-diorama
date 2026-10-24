@@ -127,7 +127,7 @@
     if(menuOpen)closeSceneMenu(true);
     // Reuse one selector and one live status across both layouts.
     const home=compact.matches?$('sheet-heading'):$('site-header');
-    if(selector.parentNode!==home){if(compact.matches)home.appendChild(selector);else home.insertBefore(selector,$('github-link'));}
+    if(selector.parentNode!==home){if(compact.matches)home.appendChild(selector);else home.insertBefore(selector,$('site-links'));}
     const modeHome=compact.matches?$('sheet-heading'):$('mode-controls');
     if($('mode-tabs').parentNode!==modeHome)modeHome.appendChild($('mode-tabs'));
     const statusHome=compact.matches?$('restart-controls'):$('control-panel');
@@ -136,10 +136,10 @@
     if(menu.parentNode!==menuHome)menuHome.appendChild(menu);
     menu.dataset.compact=String(compact.matches);
     if(!compact.matches)for(const property of ['width','left','top','bottom','maxHeight'])menu.style[property]='';
-    const header=$('site-header').getBoundingClientRect(),brand=$('site-brand').getBoundingClientRect(),github=$('github-link').getBoundingClientRect();
+    const header=$('site-header').getBoundingClientRect(),brand=$('site-brand').getBoundingClientRect(),links=$('site-links').getBoundingClientRect();
     const viewportWidth=window.innerWidth||1200;
     const gap=viewportWidth<=900?12:20;
-    const available=header.width>200?header.width-github.width-brand.width-gap*2:($('viewport').clientWidth||viewportWidth)-32;
+    const available=header.width>200?header.width-links.width-brand.width-gap*2:($('viewport').clientWidth||viewportWidth)-32;
     // Measure the real labels with the current font, so tablet layouts don't overflow.
     $('scene-tabs').hidden=false;sceneTabs.forEach(tab=>tab.hidden=false);
     const widths=sceneTabs.map(tab=>tab.getBoundingClientRect?.().width||100);
@@ -501,7 +501,7 @@
   function togglePause(){if(mode==='game')return;playing=!playing;clearInput();previous=performance.now();update();}
   function frame(now){
     const dt=Math.min((now-previous)/1000,.05);previous=now;
-    if(playing){
+    if(playing&&!$('showcase-dialog').open){
       if(mode==='game'){
         accumulator+=dt;while(accumulator>=1/60){game.step(1/60,input());accumulator-=1/60;}game.render();
       }else{time=(time+dt*speed)%scene.duration;renderWatch();}
@@ -509,6 +509,36 @@
     }
     requestAnimationFrame(frame);
   }
+  let showcaseTimer=null;
+  function openShowcase(){
+    clearTimeout(showcaseTimer);endPan();clearInput();closeSceneMenu();setHelpOpen(false,false);
+    const modal=$('showcase-dialog');
+    if(!modal.open){
+      $('showcase-frame').setAttribute('src','https://www.youtube-nocookie.com/embed/CLH_EomM030?autoplay=1&playsinline=1&rel=0');
+      modal.showModal();
+    }
+    modal.classList.remove('is-closing');void modal.offsetWidth;modal.classList.add('is-open');
+    $('youtube-trigger').setAttribute('aria-expanded','true');$('showcase-close').focus({preventScroll:true});
+  }
+  function closeShowcase(){
+    const modal=$('showcase-dialog');if(!modal.open)return;
+    clearTimeout(showcaseTimer);modal.classList.remove('is-open');modal.classList.add('is-closing');
+    if(reduced.matches)modal.close();
+    else showcaseTimer=setTimeout(()=>modal.close(),motionMs('--modal-close-dur',150));
+  }
+  $('youtube-trigger').onclick=openShowcase;
+  $('showcase-close').onclick=closeShowcase;
+  $('showcase-dialog').addEventListener('cancel',e=>{e.preventDefault();closeShowcase();});
+  $('showcase-dialog').addEventListener('click',e=>{
+    if(e.target!==$('showcase-dialog'))return;
+    const r=$('showcase-dialog').getBoundingClientRect();
+    if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeShowcase();
+  });
+  $('showcase-dialog').addEventListener('close',()=>{
+    clearTimeout(showcaseTimer);$('showcase-dialog').classList.remove('is-open','is-closing');
+    $('showcase-frame').removeAttribute('src');$('youtube-trigger').setAttribute('aria-expanded','false');
+    previous=performance.now();$('youtube-trigger').focus({preventScroll:true});
+  });
   function navigateScene(direction,event){if(event?.detail>0&&performance.now()<suppressSceneClickUntil)return;selectScene(sceneIndex+direction,direction);if(event?.detail>0&&mode==='game')$('scene').focus({preventScroll:true});}
   $('scene-prev').onclick=e=>navigateScene(-1,e);
   $('scene-next').onclick=e=>navigateScene(1,e);
@@ -584,6 +614,7 @@
     if(helpOpen&&!help.contains(e.target))setHelpOpen(false);
   });
   document.addEventListener('keydown',e=>{
+    if($('showcase-dialog').open)return;
     if(e.ctrlKey||e.metaKey||e.altKey||e.target.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))return;
     if(sceneMenuKey(e))return;
     const sceneTab=sceneTabs.findIndex(tab=>tab===e.target||tab.contains(e.target));
@@ -619,7 +650,7 @@
   });
   document.addEventListener('focusin',e=>{if(menuOpen&&!$('scene-overflow-wrap').contains(e.target)&&!$('scene-menu').contains(e.target))closeSceneMenu();if(helpOpen&&!$('key-help').contains(e.target))setHelpOpen(false);});
   document.addEventListener('keyup',e=>keys.delete(e.code));
-  window.addEventListener('blur',()=>{endPan();closeSceneMenu();setHelpOpen(false,false);clearInput();if(mode==='watch')playing=false;previous=performance.now();update();});
+  window.addEventListener('blur',()=>{endPan();closeSceneMenu();setHelpOpen(false,false);clearInput();if(mode==='watch'&&!$('showcase-dialog').open)playing=false;previous=performance.now();update();});
   document.addEventListener('visibilitychange',()=>{endPan();clearInput();previous=performance.now();if(document.hidden&&mode==='watch')playing=false;update();});
   reduced.addEventListener('change',e=>{if(e.matches){endPan();settleSceneMotion();transitionPopover($('scene-menu'),menuOpen,false);setHelpOpen(helpOpen,false);syncModeSelection();moveSelection('scene-selector','scene-selection-pill',sceneIndex<visibleTabCount?sceneTabs[sceneIndex]:$('scene-overflow'));if(mode==='watch'){playing=false;update();}}});
   worlds.activate(catalog[0].id);applySceneUI();if(mode==='game')game.render();else renderWatch();setZoom(1);update();syncSceneFrame();syncModeSelection();requestAnimationFrame(frame);

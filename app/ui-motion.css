@@ -1,4 +1,4 @@
-/* Transitions.dev — dropdown and sliding-tab recipes.
+/* Transitions.dev — dropdown, sliding-tab, and modal recipes.
    Source: https://github.com/Jakubantalik/transitions.dev
    App-specific sizing and palette hooks follow the original snippets. */
 
@@ -111,6 +111,40 @@
   .t-tabs-pill, .t-tab { transition: none !important; }
 }
 
+:root {
+  --modal-open-dur: 250ms;
+  --modal-close-dur: 150ms;
+  --modal-scale: 0.96;
+  --modal-scale-close: 0.96;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity   var(--modal-open-dur) var(--modal-ease);
+  will-change: transform, opacity;
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity   var(--modal-close-dur) var(--modal-ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-modal { transition: none !important; }
+}
+
 /* Keep this app's compact dimensions and scene-specific colors. */
 :root {
   --scene-switch-dur: 500ms;
@@ -143,6 +177,16 @@ body {
 .scene-overflow svg { transition: transform var(--dropdown-close-dur) var(--dropdown-ease); }
 .scene-overflow[aria-expanded="true"] svg { transform: rotate(180deg); }
 .key-map { max-height: min(520px, calc(100svh - 100px)); overflow-y: auto; overscroll-behavior: contain; }
+.showcase-dialog { width: min(1040px, calc(100vw - 32px), calc((100dvh - 104px) * 16 / 9)); max-width: none; max-height: calc(100dvh - 32px); margin: auto; padding: 12px; border: 0; border-radius: 20px; background: var(--selected); color: var(--ink); }
+.showcase-dialog::backdrop { background: transparent; transition: background-color var(--modal-close-dur) ease; }
+.showcase-dialog.is-open::backdrop { background: rgb(12 18 17 / .6); }
+.showcase-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; margin-bottom: 8px; padding-left: 8px; font-size: 12px; font-weight: 600; }
+.showcase-close { display: grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 999px; background: var(--well); color: var(--ink); }
+.showcase-close svg { width: 18px; height: 18px; }
+.showcase-frame { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px; background: #111; }
+@media (prefers-reduced-motion: reduce) {
+  .showcase-dialog::backdrop { transition: none; }
+}
 
 /* Small, direct feedback; no motion on continuously updating game meters. */
 .icon-button, .zoom-controls button, .speed {

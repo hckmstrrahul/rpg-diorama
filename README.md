@@ -12,31 +12,42 @@ Explore 13 miniature game worlds. Move, fight, and use each character’s signat
 
 <table>
   <tr>
-    <td align="center" width="33%"><img src="docs/media/midgard.png" alt="God of War isometric scene" width="280"><br><strong>God of War</strong></td>
-    <td align="center" width="33%"><img src="docs/media/tsushima.png" alt="Ghost of Tsushima isometric scene" width="280"><br><strong>Ghost of Tsushima</strong></td>
-    <td align="center" width="33%"><img src="docs/media/arkham.png" alt="Batman: Arkham isometric scene" width="280"><br><strong>Batman: Arkham</strong></td>
+    <td align="center" width="50%"><strong>God of War</strong><br><img src="docs/media/midgard.png" alt="God of War isometric scene" width="420"></td>
+    <td align="center" width="50%"><strong>Ghost of Tsushima</strong><br><img src="docs/media/tsushima.png" alt="Ghost of Tsushima isometric scene" width="420"></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><img src="docs/media/assassin.png" alt="Assassin’s Creed isometric scene" width="280"><br><strong>Assassin’s Creed</strong></td>
-    <td align="center" width="33%"><img src="docs/media/persia.png" alt="Prince of Persia isometric scene" width="280"><br><strong>Prince of Persia</strong></td>
-    <td align="center" width="33%"><img src="docs/media/duty.png" alt="Call of Duty isometric scene" width="280"><br><strong>Call of Duty</strong></td>
+    <td align="center" width="50%"><strong>Batman: Arkham</strong><br><img src="docs/media/arkham.png" alt="Batman: Arkham isometric scene" width="420"></td>
+    <td align="center" width="50%"><strong>Assassin’s Creed</strong><br><img src="docs/media/assassin.png" alt="Assassin’s Creed isometric scene" width="420"></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><img src="docs/media/payne.png" alt="Max Payne isometric scene" width="280"><br><strong>Max Payne</strong></td>
-    <td align="center" width="33%"><img src="docs/media/gta.png" alt="GTA V isometric scene" width="280"><br><strong>GTA V</strong></td>
-    <td align="center" width="33%"><img src="docs/media/spider.png" alt="Spider-Man isometric scene" width="280"><br><strong>Spider-Man</strong></td>
+    <td align="center" width="50%"><strong>Prince of Persia</strong><br><img src="docs/media/persia.png" alt="Prince of Persia isometric scene" width="420"></td>
+    <td align="center" width="50%"><strong>Call of Duty</strong><br><img src="docs/media/duty.png" alt="Call of Duty isometric scene" width="420"></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><img src="docs/media/wukong.png" alt="Black Myth: Wukong isometric scene" width="280"><br><strong>Black Myth: Wukong</strong></td>
-    <td align="center" width="33%"><img src="docs/media/siege.png" alt="Rainbow Six Siege isometric scene" width="280"><br><strong>Rainbow Six Siege</strong></td>
-    <td align="center" width="33%"><img src="docs/media/fable.png" alt="Fable III isometric scene" width="280"><br><strong>Fable III</strong></td>
+    <td align="center" width="50%"><strong>Max Payne</strong><br><img src="docs/media/payne.png" alt="Max Payne isometric scene" width="420"></td>
+    <td align="center" width="50%"><strong>GTA V</strong><br><img src="docs/media/gta.png" alt="GTA V isometric scene" width="420"></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><img src="docs/media/kombat.png" alt="Mortal Kombat isometric scene" width="280"><br><strong>Mortal Kombat</strong></td>
-    <td></td>
+    <td align="center" width="50%"><strong>Spider-Man</strong><br><img src="docs/media/spider.png" alt="Spider-Man isometric scene" width="420"></td>
+    <td align="center" width="50%"><strong>Black Myth: Wukong</strong><br><img src="docs/media/wukong.png" alt="Black Myth: Wukong isometric scene" width="420"></td>
+  </tr>
+  <tr>
+    <td align="center" width="50%"><strong>Rainbow Six Siege</strong><br><img src="docs/media/siege.png" alt="Rainbow Six Siege isometric scene" width="420"></td>
+    <td align="center" width="50%"><strong>Fable III</strong><br><img src="docs/media/fable.png" alt="Fable III isometric scene" width="420"></td>
+  </tr>
+  <tr>
+    <td align="center" width="50%"><strong>Mortal Kombat</strong><br><img src="docs/media/kombat.png" alt="Mortal Kombat isometric scene" width="420"></td>
     <td></td>
   </tr>
 </table>
+
+## Video
+
+<a href="https://www.youtube.com/watch?v=CLH_EomM030"><img src="https://img.youtube.com/vi/CLH_EomM030/maxresdefault.jpg" alt="Watch the rpg-diorama 4K showcase on YouTube" width="840"></a>
+
+[Watch the 4K showcase on YouTube](https://www.youtube.com/watch?v=CLH_EomM030).
+
+Built with Codex CLI: iterating on SVG artwork, character rigs, combat, and UI, checking changes in the browser, then capturing and editing the showcase with FFmpeg.
 
 ## Play
 
@@ -54,7 +65,7 @@ Open **?** for character-specific moves and cooldowns. Mobile and tablet start i
 
 HTML and CSS provide the interface. Vanilla JavaScript generates SVG geometry and animates shared character rigs, combat, and effects. Video mode also renders live in the browser.
 
-**Zero runtime dependencies.** Runtime code is about **122 KiB gzipped**. Desktop's initial page includes two neighboring previews, bringing it to about **852 KiB**; mobile and tablet skip those previews. These are compression estimates. README media and trailer exports are separate from the app.
+**Zero runtime dependencies.** Runtime code is about **123 KiB gzipped**. Desktop's initial page includes two neighboring previews, bringing it to about **854 KiB**; mobile and tablet skip those previews. These are compression estimates. README media and trailer exports are separate from the app. The optional YouTube showcase loads only when opened.
 
 ## Run locally
 
@@ -74,4 +85,4 @@ Use `npm test` to run checks, `npm run build` to regenerate previews, and `npm r
 
 An unofficial fan-art coding experiment. Game and character names belong to their owners; the artwork is generated by this project’s code.
 
-Dropdown and tab motion is adapted from [Transitions.dev](https://github.com/Jakubantalik/transitions.dev) by Jakub Antalik. [License](docs/licenses/transitions-dev.txt).
+Dropdown, tab, and modal motion is adapted from [Transitions.dev](https://github.com/Jakubantalik/transitions.dev) by Jakub Antalik. [License](docs/licenses/transitions-dev.txt).

@@ -33,7 +33,9 @@ HTML provides the interface structure, CSS its appearance, and JavaScript the si
 
 ## What makes it lightweight
 
-There is no framework bundle, game-engine download, model loader, raster texture pack, external font, or runtime service. Every world uses the same renderer and rig infrastructure. Only the active scene is animated. Desktop shows neighboring scenes as static SVG previews; mobile and tablet use arrow buttons and do not fetch those previews.
+Playing a scene needs no framework bundle, game-engine download, model loader, raster texture pack, external font, or runtime service. Every world uses the same renderer and rig infrastructure. Only the active scene is animated. Desktop shows neighboring scenes as static SVG previews; mobile and tablet use arrow buttons and do not fetch those previews.
+
+The header's YouTube button opens an optional embedded showcase. Its iframe loads only on request, pauses the scene while open, and is unloaded when closed. This is separate from the app's live-rendered Video mode.
 
 The app still has detailed artwork, so “zero dependencies” does not mean “zero download.” The preview files are the largest part of its network payload.
 
@@ -41,9 +43,9 @@ Measured from the source files with `npm run size`:
 
 | Payload | Uncompressed | Gzip estimate |
 | --- | ---: | ---: |
-| All runtime HTML, CSS, and JavaScript (mobile/tablet initial load) | 355.3 KiB | 121.8 KiB |
+| All runtime HTML, CSS, and JavaScript (mobile/tablet initial load) | 361.2 KiB | 123.1 KiB |
 | The initial two neighboring previews | 2.74 MiB | 730.5 KiB |
-| Desktop initial page plus those two previews | About 3.09 MiB | About 852.3 KiB |
+| Desktop initial page plus those two previews | About 3.09 MiB | About 853.7 KiB |
 | All thirteen previews, across the whole collection | 14.82 MiB | 3.63 MiB |
 
 These estimates compress each file separately at gzip level 6. Actual transfer depends on the host's compression and browser cache. The full preview collection is **not fetched on first load**: desktop's previous and next preview images change as you browse.

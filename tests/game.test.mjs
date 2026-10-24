@@ -19,6 +19,8 @@ class Element {
   animate(frames,options){this.lastAnimation={frames,options,cancelled:false,cancel(){this.cancelled=true;}};return this.lastAnimation;}
   addEventListener(k,fn){this.handlers[k]=fn;}
   focus(){document.activeElement=this;}
+  showModal(){this.open=true;}
+  close(){this.open=false;this.handlers.close?.();}
   setPointerCapture(id){this.capturedPointer=id;}
   hasPointerCapture(id){return this.capturedPointer===id;}
   releasePointerCapture(id){if(this.capturedPointer===id)this.capturedPointer=null;}
@@ -134,6 +136,23 @@ key('Space',{target:new Element('BUTTON')});assert.equal(player.game.hero.action
 key('KeyJ',{metaKey:true});assert.equal(player.game.hero.action,null);
 player.setMode('watch');assert.equal(document.getElementById('game-hud').hidden,true);advance(.03);key('ArrowLeft');assert.equal(player.mode,'game');release('ArrowLeft');
 document.hidden=true;listeners.visibilitychange();assert.equal(player.playing,true);document.hidden=false;key('KeyR');assert.equal(player.playing,true);assert.equal(player.game.state.phase,'ready');
+
+// Watching the showcase suspends gameplay, clears held input, and releases the video on close.
+const showcase=document.getElementById('showcase-dialog'),showcaseFrame=document.getElementById('showcase-frame');
+const openShowcase=()=>document.getElementById('youtube-trigger').onclick();
+const closeShowcase=()=>document.getElementById('showcase-close').onclick();
+assert.equal(showcaseFrame.getAttribute('src'),null,'The video loads before it is requested');
+key('KeyD');openShowcase();const showcaseTime=player.game.time,showcasePosition=point(player.game.hero);
+advance(.5);key('KeyJ');assert.equal(player.game.time,showcaseTime);assert.equal(player.game.hero.action,null,'Modal keys start combat');
+assert(showcase.open);assert.equal(document.activeElement,document.getElementById('showcase-close'));
+closeShowcase();flushTimers();assert.equal(showcase.open,false);assert.equal(showcaseFrame.getAttribute('src'),null);
+assert.equal(document.activeElement,document.getElementById('youtube-trigger'));advance(.1);
+assert.deepEqual(point(player.game.hero),showcasePosition,'Closing the modal retains held movement');
+player.setMode('watch');player.play();openShowcase();windowListeners.blur();assert.equal(player.playing,true,'Focusing the video loses playback state');
+closeShowcase();openShowcase();flushTimers();assert(showcase.open,'An old close timer closes a reopened modal');
+mediaPreference.matches=true;showcase.handlers.cancel({preventDefault(){}});assert.equal(showcase.open,false);assert.equal(showcaseFrame.getAttribute('src'),null);
+mediaPreference.matches=false;player.pause();openShowcase();closeShowcase();flushTimers();assert.equal(player.playing,false,'Closing the showcase resumes a paused scene');
+player.setMode('game');key('KeyR');
 
 // Zoom changes the SVG camera, keeps gameplay intact, and follows the hero up close.
 const box=()=>document.getElementById('scene').getAttribute('viewBox').split(' ').map(Number);
