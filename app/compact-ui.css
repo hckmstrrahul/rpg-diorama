@@ -108,7 +108,7 @@ button,summary{user-select:none;-webkit-user-select:none;-webkit-touch-callout:n
 .site-name{color:var(--on-scene);text-decoration:none;font-size:15px;line-height:20px;font-weight:650;letter-spacing:-.3px}
 .site-brand p{margin:3px 0 0;color:var(--on-scene);font-size:10px;line-height:14px;white-space:nowrap}
 .site-header .scene-selector.t-tabs{position:relative;top:auto;left:auto;transform:none;justify-self:center;max-width:100%;height:var(--header-control-height);margin:0}
-.github-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:var(--header-control-height);padding:0 13px;border-radius:999px;background:var(--well);color:var(--ink);text-decoration:none;font-size:12px;font-weight:550;white-space:nowrap;transition:background-color 120ms ease,color 120ms ease}
+.github-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:var(--header-control-height);padding:0 13px;border-radius:999px;background:var(--selected);color:var(--ink);text-decoration:none;font-size:12px;font-weight:550;white-space:nowrap;transition:background-color 120ms ease,color 120ms ease}
 .github-link svg{width:15px;height:15px;flex:none}
 @media (hover:hover) and (pointer:fine){.github-link:hover{background:var(--selected);color:var(--scene-accent)}}
 @media (min-width:641px){main{padding-top:62px}}

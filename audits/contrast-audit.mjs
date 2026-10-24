@@ -37,7 +37,7 @@ function audit(window){return window.Worlds.catalog.map(profile=>{
   check('Panel text',colors.ink,surfaces,4.5);
   check('Website heading',colors['on-scene']||accent,page,4.5);
   check('Website subtitle',colors['on-scene']||accent,page,4.5);
-  check('GitHub pill',colors.ink,[colors.well],4.5);
+  check('GitHub pill',colors.ink,[colors.selected],4.5);
   check('Secondary panel text',colors.muted,surfaces,4.5);
   check('Selected / hover text',accent,surfaces,4.5);
   check('Key text (80% opacity)',colors.muted,[colors.key],4.5,.8);
