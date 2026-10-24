@@ -1,5 +1,7 @@
 # mini-rpg
 
+[Play the live app](https://rpg-dioramas.vercel.app) · [Source on GitHub](https://github.com/hckmstrrahul/mini-rpg)
+
 Thirteen miniature game worlds, built from SVG and brought to life with vanilla JavaScript. Move, fight, dodge, and use character-specific abilities—or switch to **Video** and watch a choreographed performance.
 
 Built by [Rahul Chakraborty](https://github.com/hckmstrrahul), iterating with Codex on the art, character rigs, combat, and interface.
@@ -153,6 +155,8 @@ The local-only `artwork-exports/` and `trailer-production/` directories are inte
 Browser checks have also exercised portrait and landscape layouts, touch movement plus attacks, preview taps, zoomed panning, and scene transitions. Touch emulation is not a substitute for testing performance and browser chrome on physical phones.
 
 ## Deploy
+
+The production site is [rpg-dioramas.vercel.app](https://rpg-dioramas.vercel.app). Vercel is connected to this repository; pushes to `main` run the checks and publish a new production deployment.
 
 Import this repository into Vercel with the repository root as the project root. The committed configuration selects a static build, runs `npm test && npm run build`, and publishes **only `app/`**. No environment variables or server functions are needed.
 
